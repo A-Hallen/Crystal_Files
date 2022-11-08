@@ -1,7 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <menu xmlns:android="http://schemas.android.com/apk/res/android">
     <item
-        android:onClick="paste"
         android:id="@+id/action_paste"
         android:title="pegar"
         android:icon="?attr/actionModePasteDrawable"/>
@@ -10,7 +9,6 @@
         android:title="nuevo"
         android:icon="@android:drawable/ic_menu_add"/>
     <item
-        android:onClick="cancel"
         android:id="@+id/action_cancel"
         android:title="cancelar"
         android:icon="@drawable/cancelar"/>
