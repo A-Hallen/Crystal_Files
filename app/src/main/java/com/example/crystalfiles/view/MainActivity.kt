@@ -7,6 +7,7 @@ import com.example.crystalfiles.databinding.ActivityMainBinding
 import com.example.crystalfiles.model.Permissions
 import com.example.crystalfiles.testing.Test
 import com.example.crystalfiles.view.leftpanel.NavDrawer
+import com.example.crystalfiles.view.recyclerview.Recycler
 
 class MainActivity : AppCompatActivity() {
 
@@ -23,7 +24,7 @@ class MainActivity : AppCompatActivity() {
         Test(this).test()
 
         NavDrawer(this)
-
+        Recycler(this)
 
     }
 }

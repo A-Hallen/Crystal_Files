@@ -6,6 +6,7 @@ class Global {
         companion object{
             var globalSwitchState = false
             var globalDarkModeSwitchState = false
+            var drives = emptyArray<String?>()
         }
     }
 }

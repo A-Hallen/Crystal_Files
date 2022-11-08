@@ -7,7 +7,9 @@ import android.widget.ExpandableListView
 import androidx.core.content.ContextCompat
 import androidx.drawerlayout.widget.DrawerLayout
 import com.example.crystalfiles.R
+import com.example.crystalfiles.model.list_files.ListDrives
 import com.example.crystalfiles.view.leftpanel.ExpandableListData.data
+import com.example.crystalfiles.model.Global.Global.Companion.drives
 
 class NavDrawer(context: Context) {
 
@@ -27,12 +29,17 @@ class NavDrawer(context: Context) {
             ContextCompat.getDrawable(context, R.drawable.sidebar_pictures),
             ContextCompat.getDrawable(context, R.drawable.sidebar_music),
             ContextCompat.getDrawable(context, R.drawable.sidebar_peliculas_on),
-            ContextCompat.getDrawable(context, R.drawable.ic_hamburger)
+            ContextCompat.getDrawable(context, R.drawable.ic_hamburger),
+            ContextCompat.getDrawable(context, R.drawable.ic_launcher_foreground)
         )
-        hasResource[2] = arrayOf(
-            ContextCompat.getDrawable(context, R.drawable.sidebar_sdcard),
-            ContextCompat.getDrawable(context, R.drawable.sidebar_sdcard)
-        )
+
+        drives = ListDrives(context).getStorageDirectories()
+        val tempArrayOfDrawables: MutableList<Drawable?> = mutableListOf()
+        for (drive in drives){
+            tempArrayOfDrawables.add(ContextCompat.getDrawable(context, R.drawable.sidebar_sdcard))
+        }
+        hasResource[2] = tempArrayOfDrawables.toTypedArray()
+
         hasResource[3] = arrayOf(
             ContextCompat.getDrawable(context, android.R.drawable.ic_menu_view),
             ContextCompat.getDrawable(context, R.drawable.sidebar_dark_mode)
@@ -41,7 +48,7 @@ class NavDrawer(context: Context) {
 
         titleList = ArrayList(data.keys)
         adapter = CustomExpandableListAdapter(hasResource, context, titleList as ArrayList<String>, data)
-
+        expandableListView.setAdapter(adapter)
 
     }
 }
