@@ -1,12 +1,51 @@
 <resources>
-    <string name="app_name">Crystal Files</string>
-    <string name="action_settings">Settings</string>
-    <!-- Strings used for fragments for navigation -->
-    <string name="first_fragment_label">First Fragment</string>
-    <string name="second_fragment_label">Second Fragment</string>
-    <string name="next">Next</string>
-    <string name="previous">Previous</string>
+    <string name="app_name">AE Crystal Files</string>
+    <string name="navigation_drawer_open">Open</string>
+    <string name="navigation_drawer_close">Close</string>
+    <string name="title_activity_settings">SettingsActivity</string>
 
-    <string name="hello_first_fragment">Hello first fragment</string>
-    <string name="hello_second_fragment">Hello second fragment. Arg: %1$s</string>
+    <!-- Preference Titles -->
+    <string name="messages_header">Messages</string>
+    <string name="sync_header">Sync</string>
+
+    <!-- Messages Preferences -->
+    <string name="signature_title">Your signature</string>
+    <string name="reply_title">Default reply action</string>
+
+    <!-- Sync Preferences -->
+    <string name="sync_title">Sync email periodically</string>
+    <string name="attachment_title">Download incoming attachments</string>
+    <string name="attachment_summary_on">Automatically download attachments for incoming emails
+    </string>
+    <string name="attachment_summary_off">Only download attachments when manually requested</string>
+    <string name="settings">Settings</string>
+    <string name="fondo">Fondo de pantalla</string>
+    <string name="imagen">imagen</string>
+    <string name="color">color</string>
+    <string name="negro">negro</string>
+    <string name="storage">storage</string>
+    <string name="Storage">Storage</string>
+    <string name="zapya">zapya</string>
+    <string name="seleccionar">Seleccionar</string>
+    <string name="copiar">Copiar</string>
+    <string name="cortar">Cortar</string>
+    <string name="eliminar">Eliminar</string>
+    <string name="rename">rename</string>
+    <string name="cancelar">Cancelar</string>
+    <string name="ok">OK</string>
+    <string name="selected">%1$s/%2$s</string>
+    <string name="abrir_con">Abrir como:</string>
+    <string name="compartir">Compartir</string>
+    <string name="pegar">pegar</string>
+    <string name="renombrarMultiple">Renombrar Múltiple</string>
+    <string name="hello_blank_fragment">Hello blank fragment</string>
+    <string name="numeros">0, 1, 2, 3</string>
+    <string name="aceptar">Aceptar</string>
+    <string name="agrega_un_nuevo_nombre">Agrega un nuevo nombre</string>
+    <string name="anexar_nombre_al_original">Anexar nombre al original</string>
+    <string name="numbers">Numeros</string>
+    <string name="renombrar_extension">Renombrar extension</string>
+    <string name="mas">mas</string>
+    <string name="propiedades">propiedades</string>
+    <string name="buscar">Buscar</string>
 </resources>

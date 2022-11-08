@@ -1,0 +1,72 @@
+<vector xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:aapt="http://schemas.android.com/aapt"
+    android:width="707.911dp"
+    android:height="76.99dp"
+    android:viewportWidth="707.911"
+    android:viewportHeight="76.99">
+  <path
+      android:pathData="M0,0h707.911v76.99h-707.911z"
+      android:strokeAlpha="0.8"
+      android:fillAlpha="0.8">
+    <aapt:attr name="android:fillColor">
+      <gradient 
+          android:startY="0"
+          android:startX="353.9556"
+          android:endY="76.9902"
+          android:endX="353.9556"
+          android:type="linear">
+        <item android:offset="0" android:color="#FF5B5B5B"/>
+        <item android:offset="0.3078" android:color="#FF3B3B3B"/>
+        <item android:offset="0.7658" android:color="#FF101010"/>
+        <item android:offset="1" android:color="#FF000000"/>
+      </gradient>
+    </aapt:attr>
+  </path>
+  <path
+      android:pathData="M0,34.666h707.911v42.324h-707.911z"
+      android:strokeAlpha="0.8"
+      android:fillAlpha="0.8">
+    <aapt:attr name="android:fillColor">
+      <gradient 
+          android:startY="34.666"
+          android:startX="353.9556"
+          android:endY="76.9902"
+          android:endX="353.9556"
+          android:type="linear">
+        <item android:offset="0" android:color="#FF1A1A1A"/>
+        <item android:offset="0.0438" android:color="#FF141414"/>
+        <item android:offset="0.1953" android:color="#FF090909"/>
+        <item android:offset="0.4082" android:color="#FF020202"/>
+        <item android:offset="1" android:color="#FF000000"/>
+      </gradient>
+    </aapt:attr>
+  </path>
+  <path
+      android:fillColor="#FF000000"
+      android:strokeWidth="1"
+      android:pathData="M158,0L113,76.99"
+      android:strokeAlpha="0.8"
+      android:strokeColor="#000000"
+      android:fillAlpha="0.8"/>
+  <path
+      android:fillColor="#FF000000"
+      android:strokeWidth="1"
+      android:pathData="M261,0L289,76.99"
+      android:strokeAlpha="0.8"
+      android:strokeColor="#000000"
+      android:fillAlpha="0.8"/>
+  <path
+      android:fillColor="#FF000000"
+      android:strokeWidth="1"
+      android:pathData="M346,0L419,76.99"
+      android:strokeAlpha="0.8"
+      android:strokeColor="#000000"
+      android:fillAlpha="0.8"/>
+  <path
+      android:fillColor="#FF000000"
+      android:strokeWidth="1"
+      android:pathData="M587,0L563,76.99"
+      android:strokeAlpha="0.8"
+      android:strokeColor="#000000"
+      android:fillAlpha="0.8"/>
+</vector>

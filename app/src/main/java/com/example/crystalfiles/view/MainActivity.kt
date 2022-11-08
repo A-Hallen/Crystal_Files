@@ -1,8 +1,10 @@
-package com.example.crystalfiles
+package com.example.crystalfiles.view
 
 import android.os.Bundle
 import androidx.appcompat.app.AppCompatActivity
 import com.example.crystalfiles.databinding.ActivityMainBinding
+import com.example.crystalfiles.model.Permissions
+import com.example.crystalfiles.testing.Test
 
 class MainActivity : AppCompatActivity() {
 
@@ -14,7 +16,9 @@ class MainActivity : AppCompatActivity() {
         binding = ActivityMainBinding.inflate(layoutInflater)
         setContentView(binding.root)
 
-        setSupportActionBar(binding.toolbar)
+        Permissions(this)
+        Test(this).test()
+
 
     }
 }
