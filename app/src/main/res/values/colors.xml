@@ -10,6 +10,7 @@
     <color name="underline">#dad8ad</color>
     <color name="antiquewhite0">#FAEBD7</color>
     <color name="antiquewhite">#6DFAEBD7</color>
+    <color name="grayantiquewhite">#6DFFFFFF</color>
     <color name="antiquewhite2">#4FFAEBD7</color>
     <color name="gray">#616060</color>
     <color name="dark_gray">#050505</color>

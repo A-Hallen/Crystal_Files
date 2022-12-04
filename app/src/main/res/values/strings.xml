@@ -24,6 +24,7 @@
     <string name="color">color</string>
     <string name="negro">negro</string>
     <string name="storage">storage</string>
+    <string name="storage_"><u>storage/</u></string>
     <string name="Storage">Storage</string>
     <string name="zapya">zapya</string>
     <string name="seleccionar">Seleccionar</string>
@@ -48,4 +49,21 @@
     <string name="mas">mas</string>
     <string name="propiedades">propiedades</string>
     <string name="buscar">Buscar</string>
+    <string name="local">Local</string>
+    <string name="drive">Drive</string>
+    <string name="back">back</string>
+    <string name="nuevo">nuevo</string>
+    <string name="cancelar_">cancelar</string>
+    <string name="AE_Pictures">AE Pictures</string>
+    <string name="AE_Editor_de_texto">AE Editor de Texto</string>
+    <string name="Ruta_por_defecto">Ruta por defecto</string>
+    <string name="preferencias">Preferencias</string>
+    <string name="default_winow">Ventana por defecto</string>
+    <string name="fondo_por_defecto">fondo por defecto</string>
+    <string name="downloads">Downloads</string>
+    <string name="icon">icon</string>
+    <string name="comprimir">Comprimir</string>
+    <string name="password">Contraseña</string>
+    <string name="Descomprimir">Descomprimir</string>
+    <string name="AE_compress">AE Compress Viewr</string>
 </resources>

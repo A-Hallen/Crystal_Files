@@ -38,6 +38,15 @@ class GetMimeFile(file: File) {
             "epub"    ->  {
                 return ContextCompat.getDrawable(context, R.drawable.icon_epub)!!
             }
+            "PowerPoint" -> {
+                return ContextCompat.getDrawable(context, R.drawable.power_point_icon)!!
+            }
+            "pdf" -> {
+                return ContextCompat.getDrawable(context, R.drawable.icon_pdf)!!
+            }
+            "excel" -> {
+                return ContextCompat.getDrawable(context, R.drawable.icon_excel)!!
+            }
             else -> {
                 return ContextCompat.getDrawable(context, R.drawable.file)!!
             }
@@ -88,6 +97,33 @@ class GetMimeFile(file: File) {
             }
             "vcf" ->{
                 return "contactos"
+            }
+            "xls" ->{
+               return "excel"
+            }
+            "xlt" ->{
+               return "excel"
+            }
+            "xla" ->{
+               return "excel"
+            }
+            "xlsx" ->{
+               return "excel"
+            }
+            "xltx" ->{
+               return "excel"
+            }
+            "xlsm" ->{
+               return "excel"
+            }
+            "xltm" ->{
+               return "excel"
+            }
+            "xlam" ->{
+               return "excel"
+            }
+            "xlsb" ->{
+               return "excel"
             }
             else ->{
                 when(getmime().split("/")[0]){

@@ -1,0 +1,64 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:clickable="true"
+    android:focusable="true"
+    android:id="@+id/file_chooser_layout_recicler"
+    style="@style/black_style"
+    android:foreground="?attr/selectableItemBackgroundBorderless">
+
+
+    <RelativeLayout
+        android:id="@+id/file_chooser_rl"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent">
+        <com.google.android.material.imageview.ShapeableImageView
+            android:id="@+id/file_chooser_title_image"
+            android:layout_width="50dp"
+            android:layout_margin="10dp"
+            android:layout_height="50dp"
+            android:layout_gravity="end|center_vertical"
+            android:adjustViewBounds="true"
+            android:clickable="false"
+            android:duplicateParentState="true"
+            android:scaleType="centerCrop"
+            android:src="@drawable/folder"
+            app:shapeAppearanceOverlay="@style/RoundCorner" />
+
+        <ImageView
+            android:visibility="gone"
+            android:id="@+id/file_chooser_supperposition_image"
+            android:layout_width="50dp"
+            android:layout_margin="10dp"
+            android:layout_height="50dp"
+            android:src="@drawable/icon_video"/>
+    </RelativeLayout>
+
+    <TextView
+        android:id="@+id/file_chooser_tvHeading"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_marginStart="16dp"
+        android:layout_marginEnd="35dp"
+        android:clickable="false"
+        android:duplicateParentState="true"
+        android:gravity="start|center_vertical"
+        tools:text="@string/storage"
+        android:textColor="@color/white"
+        android:maxLines="1"
+        android:textSize="14sp"
+        android:textStyle="normal"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toEndOf="@+id/file_chooser_rl"
+        app:layout_constraintTop_toTopOf="parent" />
+
+
+</LinearLayout>

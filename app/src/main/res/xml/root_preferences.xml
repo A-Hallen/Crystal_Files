@@ -1,0 +1,10 @@
+<PreferenceScreen xmlns:app="http://schemas.android.com/apk/res-auto">
+
+    <PreferenceCategory app:title="@string/Ruta_por_defecto">
+        <Preference app:title="@string/Ruta_por_defecto"/>
+
+    </PreferenceCategory>
+    <PreferenceCategory app:title="@string/fondo">
+    </PreferenceCategory>
+
+</PreferenceScreen>

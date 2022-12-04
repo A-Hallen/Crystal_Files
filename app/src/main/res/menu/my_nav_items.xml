@@ -2,14 +2,18 @@
 <menu xmlns:android="http://schemas.android.com/apk/res/android">
     <item
         android:id="@+id/action_paste"
-        android:title="pegar"
+        android:title="@string/pegar"
+        android:onClick="paste"
         android:icon="?attr/actionModePasteDrawable"/>
     <item
         android:id="@+id/action_new"
-        android:title="nuevo"
-        android:icon="@android:drawable/ic_menu_add"/>
+        android:onClick="createFolder"
+        android:title="@string/nuevo"
+        android:icon="@android:drawable/ic_menu_add"
+        />
     <item
         android:id="@+id/action_cancel"
-        android:title="cancelar"
+        android:title="@string/cancelar_"
+        android:onClick="cancel"
         android:icon="@drawable/cancelar"/>
 </menu>

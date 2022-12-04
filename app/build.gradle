@@ -5,6 +5,10 @@ plugins {
 
 android {
     compileSdk 32
+    lintOptions {
+        checkReleaseBuilds false
+        //If you want to continue even if errors found use following line
+    }
 
     defaultConfig {
         applicationId "com.example.crystalfiles"
@@ -66,10 +70,23 @@ dependencies {
     // Activity
     implementation "androidx.activity:activity-ktx:1.5.1"
 
+    // WorkManager
+    implementation "androidx.work:work-runtime-ktx:2.7.1"
+
+    // Zooming android View
+    implementation 'com.github.chrisbanes:PhotoView:2.3.0'
+
+    // Zip library for compression decompression of files
+    implementation 'net.lingala.zip4j:zip4j:2.11.2'
+
+    implementation 'androidx.preference:preference:1.1.1'
+
+
     testImplementation 'junit:junit:4.13.2'
     androidTestImplementation 'androidx.test.ext:junit:1.1.3'
     androidTestImplementation 'androidx.test.espresso:espresso-core:3.4.0'
 }
+
 repositories {
     mavenCentral()
     google()

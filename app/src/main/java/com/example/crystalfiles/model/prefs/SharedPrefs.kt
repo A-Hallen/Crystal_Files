@@ -11,4 +11,5 @@ class SharedPrefs : Application() {
         super.onCreate()
         prefs = Prefs(applicationContext)
     }
+
 }

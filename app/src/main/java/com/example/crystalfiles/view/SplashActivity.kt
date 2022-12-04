@@ -8,7 +8,6 @@ import android.util.Log
 class SplashActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        Log.i("SOME", "SplashActivity Started")
         startActivity(Intent(this, MainActivity::class.java))
     }
 }

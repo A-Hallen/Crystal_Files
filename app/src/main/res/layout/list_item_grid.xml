@@ -5,6 +5,7 @@
     android:layout_height="wrap_content"
     android:clickable="true"
     android:focusable="true"
+    android:layout_weight="1"
     android:layout_gravity="center"
     android:id="@+id/layout_recicler_grid"
     style="@style/black_style"
@@ -16,30 +17,53 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:orientation="vertical"
+        android:layout_gravity="center"
+        android:gravity="center"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent">
 
-        <com.google.android.material.imageview.ShapeableImageView
-            android:id="@+id/title_image_grid"
+        <RelativeLayout
+            android:id="@+id/list_item_relative_layout"
             android:layout_width="50dp"
             android:layout_height="50dp"
             android:layout_gravity="end|center_vertical"
-            android:layout_marginTop="10dp"
-            android:layout_marginStart="10dp"
-            android:layout_marginEnd="10dp"
+            android:gravity="center"
             android:adjustViewBounds="true"
             android:clickable="false"
-            android:duplicateParentState="true"
-            android:scaleType="centerCrop"
-            android:src="@drawable/folder"
-            app:shapeAppearanceOverlay="@style/RoundCorner" />
+            android:duplicateParentState="true">
+
+            <com.google.android.material.imageview.ShapeableImageView
+                android:layout_margin="5dp"
+                android:id="@+id/title_image_grid"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_gravity="end|center_vertical"
+                android:adjustViewBounds="true"
+                android:clickable="false"
+                android:duplicateParentState="true"
+                android:scaleType="centerCrop"
+                android:layout_centerInParent="true"
+                android:src="@drawable/folder"
+                app:shapeAppearanceOverlay="@style/RoundCorner" />
+            <ImageView
+                android:visibility="gone"
+                android:id="@+id/supperposition_image"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:background="@drawable/icon_video"/>
+        </RelativeLayout>
+
+
+
 
         <TextView
             android:id="@+id/tvHeading_grid"
+            android:layout_marginStart="2dp"
+            android:layout_marginEnd="2dp"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
+            android:layout_height="match_parent"
             android:clickable="false"
             android:duplicateParentState="true"
             android:gravity="center"
@@ -61,7 +85,7 @@
         android:clickable="true"
         android:focusable="true"
         android:foreground="?attr/selectableItemBackgroundBorderless"
-        android:visibility="invisible"
+        android:visibility="gone"
         app:layout_constraintBottom_toBottomOf="@+id/linearLayout2"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
@@ -78,7 +102,6 @@
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toEndOf="@+id/tvHeading_grid"
             app:layout_constraintTop_toTopOf="parent" />
-
     </LinearLayout>
 
 

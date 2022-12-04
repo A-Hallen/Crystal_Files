@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/galeryNavBar">
+        <item
+            android:onClick="selectEliminar"
+            android:id="@+id/galery_action_paste"
+            android:title="@string/eliminar"
+            android:icon="@android:drawable/ic_menu_delete"/>
+
+        <item
+            android:id="@+id/galery_action_share"
+            android:title="@string/compartir"
+            android:icon="@android:drawable/ic_menu_share"/>
+
+        <item
+            android:onClick="cancel"
+            android:id="@+id/galery_action_cancel"
+            android:title="@string/cancelar"
+            android:icon="@drawable/cancelar"/>
+</menu>

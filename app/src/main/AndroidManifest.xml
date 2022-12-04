@@ -5,11 +5,24 @@
 
     <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
     <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE" />
-    <uses-permission android:name="android.permission.MANAGE_EXTERNAL_STORAGE"
+    <uses-permission
+        android:name="android.permission.MANAGE_EXTERNAL_STORAGE"
         tools:ignore="ScopedStorage" />
     <uses-permission android:name="android.permission.CALL_PHONE" />
     <uses-permission android:name="android.permission.ACCESS_MEDIA_LOCATION" />
     <uses-permission android:name="android.permission.REQUEST_INSTALL_PACKAGES" />
+    <uses-permission
+        android:name="android.permission.QUERY_ALL_PACKAGES"
+        tools:ignore="QueryAllPackagesPermission" />
+    <uses-permission android:name="android.permission.SET_WALLPAPER" />
+
+    <queries>
+        <intent>
+            <action android:name="android.intent.action.VIEW" />
+
+            <data android:mimeType="*/*" />
+        </intent>
+    </queries>
 
     <application
         android:name=".model.prefs.SharedPrefs"
@@ -22,10 +35,15 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.CrystalFiles"
         tools:targetApi="31">
+
+        <activity
+            android:name=".view.settings.SettingsActivity"
+            android:exported="false"
+            android:label="@string/title_activity_settings" />
         <activity
             android:name=".view.SplashActivity"
-            android:theme="@style/SplashTheme"
-            android:exported="true">
+            android:exported="true"
+            android:theme="@style/SplashTheme">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
@@ -33,9 +51,60 @@
             </intent-filter>
         </activity>
         <activity
+            android:name=".imagebrowser.PictureView"
+            android:exported="true"
+            android:icon="@drawable/icon_image"
+            android:label="@string/AE_Pictures"
+            android:launchMode="standard">
+            <intent-filter>
+                <action android:name="android.intent.action.VIEW" />
+
+                <category android:name="android.intent.category.DEFAULT" />
+
+                <data
+                    android:mimeType="image/*"
+                    android:scheme="content" />
+                <data
+                    android:mimeType="image/*"
+                    android:scheme="file" />
+            </intent-filter>
+        </activity>
+
+        <activity
+            android:name=".texteditor.TextEditor"
+            android:exported="true"
+            android:icon="@drawable/edit_logo"
+            android:label="@string/AE_Editor_de_texto"
+            android:launchMode="singleInstance">
+            <intent-filter>
+                <action android:name="android.intent.action.VIEW" />
+                <action android:name="android.intent.action.EDIT" />
+
+                <category android:name="android.intent.category.DEFAULT" />
+
+                <data
+                    android:mimeType="text/*"
+                    android:scheme="content" />
+                <data
+                    android:mimeType="text/*"
+                    android:scheme="file" />
+            </intent-filter>
+        </activity>
+
+        <provider
+            android:name="androidx.core.content.FileProvider"
+            android:authorities="${applicationId}.provider"
+            android:exported="false"
+            android:grantUriPermissions="true">
+            <meta-data
+                android:name="android.support.FILE_PROVIDER_PATHS"
+                android:resource="@xml/filepaths" />
+        </provider>
+
+        <activity
             android:name=".view.MainActivity"
             android:exported="true"
-            android:theme="@style/Theme.CrystalFiles.NoActionBar"/>
+            android:theme="@style/Theme.CrystalFiles.NoActionBar" />
     </application>
 
 </manifest>

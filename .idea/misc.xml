@@ -3,25 +3,74 @@
   <component name="DesignSurface">
     <option name="filePathToZoomLevelMap">
       <map>
+        <entry key="../../../../layout/custom_preview.xml" value="0.1" />
+        <entry key="app/src/main/res/drawable-v24/ic_launcher_foreground.xml" value="0.139" />
         <entry key="app/src/main/res/drawable/bg_dialog_view_white.xml" value="0.1" />
+        <entry key="app/src/main/res/drawable/buscar_little_gray.xml" value="0.207" />
         <entry key="app/src/main/res/drawable/button_selector.xml" value="0.142" />
+        <entry key="app/src/main/res/drawable/edit_back.xml" value="0.141" />
+        <entry key="app/src/main/res/drawable/edit_buscar.xml" value="0.207" />
+        <entry key="app/src/main/res/drawable/edit_guardar.xml" value="0.207" />
+        <entry key="app/src/main/res/drawable/et_background.xml" value="0.141" />
+        <entry key="app/src/main/res/drawable/et_background_selector.xml" value="0.207" />
+        <entry key="app/src/main/res/drawable/expandable_progress_bg.xml" value="0.1395" />
+        <entry key="app/src/main/res/drawable/folder.xml" value="0.217" />
         <entry key="app/src/main/res/drawable/hemburger_icon.xml" value="0.142" />
+        <entry key="app/src/main/res/drawable/ic_back_pressed.xml" value="0.207" />
+        <entry key="app/src/main/res/drawable/ic_drive_icon.xml" value="0.141" />
         <entry key="app/src/main/res/drawable/ic_launcher_background.xml" value="0.1" />
+        <entry key="app/src/main/res/drawable/ic_splash_screen.xml" value="0.1" />
+        <entry key="app/src/main/res/drawable/inverse_ripple.xml" value="0.141" />
         <entry key="app/src/main/res/drawable/settings_icon.xml" value="0.1" />
+        <entry key="app/src/main/res/drawable/settings_item_border_bottom.xml" value="0.141" />
+        <entry key="app/src/main/res/drawable/settings_item_selector.xml" value="0.141" />
         <entry key="app/src/main/res/drawable/splash_background.xml" value="0.1715" />
+        <entry key="app/src/main/res/layout-v23/simple_list_item_for_settings.xml" value="0.1" />
+        <entry key="app/src/main/res/layout/action_zoom_recycler.xml" value="0.3603515625" />
         <entry key="app/src/main/res/layout/activity_main.xml" value="0.1" />
+        <entry key="app/src/main/res/layout/activity_picture_view.xml" value="0.21510416666666668" />
+        <entry key="app/src/main/res/layout/activity_text_editor.xml" value="0.21510416666666668" />
+        <entry key="app/src/main/res/layout/activity_zip_viewr.xml" value="0.21510416666666668" />
         <entry key="app/src/main/res/layout/app_bar_main.xml" value="0.12511584800741427" />
         <entry key="app/src/main/res/layout/content_main.xml" value="0.1" />
-        <entry key="app/src/main/res/layout/expandable_list_childs.xml" value="0.43514150943396224" />
+        <entry key="app/src/main/res/layout/dialog_propiedades_inflation.xml" value="0.1" />
+        <entry key="app/src/main/res/layout/dialog_unknown_inflation.xml" value="0.21510416666666668" />
+        <entry key="app/src/main/res/layout/expandable_list_childs.xml" value="0.33" />
+        <entry key="app/src/main/res/layout/expandable_list_childs_progress.xml" value="0.25" />
+        <entry key="app/src/main/res/layout/expandable_progress_bg.xml" value="0.21302083333333333" />
+        <entry key="app/src/main/res/layout/file_chooser_dialog.xml" value="0.2140625" />
+        <entry key="app/src/main/res/layout/file_chooser_list_item.xml" value="0.2140625" />
+        <entry key="app/src/main/res/layout/galery_reciclerview.xml" value="0.21510416666666668" />
         <entry key="app/src/main/res/layout/galery_view.xml" value="0.23241418120427687" />
         <entry key="app/src/main/res/layout/list_item.xml" value="0.21510416666666668" />
+        <entry key="app/src/main/res/layout/list_item_grid.xml" value="0.67" />
+        <entry key="app/src/main/res/layout/list_items.xml" value="0.21510416666666668" />
+        <entry key="app/src/main/res/layout/list_on_click_dialog.xml" value="0.21510416666666668" />
+        <entry key="app/src/main/res/layout/one_click_item_dialog.xml" value="0.21510416666666668" />
         <entry key="app/src/main/res/layout/paste_bar.xml" value="0.34198331788693237" />
+        <entry key="app/src/main/res/layout/picture_view_recicler_inflated.xml" value="0.21510416666666668" />
+        <entry key="app/src/main/res/layout/progress_bar.xml" value="0.21510416666666668" />
         <entry key="app/src/main/res/layout/recicler_view.xml" value="0.23241418120427687" />
+        <entry key="app/src/main/res/layout/rename_style_dialog.xml" value="0.21510416666666668" />
         <entry key="app/src/main/res/layout/select_all_top_bar.xml" value="0.1" />
         <entry key="app/src/main/res/layout/select_botom_nav.xml" value="0.34198331788693237" />
+        <entry key="app/src/main/res/layout/settings_activity.xml" value="0.4645669291338583" />
+        <entry key="app/src/main/res/layout/simple_list_item.xml" value="0.1" />
+        <entry key="app/src/main/res/layout/simple_list_item_for_settings.xml" value="0.33" />
+        <entry key="app/src/main/res/layout/video_supperposition_icon.xml" value="0.33" />
+        <entry key="app/src/main/res/menu/context_menu.xml" value="0.21510416666666668" />
+        <entry key="app/src/main/res/menu/delete_fav_location_menu.xml" value="0.2140625" />
+        <entry key="app/src/main/res/menu/delete_fav_menu.xml" value="0.2140625" />
+        <entry key="app/src/main/res/menu/galery_nav_bar.xml" value="0.21510416666666668" />
         <entry key="app/src/main/res/menu/menu_main.xml" value="0.21510416666666668" />
-        <entry key="app/src/main/res/menu/my_nav_items.xml" value="0.7165048543689321" />
+        <entry key="app/src/main/res/menu/menu_settings.xml" value="0.21510416666666668" />
+        <entry key="app/src/main/res/menu/my_nav_items.xml" value="0.6449864498644986" />
+        <entry key="app/src/main/res/menu/picture_settings.xml" value="0.21510416666666668" />
         <entry key="app/src/main/res/menu/select_nav_items_menu.xml" value="0.46601941747572817" />
+        <entry key="app/src/main/res/mipmap-anydpi-v26/ic_launcher.xml" value="0.139" />
+        <entry key="app/src/main/res/mipmap-anydpi-v26/ic_launcher_round.xml" value="0.1" />
+        <entry key="app/src/main/res/xml/filepaths.xml" value="0.2140625" />
+        <entry key="app/src/main/res/xml/root_preferences.xml" value="0.21510416666666668" />
       </map>
     </option>
   </component>

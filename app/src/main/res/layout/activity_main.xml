@@ -5,23 +5,34 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@drawable/wallpaper_default"
     android:id="@+id/drawer_layout"
     tools:context=".view.MainActivity"
     tools:openDrawer="start">
 
+    <ImageView
+        android:id="@+id/background"
+        android:background="@drawable/wallpaper_default"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:adjustViewBounds="true"
+        android:scaleType="fitXY"
+        android:contentDescription="@string/fondo" />
+
     <include
         layout="@layout/select_all_top_bar"
+        android:id="@+id/selectAllTopBarLayout"
         android:layout_width="match_parent"
         android:layout_height="match_parent"/>
 
     <include
         layout="@layout/app_bar_main"
+        android:id="@+id/app_bar_main"
         android:layout_width="match_parent"
         android:layout_height="match_parent"/>
 
     <include
         layout="@layout/recicler_view"
+        android:id="@+id/recicler_view_layout"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"/>
 
@@ -33,15 +44,23 @@
 
     <include
         layout="@layout/select_botom_nav"
+        android:id="@+id/select_bottom_nav_layout"
         android:layout_height="match_parent"
         android:layout_width="match_parent"/>
 
     <include
         layout="@layout/paste_bar"
+        android:id="@+id/paste_bar_layout"
         android:layout_height="match_parent"
         android:layout_width="match_parent"/>
+    <include
+            layout="@layout/progress_bar"
+            android:id="@+id/progress_bar_layout"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"/>
     <LinearLayout
         android:clickable="true"
+        android:focusable="true"
         android:id="@+id/navigation_layout"
         android:layout_width="260dp"
         android:layout_height="match_parent"
@@ -69,9 +88,9 @@
                 android:id="@+id/expandableList"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
-                android:divider="@color/antiquewhite"
                 android:background="@drawable/bg_dialog_view_white"
                 style="@style/black_style"
+                android:groupIndicator="@color/transparente"
                 android:dividerHeight="0.5dp"
                 app:layout_constraintRight_toRightOf="parent"
                 app:layout_constraintTop_toTopOf="parent"

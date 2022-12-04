@@ -15,4 +15,15 @@ data class News(var isdirectory: Boolean,
                 var hasMimeType:Boolean = true,
                 var titleImage:Bitmap = createBitmap(100, 100),
                 )
+
+data class FCdata(
+                  var isdirectory: Boolean,
+                  var heading: String,
+                  var path: File,
+                  var titleImageResource: Drawable? = null,
+                  var hasMimeType: Boolean = true,
+                  var titleImage: Bitmap = createBitmap(100, 100),
+                  var storage: Boolean = false
+                  )
+
 data class Lis(var imageIdList: Drawable, var textIdList: String, var launchable:ResolveInfo)

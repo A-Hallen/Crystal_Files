@@ -3,22 +3,27 @@
     <item
         android:id="@+id/select_action_copy"
         android:title="@string/copiar"
+        android:onClick="showPasteBar"
         android:icon="?attr/actionModeCopyDrawable"/>
     <item
         android:id="@+id/select_action_cut"
         android:title="@string/cortar"
+        android:onClick="showPasteBarCut"
         android:icon="?attr/actionModeCutDrawable"/>
     <item
         android:id="@+id/select_action_eliminar"
         android:title="@string/eliminar"
+        android:onClick="selectEliminar"
         android:icon="@android:drawable/ic_menu_delete"/>
 
     <item
         android:id="@+id/select_action_rename"
         android:title="@string/rename"
+        android:onClick="selectRename"
         android:icon="@android:drawable/ic_menu_edit"/>
 
     <item android:id="@+id/mas_item"
+        android:onClick="popupMenus"
         android:icon="@drawable/settings"
         android:title="@string/mas"/>
 </menu>

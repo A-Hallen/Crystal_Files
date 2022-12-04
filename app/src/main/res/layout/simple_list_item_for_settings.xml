@@ -1,0 +1,46 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<LinearLayout xmlns:tools="http://schemas.android.com/tools"
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:orientation="vertical"
+    android:background="@drawable/settings_item_border_bottom"
+    android:foreground="@drawable/inverse_ripple"
+    tools:background="@color/black"
+    android:layout_height="wrap_content"
+    android:layout_width="match_parent">
+    <CheckBox
+        android:duplicateParentState="true"
+        android:clickable="false"
+        android:focusable="false"
+        android:id="@+id/settings_cb"
+        android:visibility="gone"
+        android:layout_width="match_parent"
+        android:textColor="@color/white"
+        android:layout_marginStart="10dp"
+        android:text="@string/fondo_por_defecto"
+        android:layout_height="wrap_content"/>
+    <TextView
+        android:id="@+id/settings_et_1"
+        android:textColor="@color/white"
+        android:textSize="17sp"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:maxLines="1"
+        tools:text="@string/fondo"
+        android:textAppearance="?android:attr/textAppearanceListItemSmall"
+        android:paddingStart="?android:attr/listPreferredItemPaddingStart"
+        android:paddingEnd="10dp"
+        android:gravity="center_vertical"
+        android:layout_marginTop="7dp"
+         />
+    <TextView
+        android:id="@+id/settings_et_2"
+        android:paddingStart="?android:attr/listPreferredItemPaddingStart"
+        android:paddingEnd="10dp"
+        android:layout_marginBottom="10dp"
+        android:textColor="@color/grayantiquewhite"
+        android:layout_width="match_parent"
+        tools:text="wallpapper.png"
+        android:layout_height="wrap_content"/>
+</LinearLayout>
+

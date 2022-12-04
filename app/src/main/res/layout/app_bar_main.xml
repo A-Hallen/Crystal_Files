@@ -4,71 +4,126 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:layout_weight="1"
-    android:id="@+id/app_bar_main"
+    android:id="@+id/app_bar_main2"
     tools:context=".view.MainActivity">
 
 
-
-            <LinearLayout
-                android:background="@drawable/ic_main_top_bar"
+            <RelativeLayout
                 android:layout_width="match_parent"
-                android:layout_height="54dp"
-                android:orientation="horizontal">
+                android:layout_height="54dp">
 
-                <ImageView
-                    android:id="@+id/hamburger_icon"
-                    android:layout_marginStart="5dp"
-                    android:layout_width="40dp"
-                    android:layout_height="wrap_content"
-                    android:layout_gravity="center"
-                    android:src="@drawable/hemburger_icon"
-                    android:gravity="center"
-                    android:foreground="?attr/selectableItemBackgroundBorderless"/>
-
-                <TextView
-                    android:id="@+id/back1"
-                    android:layout_width="0dp"
+                <LinearLayout
+                    android:id="@+id/normal_app_bar_main"
+                    android:background="@drawable/ic_main_top_bar"
+                    android:layout_width="match_parent"
                     android:layout_height="match_parent"
-                    android:layout_gravity="center"
-                    android:layout_weight="1"
-                    android:clickable="true"
-                    android:focusable="true"
-                    android:gravity="center"
-                    android:maxLines="1"
-                    android:textColor="@color/green"
-                    android:textSize="20sp"
-                    tools:text="3C11-8A99"
-                    android:foreground="?attr/selectableItemBackground"/>
+                    android:orientation="horizontal">
 
-                <View
-                    android:layout_width="1dp"
-                    android:layout_height="36dp"
-                    android:layout_gravity="center"
-                    android:background="@color/antiquewhite0"/>
+                    <ImageView
+                        android:id="@+id/hamburger_icon"
+                        android:layout_marginStart="5dp"
+                        android:layout_width="40dp"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="center"
+                        android:src="@drawable/hemburger_icon"
+                        android:gravity="center"
+                        android:foreground="?attr/selectableItemBackgroundBorderless"/>
 
-                <TextView
-                    android:id="@+id/back2"
-                    android:layout_weight="1"
-                    android:layout_width="0dp"
-                    android:layout_height="wrap_content"
-                    android:gravity="center"
-                    android:layout_gravity="center"
-                    android:maxLines="1"
-                    android:textColor="@color/green"
-                    android:textSize="20sp"
-                    tools:text="@string/zapya"/>
+                    <TextView
+                        android:id="@+id/back1"
+                        android:layout_width="0dp"
+                        android:layout_height="match_parent"
+                        android:layout_gravity="center"
+                        android:layout_weight="1"
+                        android:clickable="true"
+                        android:focusable="true"
+                        android:gravity="center"
+                        android:maxLines="1"
+                        android:textColor="@color/green"
+                        android:textSize="20sp"
+                        tools:text="3C11-8A99"
+                        android:foreground="?attr/selectableItemBackground"/>
 
-                <ImageView
-                    android:layout_marginEnd="5dp"
-                    android:layout_width="40dp"
-                    android:layout_height="wrap_content"
-                    android:layout_gravity="center"
-                    android:src="@drawable/settings_icon"
-                    android:gravity="center"
-                    android:id="@+id/settings"
-                    android:contentDescription="@string/settings" />
+                    <View
+                        android:layout_width="1dp"
+                        android:layout_height="36dp"
+                        android:layout_gravity="center"
+                        android:background="@color/antiquewhite0"/>
 
-            </LinearLayout>
+                    <TextView
+                        android:id="@+id/back2"
+                        android:layout_weight="1"
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:gravity="center"
+                        android:layout_gravity="center"
+                        android:maxLines="1"
+                        android:textColor="@color/green"
+                        android:textSize="20sp"
+                        tools:text="@string/zapya"/>
+
+                    <ImageView
+                        android:layout_marginEnd="5dp"
+                        android:layout_width="40dp"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="center"
+                        android:src="@drawable/settings_icon"
+                        android:gravity="center"
+                        android:id="@+id/settings_icon"
+                        android:contentDescription="@string/settings" />
+
+                </LinearLayout>
+
+                <LinearLayout
+                    android:id="@+id/search_l"
+                    android:visibility="gone"
+                    android:orientation="horizontal"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:background="@drawable/ic_main_top_bar">
+                    <ImageView
+                        android:layout_weight="1"
+                        android:id="@+id/cancel_search"
+                        android:layout_width="0dp"
+                        android:layout_height="match_parent"
+                        android:layout_gravity="center"
+                        android:padding="10dp"
+                        android:src="@drawable/cancelar"/>
+
+                    <EditText
+                        android:hint="@string/buscar"
+                        android:focusable="true"
+                        android:focusableInTouchMode="true"
+                        android:textColorHint="@color/gray"
+                        android:imeOptions="actionSearch"
+                        android:layout_weight="4"
+                        android:id="@+id/buscar_search"
+                        android:layout_width="0dp"
+                        android:textColor="@color/white"
+                        android:layout_height="match_parent"
+                        android:layout_margin="5dp"
+                        android:drawableEnd="@drawable/buscar_little_gray"
+                        android:background="@drawable/et_background_selector"
+                        android:inputType="text"
+                        android:maxLines="1"
+                        android:importantForAutofill="no" />
+
+                    <ImageView
+                        android:visibility="visible"
+                        android:layout_weight="1"
+                        android:id="@+id/search_icon"
+                        android:layout_width="0dp"
+                        android:layout_height="54dp"
+                        android:padding="10dp"
+                        android:src="@drawable/edit_buscar"/>
+
+                </LinearLayout>
+
+
+            </RelativeLayout>
+
+
+
 
 
 
