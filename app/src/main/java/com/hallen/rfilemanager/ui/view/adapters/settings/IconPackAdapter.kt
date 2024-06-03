@@ -22,7 +22,7 @@ class IconPackAdapter @Inject constructor() :
     RecyclerView.Adapter<IconPackAdapter.IconPackViewHolder>() {
 
     private var colorScheme: ColorManagement.ThemeColor? = null
-    private var icons: List<IconPack> = emptyList()
+    var icons: List<IconPack> = emptyList()
 
     interface IconPackListener {
         fun onItemCheck(position: Int)
@@ -36,15 +36,11 @@ class IconPackAdapter @Inject constructor() :
 
     fun insertIcons(newIcons: List<IconPack>) {
         CoroutineScope(Dispatchers.Main).launch {
-            val diffUtil = IconDiffUtil(icons, newIcons)
-            val calculateDiff = DiffUtil.calculateDiff(diffUtil)
             icons = newIcons
-            calculateDiff.dispatchUpdatesTo(this@IconPackAdapter)
+            notifyDataSetChanged()
         }
     }
 
-
-    fun getItem(position: Int): IconPack = icons[position]
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): IconPackViewHolder {
         val layoutInflater = LayoutInflater.from(parent.context)
         val binding = SettingIconItemBinding.inflate(layoutInflater, parent, false)
@@ -59,9 +55,17 @@ class IconPackAdapter @Inject constructor() :
 
     inner class IconPackViewHolder(
         private val binding: SettingIconItemBinding,
-        onItemPackListener: IconPackListener?,
+        private val listener: IconPackListener?,
     ) :
         RecyclerView.ViewHolder(binding.root) {
+
+        init {
+            binding.checkBox.setOnClickListener {
+                listener?.onItemCheck(adapterPosition)
+                binding.checkBox.isChecked = true
+            }
+            binding.delete.setOnClickListener { listener?.onItemDeleted(adapterPosition) }
+        }
 
         fun bind(iconPack: IconPack) {
             val context = binding.root.context
@@ -74,15 +78,6 @@ class IconPackAdapter @Inject constructor() :
             val cbColor = Color.parseColor(colorScheme?.normalColor)
             binding.checkBox.buttonTintList = ColorStateList.valueOf(cbColor)
             binding.checkBox.isChecked = iconPack.isChecked
-
-            binding.delete.setOnClickListener {
-                onItemPackListener?.onItemDeleted(position)
-            }
-
-            binding.checkBox.setOnClickListener {
-                onItemPackListener?.onItemCheck(position)
-                binding.checkBox.isChecked = true
-            }
         }
     }
 
@@ -127,7 +122,7 @@ class IconPackAdapter @Inject constructor() :
         override fun areItemsTheSame(oldItemPosition: Int, newItemPosition: Int): Boolean {
             val oldItem = oldList[oldItemPosition]
             val newItem = newList[newItemPosition]
-            return oldItem.name == newItem.name && oldItem.isChecked == newItem.isChecked
+            return oldItem.name == newItem.name
         }
 
         override fun areContentsTheSame(oldItemPosition: Int, newItemPosition: Int): Boolean {

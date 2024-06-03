@@ -17,7 +17,6 @@ import com.hallen.rfilemanager.model.Archivo
 import com.hallen.rfilemanager.ui.view.adapters.settings.IconPackAdapter
 import com.hallen.rfilemanager.ui.view.filechooser.FileChooserDialog1
 import com.hallen.rfilemanager.ui.viewmodels.BaseViewModel
-import com.orhanobut.logger.Logger
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
@@ -66,18 +65,21 @@ class SettingIconPackFragment : Fragment() {
         update()
         adapter.setOnItemPackListener(object : IconPackAdapter.IconPackListener {
             override fun onItemCheck(position: Int) {
+
                 iconsPack.forEach {
                     it.isChecked = false
                 }
                 iconsPack[position].isChecked = true
-                adapter.insertIcons(iconsPack)
+                adapter.icons = iconsPack
+                adapter.notifyDataSetChanged()
                 iconsManager.setUsedIconPack(iconsPack[position])
             }
 
             override fun onItemDeleted(position: Int) {
                 iconsManager.deleteIconsPack(iconsPack[position].name)
                 iconsPack.removeAt(position)
-                adapter.insertIcons(iconsPack)
+                adapter.icons = iconsPack
+                adapter.notifyItemRemoved(position)
             }
         })
         binding.newIconPackBtn.setOnClickListener {
@@ -96,12 +98,10 @@ class SettingIconPackFragment : Fragment() {
             override fun onFileClick(file: Archivo) {
                 if (file.isDirectory) {
                     iconsManager.importPackFromFolder(file) {
-                        Logger.i("CALLBACK CALLED")
                         update()
                     }
                 } else {
                     val importPackFromZip = iconsManager.importPackFromZip(file) {
-                        Logger.i("CALLBACK CALLED")
                         update()
                     }
                     if (!importPackFromZip) {

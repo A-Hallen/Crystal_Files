@@ -2,8 +2,14 @@ package com.hallen.rfilemanager.ui.view.activities
 
 import android.animation.Animator
 import android.animation.AnimatorListenerAdapter
+import android.annotation.SuppressLint
+import android.content.BroadcastReceiver
 import android.content.Context
+import android.content.Intent
+import android.content.IntentFilter
 import android.graphics.Color
+import android.hardware.usb.UsbDevice
+import android.hardware.usb.UsbManager
 import android.os.Build
 import android.os.Bundle
 import android.os.Environment
@@ -38,6 +44,8 @@ import com.hallen.rfilemanager.infraestructure.fileactions.CompressUseCase
 import com.hallen.rfilemanager.infraestructure.fileactions.DecompressUseCase
 import com.hallen.rfilemanager.infraestructure.fileactions.RenameUseCase.RenameResult
 import com.hallen.rfilemanager.infraestructure.persistance.Prefs
+import com.hallen.rfilemanager.infraestructure.usb.UsbDeviceReceiver
+import com.hallen.rfilemanager.infraestructure.usb.UsbListener
 import com.hallen.rfilemanager.model.Archivo
 import com.hallen.rfilemanager.model.UpdateModel
 import com.hallen.rfilemanager.ui.utils.ColorManagement
@@ -63,10 +71,13 @@ import com.hallen.rfilemanager.ui.view.leftpanel.ExpandableListData
 import com.hallen.rfilemanager.ui.view.leftpanel.NavListAdapter
 import com.hallen.rfilemanager.ui.viewmodels.BaseViewModel
 import com.hallen.rfilemanager.ui.viewmodels.State
+import com.orhanobut.logger.Logger
 import dagger.hilt.android.AndroidEntryPoint
 import java.io.File
 import java.util.Locale
 import javax.inject.Inject
+
+private const val ACTION_USB_PERMISSION = "com.android.hallen.USB_PERMISSION"
 
 @AndroidEntryPoint
 class MainActivity : AppCompatActivity(), FileControl {
@@ -119,6 +130,69 @@ class MainActivity : AppCompatActivity(), FileControl {
         setupStyle()
         setColorScheme()
         baseViewModel.state.observe(this, ::setupStateViews)
+        registerReceivers()
+    }
+
+    override fun onDestroy() {
+        super.onDestroy()
+        unregisterReceivers()
+    }
+
+    private fun unregisterReceivers() {
+        unregisterReceiver(usbReceiver)
+        unregisterReceiver(usbDeviceReceiver)
+    }
+
+    private var usbReceiver: UsbDeviceReceiver? = null
+
+    @SuppressLint("UnspecifiedRegisterReceiverFlag")
+    private fun registerReceivers() {
+        usbReceiver = UsbDeviceReceiver(usbListener)
+        val filter = IntentFilter()
+        filter.addAction(UsbManager.ACTION_USB_DEVICE_ATTACHED)
+        filter.addAction(UsbManager.ACTION_USB_DEVICE_DETACHED)
+        registerReceiver(usbReceiver, filter)
+        val permissionFilter = IntentFilter()
+        permissionFilter.addAction(UsbManager.EXTRA_PERMISSION_GRANTED)
+        registerReceiver(usbDeviceReceiver, permissionFilter)
+    }
+
+    private val usbDeviceReceiver = object : BroadcastReceiver() {
+        override fun onReceive(context: Context, intent: Intent) {
+            if (ACTION_USB_PERMISSION == intent.action) {
+                synchronized(this) {
+                    val device: UsbDevice? = intent.getParcelableExtra(UsbManager.EXTRA_DEVICE)
+                    if (intent.getBooleanExtra(UsbManager.EXTRA_PERMISSION_GRANTED, false)) {
+                        device?.apply {
+                            // call method to set device comunication
+                        }
+                    } else {
+                        Logger.i("Permission denied for device $device")
+                    }
+                }
+
+            }
+
+        }
+
+    }
+
+    private val usbListener = object : UsbListener {
+        override fun usbDeviceAttached(usbDevice: UsbDevice?) {
+            Toast.makeText(
+                this@MainActivity,
+                "usbDevice ${usbDevice?.deviceName}",
+                Toast.LENGTH_SHORT
+            ).show()
+
+            storages.updateStorages()
+        }
+
+        override fun usbDeviceDetached() {
+            Toast.makeText(this@MainActivity, "usb Detached", Toast.LENGTH_SHORT).show()
+            storages.updateStorages()
+        }
+
     }
 
     private fun setupStateViews(state: List<State>) {
@@ -168,30 +242,6 @@ class MainActivity : AppCompatActivity(), FileControl {
                 editText.addTextChangedListener { baseViewModel.updateSearch(it.toString()) }
             }
         }
-    }
-
-    private fun setupPasteBar() {
-        baseViewModel.clipboard.observe(this) {
-            val navBar = binding.selectBottomNavLayout.selectNavBar
-            if (it.size > 0) {
-                navBar.menu.clear()
-                navBar.inflateMenu(R.menu.my_nav_items)
-                showAnimation(navBar)
-                return@observe
-            }
-            if (navBar.isVisible) hideAnimation(navBar)
-        }
-    }
-
-    private fun toggleSelectionBar(visibility: Boolean) {
-        val navBar = binding.selectBottomNavLayout.selectNavBar
-        if (visibility && navBar.isVisible) return
-        if (!visibility && !navBar.isVisible) return
-        if (baseViewModel.clipboard.value?.any() == true) return
-        navBar.menu.clear()
-        navBar.inflateMenu(R.menu.select_nav_items_menu)
-        if (visibility) showAnimation(navBar)
-        else if (baseViewModel.clipboard.value?.none() == true) hideAnimation(navBar)
     }
 
     private fun setColorScheme() {
