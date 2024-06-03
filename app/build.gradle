@@ -1,21 +1,24 @@
 plugins {
     id 'com.android.application'
     id 'org.jetbrains.kotlin.android'
+    id 'dagger.hilt.android.plugin'
+    id 'kotlin-kapt'
 }
 
 android {
-    compileSdk 32
+    compileSdk 33
     lintOptions {
         checkReleaseBuilds false
         //If you want to continue even if errors found use following line
     }
 
     defaultConfig {
-        applicationId "com.example.crystalfiles"
+        applicationId "com.hallen.filemanager"
         minSdk 21
         targetSdk 32
-        versionCode 1
+        versionCode 6
         versionName "1.0"
+        vectorDrawables.useSupportLibrary = true
 
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
     }
@@ -64,11 +67,21 @@ dependencies {
     // ViewModel
     implementation "androidx.lifecycle:lifecycle-viewmodel-ktx:2.5.1"
 
+    // Dagger Hilt
+    implementation "com.google.dagger:hilt-android:$hilt_version"
+    kapt "com.google.dagger:hilt-android-compiler:$hilt_version"
+    kapt "org.jetbrains.kotlinx:kotlinx-metadata-jvm:0.5.0"
+
+    //pretty logger
+    implementation 'com.orhanobut:logger:2.2.0'
+
     // Life Data
     implementation "androidx.lifecycle:lifecycle-livedata-ktx:2.5.1"
 
+    // Fragment
+    implementation 'androidx.fragment:fragment-ktx:1.6.1'
     // Activity
-    implementation "androidx.activity:activity-ktx:1.5.1"
+    implementation 'androidx.activity:activity-ktx:1.7.2'
 
     // WorkManager
     implementation "androidx.work:work-runtime-ktx:2.7.1"
@@ -79,7 +92,37 @@ dependencies {
     // Zip library for compression decompression of files
     implementation 'net.lingala.zip4j:zip4j:2.11.2'
 
+    // Color picker library
+    implementation "codes.side:andcolorpicker:0.6.2"
+
+    // helps to find inner elements of vector drawable like path and group.
+    implementation 'com.github.devendroid:vectorchildfinder:1.0.0'
+
+    // Courutines
+    implementation 'androidx.lifecycle:lifecycle-runtime-ktx:2.5.1'
+
+    // Legacy libraries
+    implementation 'androidx.legacy:legacy-support-v4:1.0.0'
+
+    // Adding audio effects
+    implementation 'com.github.xeinebiu:android_audioeffects:1.0.0'
+
+    // Other audio effects
+    implementation 'com.github.bullheadandplato:AndroidEqualizer:2.2'
+
+    // visual efect for equalizer
+    implementation 'com.diogobernardino:williamchart:2.2'
+
+    // Mini equalizer library
+    implementation 'com.github.claucookie.miniequalizer:library:1.0.0'
+
+    // Color palette
+    implementation 'androidx.palette:palette-ktx:1.0.0'
+
     implementation 'androidx.preference:preference:1.1.1'
+
+    //for loading svg files
+    implementation 'com.caverock:androidsvg-aar:1.4'
 
 
     testImplementation 'junit:junit:4.13.2'
@@ -90,4 +133,5 @@ dependencies {
 repositories {
     mavenCentral()
     google()
+
 }

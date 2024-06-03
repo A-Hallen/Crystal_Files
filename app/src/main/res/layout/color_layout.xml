@@ -1,0 +1,57 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools">
+
+
+    <FrameLayout
+        android:layout_width="150dp"
+        android:layout_height="150dp"
+        android:layout_gravity="center">
+        <ImageView
+            android:layout_width="150dp"
+            android:layout_height="150dp"
+            android:layout_gravity="center"
+            app:srcCompat="@drawable/folder"/>
+        <ImageView
+            android:id="@+id/colorChooserImageView"
+            android:layout_width="150dp"
+            android:layout_height="150dp"
+            android:layout_gravity="center"
+            app:srcCompat="@drawable/folder1"/>
+    </FrameLayout>
+
+
+
+    <codes.side.andcolorpicker.rgb.RGBColorPickerSeekBar
+        android:id="@+id/redSeekBar"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        app:rgbMode="red"/>
+    <codes.side.andcolorpicker.rgb.RGBColorPickerSeekBar
+        android:id="@+id/greenSeekBar"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        app:rgbMode="green"/>
+    <codes.side.andcolorpicker.rgb.RGBColorPickerSeekBar
+        android:id="@+id/blueSeekBar"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        app:rgbMode="blue"/>
+
+    <TextView
+        android:id="@+id/textViewColorPicker"
+        android:gravity="center"
+        android:textSize="20sp"
+        android:layout_margin="10dp"
+        android:background="@drawable/et_background"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:textColor="@color/white"
+        tools:text="#000"/>
+
+</LinearLayout>
+

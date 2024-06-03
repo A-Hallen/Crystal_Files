@@ -1,0 +1,45 @@
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:orientation="vertical"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+
+    <com.github.mmin18.widget.RealtimeBlurView
+        android:id="@+id/realtimeBlurView"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        app:realtimeBlurRadius="10dp"
+        app:realtimeOverlayColor="@color/transparente" />
+
+    <LinearLayout
+        android:orientation="vertical"
+        android:layout_width="match_parent"
+        android:background="@color/almostBlackGlass"
+        android:layout_height="match_parent">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="54dp"
+            android:gravity="center_vertical"
+            android:background="@drawable/ic_main_top_bar">
+
+            <TextView
+                android:id="@+id/preferencesAppBarMainText"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:textColor="@color/green"
+                android:textSize="20sp"
+                android:layout_marginStart="10dp"
+                android:text="@string/preferencias"
+                android:gravity="center_vertical" />
+        </LinearLayout>
+
+
+        <ListView
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:divider="@color/white"
+            android:id="@+id/lv_settings" />
+    </LinearLayout>
+</FrameLayout>

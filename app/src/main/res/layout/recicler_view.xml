@@ -1,23 +1,25 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.constraintlayout.widget.ConstraintLayout
-    xmlns:android="http://schemas.android.com/apk/res/android"
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
     android:gravity="center"
     android:layout_gravity="center"
     android:layout_width="match_parent"
     android:layout_height="match_parent">
 
-    <com.example.crystalfiles.view.recyclerview.PinchRecyclerView
+    <com.hallen.rfilemanager.ui.view.custom.PinchRecyclerView
         android:id="@+id/recyclerView"
-        android:layout_width="wrap_content"
+        android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:layout_marginTop="54dp"
         android:gravity="center"
         android:layout_gravity="center_horizontal"
         android:numColumns="auto_fit"
+        tools:listitem="@layout/list_item_grid"
+        tools:itemCount="100"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"/>
+        app:layout_constraintTop_toTopOf="parent" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

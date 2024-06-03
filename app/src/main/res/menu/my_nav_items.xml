@@ -4,16 +4,16 @@
         android:id="@+id/action_paste"
         android:title="@string/pegar"
         android:onClick="paste"
-        android:icon="?attr/actionModePasteDrawable"/>
+        android:icon="@drawable/ic_menu_paste"/>
     <item
         android:id="@+id/action_new"
-        android:onClick="createFolder"
         android:title="@string/nuevo"
-        android:icon="@android:drawable/ic_menu_add"
+        android:icon="@drawable/ic_menu_new_folder"
+        android:onClick="createNewFolder"
         />
     <item
         android:id="@+id/action_cancel"
         android:title="@string/cancelar_"
-        android:onClick="cancel"
-        android:icon="@drawable/cancelar"/>
+        android:onClick="clearClipboard"
+        android:icon="@drawable/ic_menu_close"/>
 </menu>

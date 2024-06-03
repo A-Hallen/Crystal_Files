@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="utf-8"?>
+<navigation xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/home_nav"
+    app:startDestination="@id/mainFragment">
+
+    <fragment
+        android:id="@+id/settingFragment"
+        android:name="com.hallen.rfilemanager.ui.view.fragments.SettingFragment"
+        android:label="SettingFragment" />
+
+    <fragment
+        android:id="@+id/mainFragment"
+        android:name="com.hallen.rfilemanager.ui.view.fragments.MainFragment"
+        android:label="fragment_main"
+        tools:layout="@layout/fragment_main" />
+    <fragment
+        android:id="@+id/settingIconPackFragment"
+        android:name="com.hallen.rfilemanager.ui.view.fragments.SettingIconPackFragment"
+        android:label="fragment_setting_icon_pack"
+        tools:layout="@layout/fragment_setting_icon_pack" />
+</navigation>

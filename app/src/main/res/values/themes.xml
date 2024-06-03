@@ -2,7 +2,7 @@
     <!-- Base application theme. -->
     <style name="Theme.CrystalFiles" parent="Theme.MaterialComponents.DayNight.DarkActionBar">
         <!-- Primary brand color. -->
-        <item name="colorPrimary">@color/purple_500</item>
+        <item name="colorPrimary">@color/black</item>
         <item name="colorPrimaryVariant">@color/black</item>
         <item name="colorOnPrimary">@color/white</item>
         <!-- Secondary brand color. -->
@@ -19,6 +19,10 @@
         <item name="android:buttonStyle">@style/BlueButton</item>
     </style>
 
+    <style name="PopupMenu" parent="@android:style/Widget.PopupMenu">
+        <item name="android:popupBackground">#FD0000</item>
+    </style>
+
     <style name="DrawerArrowStyle" parent="Widget.AppCompat.DrawerArrowToggle">
         <item name="color">@color/white</item>
     </style>
@@ -26,6 +30,12 @@
     <style name="RoundCorner" parent="">
         <item name="cornerFamily">rounded</item>
         <item name="cornerSize">10dp</item>
+        <item name="color">@color/white</item>
+    </style>
+
+    <style name="circularCorner" parent="">
+        <item name="cornerFamily">rounded</item>
+        <item name="cornerSize">20dp</item>
         <item name="color">@color/white</item>
     </style>
 
@@ -42,18 +52,20 @@
         <item name="colorOnBackground">@color/white</item>
     </style>
 
-    <style name="botomNavItems" parent="Widget.MaterialComponents.BottomNavigationView.Colored"/>
+    <style name="botomNavItems" parent="Widget.MaterialComponents.BottomNavigationView.Colored" />
 
     <style name="BlueButton" parent="Widget.AppCompat.Button">
         <item name="android:background">@drawable/button_selector</item>
         <item name="android:textColor">@color/white</item>
     </style>
+
     <style name="Theme.CrystalFiles.NoActionBar">
         <item name="windowActionBar">false</item>
         <item name="windowNoTitle">true</item>
     </style>
 
     <style name="Theme.CrystalFiles.AppBarOverlay" parent="ThemeOverlay.AppCompat.Dark.ActionBar" />
+
     <style name="SplashTheme" parent="Theme.AppCompat.NoActionBar">
         <item name="android:windowBackground">@drawable/splash_background</item>
     </style>

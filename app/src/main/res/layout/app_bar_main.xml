@@ -3,130 +3,125 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_weight="1"
     android:id="@+id/app_bar_main2"
-    tools:context=".view.MainActivity">
+    tools:context=".ui.view.activities.MainActivity">
 
 
-            <RelativeLayout
-                android:layout_width="match_parent"
-                android:layout_height="54dp">
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="54dp"
+        android:background="@drawable/border_bottom">
 
-                <LinearLayout
-                    android:id="@+id/normal_app_bar_main"
-                    android:background="@drawable/ic_main_top_bar"
-                    android:layout_width="match_parent"
-                    android:layout_height="match_parent"
-                    android:orientation="horizontal">
+        <com.github.mmin18.widget.RealtimeBlurView
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            app:realtimeBlurRadius="15dp"
+            app:realtimeOverlayColor="@color/transparente" />
 
-                    <ImageView
-                        android:id="@+id/hamburger_icon"
-                        android:layout_marginStart="5dp"
-                        android:layout_width="40dp"
-                        android:layout_height="wrap_content"
-                        android:layout_gravity="center"
-                        android:src="@drawable/hemburger_icon"
-                        android:gravity="center"
-                        android:foreground="?attr/selectableItemBackgroundBorderless"/>
+        <LinearLayout
+            android:id="@+id/normal_app_bar_main"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:orientation="horizontal">
 
-                    <TextView
-                        android:id="@+id/back1"
-                        android:layout_width="0dp"
-                        android:layout_height="match_parent"
-                        android:layout_gravity="center"
-                        android:layout_weight="1"
-                        android:clickable="true"
-                        android:focusable="true"
-                        android:gravity="center"
-                        android:maxLines="1"
-                        android:textColor="@color/green"
-                        android:textSize="20sp"
-                        tools:text="3C11-8A99"
-                        android:foreground="?attr/selectableItemBackground"/>
+            <ImageView
+                android:id="@+id/hamburger_icon"
+                android:layout_marginStart="5dp"
+                android:layout_width="40dp"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:src="@drawable/hemburger_icon"
+                android:gravity="center"
+                android:contentDescription="@string/hamburger_icon" />
 
-                    <View
-                        android:layout_width="1dp"
-                        android:layout_height="36dp"
-                        android:layout_gravity="center"
-                        android:background="@color/antiquewhite0"/>
+            <TextView
+                android:id="@+id/back1"
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                android:layout_gravity="center"
+                android:layout_weight="1"
+                android:clickable="true"
+                android:focusable="true"
+                android:gravity="center"
+                android:maxLines="1"
+                android:textColor="@color/green"
+                android:textSize="20sp"
+                tools:text="3C11-8A99"
+                android:background="@drawable/main_back_ripple" />
 
-                    <TextView
-                        android:id="@+id/back2"
-                        android:layout_weight="1"
-                        android:layout_width="0dp"
-                        android:layout_height="wrap_content"
-                        android:gravity="center"
-                        android:layout_gravity="center"
-                        android:maxLines="1"
-                        android:textColor="@color/green"
-                        android:textSize="20sp"
-                        tools:text="@string/zapya"/>
+            <View
+                android:layout_width="1dp"
+                android:layout_height="36dp"
+                android:layout_gravity="center"
+                android:background="@color/antiquewhite0" />
 
-                    <ImageView
-                        android:layout_marginEnd="5dp"
-                        android:layout_width="40dp"
-                        android:layout_height="wrap_content"
-                        android:layout_gravity="center"
-                        android:src="@drawable/settings_icon"
-                        android:gravity="center"
-                        android:id="@+id/settings_icon"
-                        android:contentDescription="@string/settings" />
+            <TextView
+                android:id="@+id/back2"
+                android:layout_weight="1"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:gravity="center"
+                android:layout_gravity="center"
+                android:maxLines="1"
+                android:textColor="@color/green"
+                android:textSize="20sp"
+                tools:text="@string/zapya" />
 
-                </LinearLayout>
+            <ImageView
+                android:layout_marginEnd="5dp"
+                android:layout_width="40dp"
+                android:layout_height="40dp"
+                android:layout_gravity="center"
+                android:src="@drawable/settings_icon"
+                android:gravity="center"
+                android:id="@+id/settings_icon"
+                android:contentDescription="@string/settings" />
 
-                <LinearLayout
-                    android:id="@+id/search_l"
-                    android:visibility="gone"
-                    android:orientation="horizontal"
-                    android:layout_width="match_parent"
-                    android:layout_height="match_parent"
-                    android:background="@drawable/ic_main_top_bar">
-                    <ImageView
-                        android:layout_weight="1"
-                        android:id="@+id/cancel_search"
-                        android:layout_width="0dp"
-                        android:layout_height="match_parent"
-                        android:layout_gravity="center"
-                        android:padding="10dp"
-                        android:src="@drawable/cancelar"/>
+        </LinearLayout>
 
-                    <EditText
-                        android:hint="@string/buscar"
-                        android:focusable="true"
-                        android:focusableInTouchMode="true"
-                        android:textColorHint="@color/gray"
-                        android:imeOptions="actionSearch"
-                        android:layout_weight="4"
-                        android:id="@+id/buscar_search"
-                        android:layout_width="0dp"
-                        android:textColor="@color/white"
-                        android:layout_height="match_parent"
-                        android:layout_margin="5dp"
-                        android:drawableEnd="@drawable/buscar_little_gray"
-                        android:background="@drawable/et_background_selector"
-                        android:inputType="text"
-                        android:maxLines="1"
-                        android:importantForAutofill="no" />
+        <LinearLayout
+            android:id="@+id/search_l"
+            android:visibility="gone"
+            tools:visibility="visible"
+            android:orientation="horizontal"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent">
 
-                    <ImageView
-                        android:visibility="visible"
-                        android:layout_weight="1"
-                        android:id="@+id/search_icon"
-                        android:layout_width="0dp"
-                        android:layout_height="54dp"
-                        android:padding="10dp"
-                        android:src="@drawable/edit_buscar"/>
+            <ImageView
+                android:layout_weight="1"
+                android:id="@+id/cancel_search"
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                android:layout_gravity="center"
+                android:padding="10dp"
+                android:src="@drawable/cancelar"
+                android:contentDescription="@string/back" />
 
-                </LinearLayout>
+            <EditText
+                android:hint="@string/buscar"
+                android:focusable="true"
+                android:focusableInTouchMode="true"
+                android:textColorHint="@color/gray"
+                android:imeOptions="actionSearch"
+                android:layout_weight="4"
+                android:id="@+id/buscar_search"
+                android:layout_width="0dp"
+                android:textColor="@color/white"
+                android:layout_height="match_parent"
+                android:layout_marginVertical="5dp"
+                android:layout_marginEnd="20dp"
+                android:drawableEnd="@drawable/buscar_little_gray"
+                android:background="@drawable/et_background_selector"
+                android:inputType="text"
+                android:maxLines="1"
+                android:importantForAutofill="no" />
 
-
-            </RelativeLayout>
+        </LinearLayout>
 
 
-
-
-
-
+    </RelativeLayout>
 
 
 </androidx.coordinatorlayout.widget.CoordinatorLayout>

@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="utf-8"?>
+<ripple android:color="@color/rippleBtnColor"
+    xmlns:android="http://schemas.android.com/apk/res/android" >
+    <item>
+        <shape>
+            <corners android:radius="5dp"/>
+            <solid android:color="@color/almostBlackGlass"/>
+            <padding
+                android:bottom="2dp"
+                android:left="2dp"
+                android:right="12dp"
+                android:top="2dp"/>
+
+        </shape>
+    </item>
+
+    <item android:right="10dp">
+        <bitmap
+            android:gravity="right|end"
+            android:src="@drawable/drop_down" />
+    </item>
+</ripple>

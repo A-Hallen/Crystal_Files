@@ -14,11 +14,16 @@
     <color name="antiquewhite2">#4FFAEBD7</color>
     <color name="gray">#616060</color>
     <color name="dark_gray">#050505</color>
+    <color name="darkGray">#151515</color>
+    <color name="soft_gray">#979797</color>
+    <color name="glassDark">#7E0C0C0C</color>
+    <color name="soft_glass_white">#0DFFFFFF</color>
     <color name="brown">#570000</color>
     <color name="redBlood">#FF0000</color>
     <color name="transparente">#00FFFFFF</color>
     <color name="glass">#703C3C3C</color>
     <color name="darkGlass">#A9000000</color>
+    <color name="lowDarkGlass">#17000000</color>
     <color name="mediumDarkGlass">#2D000000</color>
     <color name="almostBlackGlass">#57000000</color>
     <color name="almostBlack">#8B000000</color>

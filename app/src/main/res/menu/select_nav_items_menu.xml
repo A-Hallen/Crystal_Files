@@ -1,29 +1,32 @@
 <?xml version="1.0" encoding="utf-8"?>
 <menu xmlns:android="http://schemas.android.com/apk/res/android">
+<!--        android:onClick="showPasteBar"-->
     <item
         android:id="@+id/select_action_copy"
         android:title="@string/copiar"
-        android:onClick="showPasteBar"
-        android:icon="?attr/actionModeCopyDrawable"/>
+        android:onClick="copy"
+        android:icon="@drawable/ic_menu_copy"/>
+
     <item
         android:id="@+id/select_action_cut"
         android:title="@string/cortar"
-        android:onClick="showPasteBarCut"
-        android:icon="?attr/actionModeCutDrawable"/>
+        android:onClick="cut"
+        android:icon="@drawable/ic_menu_cut"/>
+
     <item
         android:id="@+id/select_action_eliminar"
+        android:onClick="delete"
         android:title="@string/eliminar"
-        android:onClick="selectEliminar"
-        android:icon="@android:drawable/ic_menu_delete"/>
+        android:icon="@drawable/ic_menu_delete"/>
 
     <item
         android:id="@+id/select_action_rename"
+        android:onClick="rename"
         android:title="@string/rename"
-        android:onClick="selectRename"
-        android:icon="@android:drawable/ic_menu_edit"/>
+        android:icon="@drawable/ic_menu_rename"/>
 
     <item android:id="@+id/mas_item"
-        android:onClick="popupMenus"
-        android:icon="@drawable/settings"
+        android:onClick="more"
+        android:icon="@drawable/ic_menu_more"
         android:title="@string/mas"/>
 </menu>

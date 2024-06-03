@@ -1,7 +1,9 @@
 <?xml version="1.0" encoding="utf-8"?>
 <androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    android:layout_width="wrap_content"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    tools:layout_width="100dp"
     android:layout_height="wrap_content"
     android:clickable="true"
     android:focusable="true"
@@ -12,7 +14,7 @@
     android:foreground="?attr/selectableItemBackgroundBorderless">
 
     <LinearLayout
-        android:layout_margin="15dp"
+        android:layout_margin="5dp"
         android:id="@+id/linearLayout2"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
@@ -35,8 +37,26 @@
             android:duplicateParentState="true">
 
             <com.google.android.material.imageview.ShapeableImageView
-                android:layout_margin="5dp"
                 android:id="@+id/title_image_grid"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_centerInParent="true"
+                android:layout_gravity="end|center_vertical"
+                android:layout_marginStart="5dp"
+                android:layout_marginTop="5dp"
+                android:layout_marginEnd="5dp"
+                android:layout_marginBottom="5dp"
+                android:adjustViewBounds="true"
+                android:clickable="false"
+                android:duplicateParentState="true"
+                android:scaleType="centerCrop"
+                app:shapeAppearanceOverlay="@style/RoundCorner"
+                tools:src="@drawable/folder" />
+
+            <com.google.android.material.imageview.ShapeableImageView
+                android:visibility="gone"
+                android:layout_margin="5dp"
+                android:id="@+id/title_image_grid2"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 android:layout_gravity="end|center_vertical"
@@ -45,17 +65,16 @@
                 android:duplicateParentState="true"
                 android:scaleType="centerCrop"
                 android:layout_centerInParent="true"
-                android:src="@drawable/folder"
+                tools:src="@drawable/folder1"
                 app:shapeAppearanceOverlay="@style/RoundCorner" />
-            <ImageView
-                android:visibility="gone"
-                android:id="@+id/supperposition_image"
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:background="@drawable/icon_video"/>
+
+            <!--            <ImageView
+                            android:visibility="gone"
+                            android:id="@+id/supperposition_image"
+                            android:layout_width="match_parent"
+                            android:layout_height="match_parent"
+                            android:background="@drawable/icon_video" />-->
         </RelativeLayout>
-
-
 
 
         <TextView
@@ -76,7 +95,6 @@
             android:textStyle="normal" />
     </LinearLayout>
 
-
     <LinearLayout
         android:id="@+id/llContainer_grid"
         android:layout_width="0dp"
@@ -86,10 +104,11 @@
         android:focusable="true"
         android:foreground="?attr/selectableItemBackgroundBorderless"
         android:visibility="gone"
-        app:layout_constraintBottom_toBottomOf="@+id/linearLayout2"
+        tools:visibility="visible"
+        app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="@+id/linearLayout2">
+        app:layout_constraintTop_toTopOf="parent">
 
         <CheckBox
             android:id="@+id/cbSelect_grid"

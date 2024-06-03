@@ -9,12 +9,13 @@
 
         <item
             android:id="@+id/galery_action_share"
+            android:onClick="share"
             android:title="@string/compartir"
             android:icon="@android:drawable/ic_menu_share"/>
 
         <item
-            android:onClick="cancel"
-            android:id="@+id/galery_action_cancel"
-            android:title="@string/cancelar"
-            android:icon="@drawable/cancelar"/>
+            android:id="@+id/galery_action_propiedades"
+            android:onClick="propiedades"
+            android:title="@string/propiedades"
+            android:icon="@drawable/details"/>
 </menu>

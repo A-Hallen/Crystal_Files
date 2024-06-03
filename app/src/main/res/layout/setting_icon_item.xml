@@ -1,0 +1,59 @@
+<?xml version="1.0" encoding="utf-8"?>
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:orientation="vertical"
+    android:gravity="center"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    xmlns:tools="http://schemas.android.com/tools">
+
+    <LinearLayout
+        android:orientation="vertical"
+        android:background="@drawable/bg_dialog_view"
+        android:layout_marginHorizontal="4dp"
+        android:layout_marginVertical="2dp"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+
+        <LinearLayout
+            android:orientation="horizontal"
+            android:padding="5dp"
+            android:gravity="center"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+
+            <TextView
+                android:id="@+id/name"
+                android:layout_weight="1"
+                android:gravity="center_vertical"
+                android:paddingHorizontal="10dp"
+                tools:text="@string/app_name"
+                android:layout_width="0dp"
+                android:layout_height="match_parent" />
+
+            <ImageView
+                android:id="@+id/delete"
+                android:src="@drawable/ic_menu_delete"
+                android:background="@drawable/custom_ripple_2"
+                android:layout_width="40dp"
+                android:padding="10dp"
+                android:layout_height="40dp" />
+
+            <CheckBox
+                android:id="@+id/checkBox"
+                android:layout_width="40dp"
+                android:layout_height="40dp"
+                app:layout_constraintEnd_toEndOf="parent" />
+
+        </LinearLayout>
+
+        <androidx.recyclerview.widget.RecyclerView
+            tools:layout_height="50dp"
+            android:layout_margin="10dp"
+            android:id="@+id/icon_list_view_item"
+            tools:listitem="@layout/icon_pack_item"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content" />
+    </LinearLayout>
+
+</FrameLayout>
