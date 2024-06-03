@@ -189,6 +189,7 @@ class MainActivity : AppCompatActivity(), FileControl {
         }
 
         override fun usbDeviceDetached() {
+            Logger.i("USB DETACHED")
             Toast.makeText(this@MainActivity, "usb Detached", Toast.LENGTH_SHORT).show()
             storages.updateStorages()
         }
