@@ -192,7 +192,6 @@ class MainActivity : AppCompatActivity(), FileControl {
             Toast.makeText(this@MainActivity, "usb Detached", Toast.LENGTH_SHORT).show()
             storages.updateStorages()
         }
-
     }
 
     private fun setupStateViews(state: List<State>) {
