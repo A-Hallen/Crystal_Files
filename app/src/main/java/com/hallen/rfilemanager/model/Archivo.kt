@@ -2,7 +2,7 @@ package com.hallen.rfilemanager.model
 
 import java.io.File
 
-class Archivo : File {
+open class Archivo : File {
     constructor(file: File) : super(file.path)
     constructor(path: String) : super(path)
 
