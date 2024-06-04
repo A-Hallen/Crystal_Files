@@ -4,7 +4,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    tools:context=".ui.view.fragments.MainFragment">
+    tools:context=".ui.view.fragments.MediaFragment">
 
     <com.github.mmin18.widget.RealtimeBlurView
         android:id="@+id/realtimeBlurView"
@@ -15,9 +15,14 @@
         app:realtimeBlurRadius="10dp"
         app:realtimeOverlayColor="@color/transparente" />
 
-    <include
-        layout="@layout/recicler_view"
-        android:id="@+id/recicler_view_layout"
+    <com.hallen.rfilemanager.ui.view.custom.PinchRecyclerView
+        android:id="@+id/mediaRecyclerView"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content" />
+        android:layout_height="match_parent"
+        android:layout_marginTop="54dp"
+        android:gravity="center"
+        android:layout_gravity="center_horizontal"
+        android:numColumns="auto_fit"
+        tools:listitem="@layout/list_item_grid"
+        tools:itemCount="100" />
 </FrameLayout>

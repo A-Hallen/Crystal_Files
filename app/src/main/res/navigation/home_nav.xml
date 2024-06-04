@@ -20,4 +20,10 @@
         android:name="com.hallen.rfilemanager.ui.view.fragments.SettingIconPackFragment"
         android:label="fragment_setting_icon_pack"
         tools:layout="@layout/fragment_setting_icon_pack" />
+
+    <fragment
+        android:id="@+id/mediaFragment"
+        android:name="com.hallen.rfilemanager.ui.view.fragments.MediaFragment"
+        android:label="fragment_media"
+        tools:layout="@layout/fragment_media" />
 </navigation>

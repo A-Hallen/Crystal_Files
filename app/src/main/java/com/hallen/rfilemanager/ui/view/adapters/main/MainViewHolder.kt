@@ -23,12 +23,12 @@ class MainViewHolder(itemView: View) :
     private val layoutBackground: ConstraintLayout =
         itemView.findViewById(R.id.layout_recicler_grid)
 
-    private var listeners: MainAdapter.Listeners? = null
+    private var listeners: AdapterListener? = null
     private var itemsSize: Float? = null
     private var imageController: ImageController? = null
     private var colorTheme: ThemeColor? = null
 
-    fun setListener(listeners: MainAdapter.Listeners?): MainViewHolder {
+    fun setListener(listeners: AdapterListener?): MainViewHolder {
         this.listeners = listeners
         return this
     }

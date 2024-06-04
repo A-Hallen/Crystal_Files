@@ -57,15 +57,9 @@ class MainAdapter @Inject constructor(private var imageController: ImageControll
         }
     }
 
-    private var listeners: Listeners? = null
+    private var listeners: AdapterListener? = null
 
-    interface Listeners {
-        fun onClick(adapterPosition: Int)
-        fun onLongClick(adapterPosition: Int): Boolean
-        fun onCheck(adapterPosition: Int)
-    }
-
-    fun setListeners(listeners: Listeners) {
+    fun setListeners(listeners: AdapterListener) {
         this.listeners = listeners
     }
 

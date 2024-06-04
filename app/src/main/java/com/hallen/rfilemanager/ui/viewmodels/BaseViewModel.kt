@@ -24,6 +24,10 @@ enum class State {
     SELECTION, COPING, NORMAL, SEARCHING
 }
 
+enum class Mode {
+    MEDIA_IMAGE, MEDIA_MUSIC, MEDIA_VIDEO, MEDIA_BOOKS, MEDIA_APPS, FILES
+}
+
 @HiltViewModel
 class BaseViewModel @Inject constructor(
     private val fileLister: FileLister,
@@ -31,7 +35,7 @@ class BaseViewModel @Inject constructor(
     private val search: Search,
     private val copyUseCase: Copy,
     private val renameUseCase: RenameUseCase,
-    private val iconsManager: IconsManager,
+    iconsManager: IconsManager,
 ) : ViewModel() {
     val iconPack = MutableLiveData(iconsManager.getUsedIconPack())
     val update = MutableLiveData<UpdateModel>()
@@ -45,9 +49,10 @@ class BaseViewModel @Inject constructor(
     val scale = MutableLiveData<Int>()
     val backgroundImage = MutableLiveData(File(prefs.getBgLocation()))
     val favLocations = MutableLiveData(prefs.getFavLocation())
-    val backgroundBlurRatio = MutableLiveData<Float>(prefs.getBlurBgRatio())
-    val clipboard = MutableLiveData<Clipboard>()
+    val backgroundBlurRatio = MutableLiveData(prefs.getBlurBgRatio())
+    private var clipboard = Clipboard()
     val state = MutableLiveData(listOf(State.NORMAL))
+    val mode = MutableLiveData(Mode.FILES)
 
     fun zoomIn(size: Float) {
         val newValue = itemsSize.value?.plus(size) ?: size
@@ -224,33 +229,33 @@ class BaseViewModel @Inject constructor(
 
     fun paste() {
         state.value = listOf(State.NORMAL)
-        val clipB = clipboard.value ?: return
+        val clipB = clipboard
         clipB.destiny = actualPath.value ?: return
         copyUseCase(clipB)
-        clipboard.value = Clipboard()
+        clipboard = Clipboard()
     }
 
     fun move(source: List<String>) {
         state.value = listOf(State.COPING)
-        val value = clipboard.value ?: Clipboard()
+        val value = clipboard
         value.source = source
         value.action = Clipboard.Action.MOVE
-        clipboard.value = value
+        clipboard = value
     }
 
     fun copy(source: List<String>) {
         state.value = listOf(State.COPING)
-        val value = clipboard.value ?: Clipboard()
+        val value = clipboard
         value.source = source
         value.action = Clipboard.Action.COPY
-        clipboard.value = value
+        clipboard = value
     }
 
     fun clearClipboard() {
         state.value = listOf(State.NORMAL)
-        val value = clipboard.value ?: Clipboard()
+        val value = clipboard
         value.clear()
-        clipboard.value = value
+        clipboard = value
     }
 
     fun renameFile(file: Archivo, newName: String): RenameUseCase.RenameResult {

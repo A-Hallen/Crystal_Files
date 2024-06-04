@@ -18,6 +18,7 @@ import com.hallen.rfilemanager.infraestructure.Storages
 import com.hallen.rfilemanager.infraestructure.persistance.Prefs
 import com.hallen.rfilemanager.model.LayoutManagerType
 import com.hallen.rfilemanager.model.UpdateModel
+import com.hallen.rfilemanager.ui.view.adapters.main.AdapterListener
 import com.hallen.rfilemanager.ui.view.adapters.main.MainAdapter
 import com.hallen.rfilemanager.ui.viewmodels.BaseViewModel
 import com.hallen.rfilemanager.ui.viewmodels.State
@@ -27,7 +28,7 @@ import java.io.File
 import javax.inject.Inject
 
 @AndroidEntryPoint
-class MainFragment : Fragment(), MainAdapter.Listeners {
+class MainFragment : Fragment(), AdapterListener {
     private lateinit var binding: FragmentMainBinding
     private val baseViewModel: BaseViewModel by activityViewModels()
 
