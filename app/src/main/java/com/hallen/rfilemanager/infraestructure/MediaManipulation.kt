@@ -8,6 +8,7 @@ import android.net.Uri
 import android.provider.MediaStore
 import android.webkit.MimeTypeMap
 import com.hallen.rfilemanager.infraestructure.utils.GetMimeFile
+import com.hallen.rfilemanager.model.Archivo
 import dagger.hilt.android.qualifiers.ApplicationContext
 import java.io.File
 import javax.inject.Inject
@@ -53,13 +54,12 @@ class MediaManipulation @Inject constructor(@ApplicationContext var context: Con
         return images
     }
 
-    fun getAllAudioFromDevice(): ArrayList<ImageFolder> {
+    fun getAllAudioFromDevice(): ArrayList<MediaFile> {
         val uri: Uri = MediaStore.Audio.Media.EXTERNAL_CONTENT_URI
+        val files = ArrayList<MediaFile>()
         val cursor: Cursor = contentResolver.query(uri, null, null, null, null)!!
         if (cursor.moveToFirst()) {
             do {
-                val folds = ImageFolder()
-
                 val songNameColumn = cursor.getColumnIndex(MediaStore.Audio.Media.DISPLAY_NAME)
                 var songName = ""
                 if (songNameColumn >= 0) songName = cursor.getString(songNameColumn)
@@ -68,18 +68,20 @@ class MediaManipulation @Inject constructor(@ApplicationContext var context: Con
                 var fullPath = ""
                 if (fullPathColumn >= 0) fullPath = cursor.getString(fullPathColumn)
 
-                folds.folderName = songName
-                folds.path = fullPath
-                folds.firstPic = fullPath
-                picFolders.add(folds)
+                val file = File(fullPath)
+                val name = songName
+                val mediaFile = MediaFile(file, name)
+
+                files.add(mediaFile)
             } while (cursor.moveToNext())
             cursor.close()
         }
-        return picFolders
+        return files
     }
 
-    fun getPicturePaths(): ArrayList<ImageFolder> {
+    fun getPicturePaths(): ArrayList<MediaFile> {
         val picPaths: ArrayList<String> = ArrayList()
+        val picFolders: ArrayList<MediaFile> = ArrayList()
         val allImagesuri = MediaStore.Images.Media.EXTERNAL_CONTENT_URI
         val projection = arrayOf(
             MediaStore.Images.ImageColumns.DATA,
@@ -92,27 +94,25 @@ class MediaManipulation @Inject constructor(@ApplicationContext var context: Con
         try {
             cursor.moveToFirst()
             do {
-                val folds = ImageFolder()
                 cursor.getString(cursor.getColumnIndexOrThrow(MediaStore.Images.Media.DISPLAY_NAME))
                 val folder =
                     cursor.getString(cursor.getColumnIndexOrThrow(MediaStore.Images.Media.BUCKET_DISPLAY_NAME))
                 val datapath =
                     cursor.getString(cursor.getColumnIndexOrThrow(MediaStore.Images.Media.DATA))
-                //Stringval folderpaths = datapath.replace(name,"");
                 var folderpaths = datapath.substring(0, datapath.lastIndexOf("$folder/"))
                 folderpaths = "$folderpaths$folder/"
                 if (!picPaths.contains(folderpaths)) {
                     picPaths.add(folderpaths)
-                    folds.path = folderpaths
-                    folds.folderName = folder
-                    folds.firstPic = datapath
                     //if the folder has only one picture this line helps to set it as first so as to avoid blank image in itemview
-                    folds.addPics()
-                    picFolders.add(folds)
+                    val file = File(folderpaths)
+                    val mediaFile =
+                        MediaFile(file = file, displayName = folder, thumbnail = datapath)
+                    mediaFile.addPics()
+                    picFolders.add(mediaFile)
                 } else {
                     for (i in 0 until picFolders.size) {
                         if (picFolders[i].path.equals(folderpaths)) {
-                            picFolders[i].firstPic = datapath
+                            picFolders[i].thumbnail = datapath
                             picFolders[i].addPics()
                         }
                     }
@@ -125,32 +125,39 @@ class MediaManipulation @Inject constructor(@ApplicationContext var context: Con
         return picFolders
     }
 
-    fun getVideo(): ArrayList<ImageFolder> {
+    class MediaFile(
+        file: File,
+        val displayName: String = file.nameWithoutExtension,
+        var thumbnail: String = file.absolutePath,
+        var count: Int = 0,
+    ) : Archivo(file) {
+        fun addPics() {
+            count++
+        }
+    }
+
+    fun getVideo(): ArrayList<MediaFile> {
         val uri: Uri = MediaStore.Video.Media.EXTERNAL_CONTENT_URI
+        val files = ArrayList<MediaFile>()
         val cursor: Cursor = contentResolver.query(uri, null, null, null, null)!!
         if (cursor.moveToFirst()) {
             do {
-                val folds = ImageFolder()
-
-                val titleColumn = cursor.getColumnIndex(MediaStore.Video.Media.TITLE)
-                var title = ""
-                if (titleColumn >= 0) title = cursor.getString(titleColumn)
-
                 val dataColumn = cursor.getColumnIndex(MediaStore.Video.Media.DATA)
                 var data = ""
                 if (dataColumn >= 0) data = cursor.getString(dataColumn)
 
-                folds.path = data
-                folds.folderName = title
-                picFolders.add(folds)
+                val file = File(data)
+                val mediaFile = MediaFile(file)
+                files.add(mediaFile)
             } while (cursor.moveToNext())
         }
         cursor.close()
-        return picFolders
+        return files
     }
 
-    fun getBooks(): ArrayList<ImageFolder> {
+    fun getBooks(): ArrayList<MediaFile> {
         val mimeTypes = mutableListOf<String>()
+        val files = ArrayList<MediaFile>()
         val extenstions = mutableListOf("pdf", "doc", "odt", "epub", "docx", "dotx")
         extenstions.forEach { mimeType ->
             MimeTypeMap
@@ -177,7 +184,7 @@ class MediaManipulation @Inject constructor(@ApplicationContext var context: Con
                 val folds = ImageFolder()
                 val titleColumn = cursor.getColumnIndex(MediaStore.Files.FileColumns.DISPLAY_NAME)
                 var title = ""
-                if (titleColumn >= 0) title = cursor.getString(titleColumn) ?: return picFolders
+                if (titleColumn >= 0) title = cursor.getString(titleColumn) ?: return files
 
                 val pathsColumn = cursor.getColumnIndex(MediaStore.Files.FileColumns.DATA)
                 var paths = ""
@@ -185,15 +192,18 @@ class MediaManipulation @Inject constructor(@ApplicationContext var context: Con
 
                 folds.folderName = title
                 folds.path = paths
-                picFolders.add(folds)
+                val file = File(paths)
+                val mediaFile = MediaFile(file)
+                files.add(mediaFile)
             } while (cursor.moveToNext())
-            return picFolders
+            return files
         }
         cursor.close()
-        return picFolders
+        return files
     }
 
-    fun getApps(): ArrayList<ImageFolder> {
+    fun getApps(): ArrayList<MediaFile> {
+        val files = ArrayList<MediaFile>()
         val whereClause =
             MediaStore.Files.FileColumns.MIME_TYPE + " IN ('" + "application/vnd.android.package-archive" + "')"
         val uri: Uri = MediaStore.Files.getContentUri("external")
@@ -207,24 +217,22 @@ class MediaManipulation @Inject constructor(@ApplicationContext var context: Con
         val cursor: Cursor = contentResolver.query(uri, projection, whereClause, null, null)!!
         if (cursor.moveToFirst()) {
             do {
-                val folds = ImageFolder()
-
                 val titleColumn = cursor.getColumnIndex(MediaStore.Files.FileColumns.DISPLAY_NAME)
                 var title = ""
-                if (titleColumn >= 0) title = cursor.getString(titleColumn) ?: return picFolders
+                if (titleColumn >= 0) title = cursor.getString(titleColumn) ?: return files
 
                 val pathsColumn = cursor.getColumnIndex(MediaStore.Files.FileColumns.DATA)
                 var paths = ""
                 if (pathsColumn >= 0) paths = cursor.getString(pathsColumn)
 
-                folds.folderName = title
-                folds.path = paths
-                picFolders.add(folds)
+                val file = File(paths)
+                val mediaFile = MediaFile(file, title)
+                files.add(mediaFile)
             } while (cursor.moveToNext())
-            return picFolders
+            return files
         }
         cursor.close()
-        return picFolders
+        return files
     }
 
 }

@@ -4,7 +4,6 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.Toast
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.activityViewModels
 import androidx.fragment.app.viewModels
@@ -17,7 +16,6 @@ import com.hallen.rfilemanager.ui.view.adapters.media.MediaAdapter
 import com.hallen.rfilemanager.ui.viewmodels.BaseViewModel
 import com.hallen.rfilemanager.ui.viewmodels.MediaViewModel
 import com.hallen.rfilemanager.ui.viewmodels.State
-import com.orhanobut.logger.Logger
 import dagger.hilt.android.AndroidEntryPoint
 import javax.inject.Inject
 
@@ -57,8 +55,6 @@ class MediaFragment : Fragment(), AdapterListener {
 
     private fun configureObservers() {
         baseViewModel.mode.observe(viewLifecycleOwner) { model ->
-            Logger.i("Observing mode changes from fragmet")
-            Toast.makeText(requireContext(), "changes: ${model.name}", Toast.LENGTH_SHORT).show()
             model ?: return@observe
             mediaViewModel.loadFiles(model)
         }

@@ -31,7 +31,6 @@ import androidx.core.view.isVisible
 import androidx.core.widget.addTextChangedListener
 import androidx.drawerlayout.widget.DrawerLayout
 import androidx.navigation.NavController
-import androidx.navigation.findNavController
 import androidx.navigation.fragment.NavHostFragment
 import androidx.navigation.fragment.findNavController
 import com.bumptech.glide.Glide
@@ -338,6 +337,9 @@ class MainActivity : AppCompatActivity(), FileControl {
             } ?: return@setOnGroupClickListener false
 
             baseViewModel.listFiles(file)
+            if (navController.currentDestination?.id != R.id.mainFragment) {
+                navController.navigate(R.id.mainFragment)
+            }
             true
         }
 
@@ -345,8 +347,10 @@ class MainActivity : AppCompatActivity(), FileControl {
             when (val child = expandableListAdapter.getChild(groupPosition, childPosition)) {
                 DrawerData.HIDDEN_FILES -> {
                     baseViewModel.toggleHiddenFiles()
-                    view.findViewById<SwitchCompat>(R.id.switch_child).isChecked = baseViewModel.showHiddenFiles.value ?: false
+                    view.findViewById<SwitchCompat>(R.id.switch_child).isChecked =
+                        baseViewModel.showHiddenFiles.value ?: false
                 }
+
                 DrawerData.FAVORITES -> setNewFavWindow()
                 DrawerData.MOVIES,
                 DrawerData.IMAGENES,
@@ -363,6 +367,7 @@ class MainActivity : AppCompatActivity(), FileControl {
                     }
                     navController.navigate(R.id.mediaFragment)
                 }
+
                 else -> {
                     val file = File(child)
                     baseViewModel.listFiles(file)

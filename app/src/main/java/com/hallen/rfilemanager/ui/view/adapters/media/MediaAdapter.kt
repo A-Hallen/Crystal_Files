@@ -5,41 +5,19 @@ import android.view.ViewGroup
 import androidx.core.view.isVisible
 import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.RecyclerView
-import com.bumptech.glide.Glide
 import com.hallen.rfilemanager.databinding.ItemMediaBinding
-import com.hallen.rfilemanager.infraestructure.ImageFolder
+import com.hallen.rfilemanager.infraestructure.MediaManipulation
 import com.hallen.rfilemanager.infraestructure.utils.ImageController
 import com.hallen.rfilemanager.ui.view.adapters.main.AdapterListener
+import com.hallen.rfilemanager.ui.view.adapters.main.MainDiff
+import java.io.File
 import javax.inject.Inject
-
-
-class MediaDiff(
-    private val oldList: List<ImageFolder>,
-    private val newList: List<ImageFolder>,
-) : DiffUtil.Callback() {
-
-    override fun getOldListSize(): Int = oldList.size
-    override fun getNewListSize(): Int = newList.size
-
-    override fun areItemsTheSame(oldPosition: Int, newPosition: Int): Boolean {
-        val oldItem = oldList[oldPosition]
-        val newItem = newList[newPosition]
-        return oldItem.path == newItem.path
-    }
-
-    override fun areContentsTheSame(oldItemPosition: Int, newItemPosition: Int): Boolean {
-        val oldFile = oldList[oldItemPosition]
-        val newFile = newList[newItemPosition]
-
-        return oldFile.drawable == newFile.drawable && oldFile.folderName == newFile.folderName
-    }
-}
 
 class MediaAdapter @Inject constructor(private var imageController: ImageController) :
     RecyclerView.Adapter<MediaViewHolder>() {
 
 
-    private var files: List<ImageFolder> = emptyList()
+    private var files: List<MediaManipulation.MediaFile> = emptyList()
     private var listeners: AdapterListener? = null
     fun setListeners(listeners: AdapterListener?) {
         this.listeners = listeners
@@ -56,8 +34,8 @@ class MediaAdapter @Inject constructor(private var imageController: ImageControl
     override fun onBindViewHolder(holder: MediaViewHolder, position: Int) =
         holder.bind(files[position])
 
-    fun update(newFiles: List<ImageFolder>) {
-        val diffUtil = MediaDiff(files, newFiles)
+    fun update(newFiles: List<MediaManipulation.MediaFile>) {
+        val diffUtil = MainDiff(files, newFiles)
         val calculateDiff = DiffUtil.calculateDiff(diffUtil)
         calculateDiff.dispatchUpdatesTo(this)
         files = newFiles
@@ -83,10 +61,11 @@ class MediaViewHolder(
         }
     }
 
-    fun bind(file: ImageFolder) {
-        binding.galeryText.text = file.folderName
+    fun bind(file: MediaManipulation.MediaFile) {
+        binding.galeryText.text = file.displayName
         binding.galeryCheck.isChecked = file.isChecked == true
         binding.galeryCheck.isVisible = file.isChecked != null
-        Glide.with(binding.root.context).load(file.drawable).into(binding.imageGalery)
+        val thumbnailFile = File(file.thumbnail)
+        imageController.setImage(binding.imageGalery, thumbnailFile)
     }
 }
