@@ -19,8 +19,11 @@ class MediaViewModel @Inject constructor(private val mediaManipulation: MediaMan
     ViewModel() {
 
     val files = MutableLiveData<List<MediaManipulation.MediaFile>>()
-    fun loadFiles(model: Mode) {
-        val imageFolders = when (model) {
+    private var isInsideFolder = false
+    private lateinit var mode: Mode
+    fun loadFiles(mode: Mode) {
+        this.mode = mode
+        val imageFolders = when (mode) {
             MEDIA_VIDEO -> mediaManipulation.getVideo()
             MEDIA_APPS -> mediaManipulation.getApps()
             MEDIA_BOOKS -> mediaManipulation.getBooks()
@@ -28,7 +31,7 @@ class MediaViewModel @Inject constructor(private val mediaManipulation: MediaMan
             MEDIA_IMAGE -> mediaManipulation.getPicturePaths()
             else -> null
         }
-
+        isInsideFolder = false
         files.value = imageFolders ?: emptyList()
     }
 
@@ -36,6 +39,13 @@ class MediaViewModel @Inject constructor(private val mediaManipulation: MediaMan
         CoroutineScope(Dispatchers.IO).launch {
             val picturesFromFolder = mediaManipulation.getPicturesFromFolder(mediaFile)
             files.postValue(picturesFromFolder)
+            isInsideFolder = true
         }
+    }
+
+    fun onBackPressed(): Boolean {
+        if (!isInsideFolder) return false
+        loadFiles(mode)
+        return true
     }
 }

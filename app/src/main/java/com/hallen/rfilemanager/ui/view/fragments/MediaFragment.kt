@@ -4,6 +4,7 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.activity.addCallback
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.activityViewModels
 import androidx.fragment.app.viewModels
@@ -41,6 +42,7 @@ class MediaFragment : Fragment(), AdapterListener {
         super.onViewCreated(view, savedInstanceState)
         configureObservers()
         configureRecyclerView()
+        onBackPressedHandler()
     }
 
     private fun configureRecyclerView() {
@@ -98,8 +100,13 @@ class MediaFragment : Fragment(), AdapterListener {
         baseViewModel.state.value = stateList
     }
 
-    fun onBackPressedHandler() {
-
+    private fun onBackPressedHandler() {
+        requireActivity().onBackPressedDispatcher.addCallback(viewLifecycleOwner) {
+            if (!mediaViewModel.onBackPressed()) {
+                isEnabled = false
+                requireActivity().onBackPressed()
+            }
+        }
     }
 
 }
