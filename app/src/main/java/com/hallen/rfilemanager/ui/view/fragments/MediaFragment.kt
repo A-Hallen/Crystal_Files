@@ -6,6 +6,7 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.Toast
 import androidx.fragment.app.Fragment
+import androidx.fragment.app.activityViewModels
 import androidx.fragment.app.viewModels
 import androidx.recyclerview.widget.GridLayoutManager
 import com.hallen.rfilemanager.databinding.FragmentMediaBinding
@@ -22,7 +23,7 @@ import javax.inject.Inject
 
 @AndroidEntryPoint
 class MediaFragment : Fragment(), AdapterListener {
-    private val baseViewModel: BaseViewModel by viewModels()
+    private val baseViewModel: BaseViewModel by activityViewModels()
     private val mediaViewModel: MediaViewModel by viewModels()
     private lateinit var binding: FragmentMediaBinding
 

@@ -8,10 +8,13 @@ import android.net.Uri
 import android.provider.MediaStore
 import android.webkit.MimeTypeMap
 import com.hallen.rfilemanager.infraestructure.utils.GetMimeFile
+import dagger.hilt.android.qualifiers.ApplicationContext
 import java.io.File
+import javax.inject.Inject
 
 
 class ImageFolder {
+    val isChecked: Boolean? = null
     var path: String? = null
     var folderName: String? = null
     private var numberOfPics: Int = 0
@@ -30,7 +33,7 @@ class ImageFolder {
     }
 }
 
-class MediaManipulation(context: Context) {
+class MediaManipulation @Inject constructor(@ApplicationContext var context: Context) {
     private val contentResolver: ContentResolver = context.contentResolver
     private val picFolders: ArrayList<ImageFolder> = ArrayList()
     private val getMimeFile = GetMimeFile(context)
