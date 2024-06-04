@@ -10,13 +10,13 @@ import com.hallen.rfilemanager.infraestructure.MediaManipulation
 import com.hallen.rfilemanager.infraestructure.utils.ImageController
 import com.hallen.rfilemanager.ui.view.adapters.main.AdapterListener
 import com.hallen.rfilemanager.ui.view.adapters.main.MainDiff
+import com.hallen.rfilemanager.ui.viewmodels.Mode
 import java.io.File
 import javax.inject.Inject
 
 class MediaAdapter @Inject constructor(private var imageController: ImageController) :
     RecyclerView.Adapter<MediaViewHolder>() {
-
-
+    private lateinit var type: Mode
     private var files: List<MediaManipulation.MediaFile> = emptyList()
     private var listeners: AdapterListener? = null
     fun setListeners(listeners: AdapterListener?) {
@@ -34,7 +34,12 @@ class MediaAdapter @Inject constructor(private var imageController: ImageControl
     override fun onBindViewHolder(holder: MediaViewHolder, position: Int) =
         holder.bind(files[position])
 
-    fun update(newFiles: List<MediaManipulation.MediaFile>) {
+    override fun getItemViewType(position: Int): Int {
+        return super.getItemViewType(position)
+    }
+
+    fun update(newFiles: List<MediaManipulation.MediaFile>, mode: Mode) {
+        type = mode
         val diffUtil = MainDiff(files, newFiles)
         val calculateDiff = DiffUtil.calculateDiff(diffUtil)
         calculateDiff.dispatchUpdatesTo(this)

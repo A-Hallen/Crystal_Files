@@ -11,6 +11,7 @@ import com.hallen.rfilemanager.infraestructure.utils.GetMimeFile
 import com.hallen.rfilemanager.model.Archivo
 import dagger.hilt.android.qualifiers.ApplicationContext
 import java.io.File
+import java.io.FileFilter
 import javax.inject.Inject
 
 
@@ -36,22 +37,18 @@ class ImageFolder {
 
 class MediaManipulation @Inject constructor(@ApplicationContext var context: Context) {
     private val contentResolver: ContentResolver = context.contentResolver
-    private val picFolders: ArrayList<ImageFolder> = ArrayList()
     private val getMimeFile = GetMimeFile(context)
 
 
-    fun getPicturesOnPath(path: File): ArrayList<ImageFolder> {
-        val images: ArrayList<ImageFolder> = ArrayList()
-        for (i in path.listFiles()!!) {
-            if (getMimeFile.getmime(i.extension).split("/")[0] == "image") {
-                val folds = ImageFolder()
-                folds.folderName = i.name
-                folds.path = i.absolutePath
-                folds.firstPic = i.absolutePath
-                images.add(folds)
-            }
+    fun getPicturesFromFolder(file: File): List<MediaFile> {
+        val filter = FileFilter {
+            val mime = getMimeFile.getmime(it.extension)
+            mime.split(File.separator).firstOrNull() == "image"
         }
-        return images
+        val imageFiles = file.listFiles(filter)?.map {
+            MediaFile(it)
+        }
+        return imageFiles ?: emptyList()
     }
 
     fun getAllAudioFromDevice(): ArrayList<MediaFile> {

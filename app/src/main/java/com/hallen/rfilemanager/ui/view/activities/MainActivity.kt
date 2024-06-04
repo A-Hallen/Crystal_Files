@@ -557,8 +557,11 @@ class MainActivity : AppCompatActivity(), FileControl {
 
     override fun onBackPressed() = backPressed()
     private fun backPressed() {
+        if (baseViewModel.mode.value != Mode.FILES) {
+
+        }
         if (navController.currentDestination?.id != R.id.mainFragment) {
-            navController.navigate(R.id.mainFragment)
+            super.onBackPressed()
             return
         }
         val stateList = baseViewModel.state.value

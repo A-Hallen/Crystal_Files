@@ -9,6 +9,9 @@ import com.hallen.rfilemanager.ui.viewmodels.Mode.MEDIA_IMAGE
 import com.hallen.rfilemanager.ui.viewmodels.Mode.MEDIA_MUSIC
 import com.hallen.rfilemanager.ui.viewmodels.Mode.MEDIA_VIDEO
 import dagger.hilt.android.lifecycle.HiltViewModel
+import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.launch
 import javax.inject.Inject
 
 @HiltViewModel
@@ -27,5 +30,12 @@ class MediaViewModel @Inject constructor(private val mediaManipulation: MediaMan
         }
 
         files.value = imageFolders ?: emptyList()
+    }
+
+    fun loadImages(mediaFile: MediaManipulation.MediaFile) {
+        CoroutineScope(Dispatchers.IO).launch {
+            val picturesFromFolder = mediaManipulation.getPicturesFromFolder(mediaFile)
+            files.postValue(picturesFromFolder)
+        }
     }
 }

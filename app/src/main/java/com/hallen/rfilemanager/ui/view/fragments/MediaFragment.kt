@@ -10,7 +10,6 @@ import androidx.fragment.app.viewModels
 import androidx.recyclerview.widget.GridLayoutManager
 import com.hallen.rfilemanager.databinding.FragmentMediaBinding
 import com.hallen.rfilemanager.infraestructure.FilePlayer
-import com.hallen.rfilemanager.model.UpdateModel
 import com.hallen.rfilemanager.ui.view.adapters.main.AdapterListener
 import com.hallen.rfilemanager.ui.view.adapters.media.MediaAdapter
 import com.hallen.rfilemanager.ui.viewmodels.BaseViewModel
@@ -59,34 +58,36 @@ class MediaFragment : Fragment(), AdapterListener {
             mediaViewModel.loadFiles(model)
         }
         mediaViewModel.files.observe(viewLifecycleOwner) {
-            adapter.update(mediaViewModel.files.value ?: return@observe)
+            val files = mediaViewModel.files.value ?: return@observe
+            val mode = baseViewModel.mode.value ?: return@observe
+            adapter.update(files, mode)
         }
     }
 
     override fun onClick(adapterPosition: Int) {
-        val updates = baseViewModel.update.value ?: return
-        if (updates.files.size < adapterPosition || adapterPosition < 0) return
-        val file = updates.files.getOrNull(adapterPosition) ?: return
-        if (file.isDirectory) {
-            baseViewModel.listFiles(updates.files[adapterPosition])
+        val mediaFile = mediaViewModel.files.value?.getOrNull(adapterPosition) ?: return
+        if (mediaFile.isDirectory) {
+            mediaViewModel.loadImages(mediaFile)
             return
         }
-        filePlayer.play(file)
+        filePlayer.play(mediaFile)
     }
 
     override fun onLongClick(adapterPosition: Int): Boolean {
-        if (baseViewModel.state.value?.contains(State.NORMAL) != true) return false
+        val newFiles = mediaViewModel.files.value ?: return false
+        newFiles.onEachIndexed { index, mediaFile ->
+            mediaFile.isChecked = index == adapterPosition
+        }
+        mediaViewModel.files.value = newFiles
         setCheckableMode()
-        onCheck(adapterPosition)
         return true
     }
 
     override fun onCheck(adapterPosition: Int) {
-        val updates = baseViewModel.update.value ?: return
-        val file = updates.files.getOrNull(adapterPosition) ?: return
-        updates.files[adapterPosition].isChecked = !(file.isChecked ?: false)
-        updates.reloadAll = false
-        baseViewModel.update.value = updates
+        val files = mediaViewModel.files.value ?: return
+        val arrayList = ArrayList(files)
+        arrayList[adapterPosition].isChecked = arrayList[adapterPosition].isChecked != true
+        mediaViewModel.files.value = arrayList
     }
 
     private fun setCheckableMode() {
@@ -95,10 +96,10 @@ class MediaFragment : Fragment(), AdapterListener {
         stateList.remove(State.COPING)
         stateList.add(State.SELECTION)
         baseViewModel.state.value = stateList
-        val updateModel = baseViewModel.update.value ?: return
-        val files = updateModel.files.onEach { it.isChecked = false }
-        baseViewModel.update.value = UpdateModel(files, true)
     }
 
+    fun onBackPressedHandler() {
+
+    }
 
 }
