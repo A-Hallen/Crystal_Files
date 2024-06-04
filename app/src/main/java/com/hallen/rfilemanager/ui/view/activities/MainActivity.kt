@@ -31,6 +31,7 @@ import androidx.core.view.isVisible
 import androidx.core.widget.addTextChangedListener
 import androidx.drawerlayout.widget.DrawerLayout
 import androidx.navigation.NavController
+import androidx.navigation.findNavController
 import androidx.navigation.fragment.NavHostFragment
 import androidx.navigation.fragment.findNavController
 import com.bumptech.glide.Glide
@@ -70,6 +71,7 @@ import com.hallen.rfilemanager.ui.view.leftpanel.DrawerData
 import com.hallen.rfilemanager.ui.view.leftpanel.ExpandableListData
 import com.hallen.rfilemanager.ui.view.leftpanel.NavListAdapter
 import com.hallen.rfilemanager.ui.viewmodels.BaseViewModel
+import com.hallen.rfilemanager.ui.viewmodels.Mode
 import com.hallen.rfilemanager.ui.viewmodels.State
 import com.orhanobut.logger.Logger
 import dagger.hilt.android.AndroidEntryPoint
@@ -343,11 +345,24 @@ class MainActivity : AppCompatActivity(), FileControl {
             when (val child = expandableListAdapter.getChild(groupPosition, childPosition)) {
                 DrawerData.HIDDEN_FILES -> {
                     baseViewModel.toggleHiddenFiles()
-                    view.findViewById<SwitchCompat>(R.id.switch_child).isChecked =
-                        baseViewModel.showHiddenFiles.value == true
+                    view.findViewById<SwitchCompat>(R.id.switch_child).isChecked = baseViewModel.showHiddenFiles.value ?: false
                 }
-
                 DrawerData.FAVORITES -> setNewFavWindow()
+                DrawerData.MOVIES,
+                DrawerData.IMAGENES,
+                DrawerData.MUSIC,
+                DrawerData.BOOKS,
+                DrawerData.APPS -> {
+                    baseViewModel.mode.value = when (child) {
+                        DrawerData.MOVIES -> Mode.MEDIA_VIDEO
+                        DrawerData.IMAGENES -> Mode.MEDIA_IMAGE
+                        DrawerData.MUSIC -> Mode.MEDIA_MUSIC
+                        DrawerData.BOOKS -> Mode.MEDIA_BOOKS
+                        DrawerData.APPS -> Mode.MEDIA_APPS
+                        else -> throw IllegalStateException("Unhandled DrawerData type")
+                    }
+                    navController.navigate(R.id.mediaFragment)
+                }
                 else -> {
                     val file = File(child)
                     baseViewModel.listFiles(file)
