@@ -1,8 +1,10 @@
 package com.hallen.rfilemanager.ui.viewmodels
 
+import android.webkit.MimeTypeMap
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import com.hallen.rfilemanager.infraestructure.FileLister
+import com.hallen.rfilemanager.infraestructure.MediaManipulation
 import com.hallen.rfilemanager.infraestructure.fileactions.RenameUseCase
 import com.hallen.rfilemanager.infraestructure.fileactions.copy.Copy
 import com.hallen.rfilemanager.infraestructure.persistance.Prefs
@@ -12,12 +14,14 @@ import com.hallen.rfilemanager.model.Clipboard
 import com.hallen.rfilemanager.model.UpdateModel
 import com.hallen.rfilemanager.ui.utils.ColorManagement
 import com.hallen.rfilemanager.ui.utils.Search
+import com.hallen.rfilemanager.ui.viewmodels.Mode.FILES
 import com.orhanobut.logger.Logger
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 import java.io.File
+import java.io.FileFilter
 import javax.inject.Inject
 
 enum class State {
@@ -52,7 +56,7 @@ class BaseViewModel @Inject constructor(
     val backgroundBlurRatio = MutableLiveData(prefs.getBlurBgRatio())
     private var clipboard = Clipboard()
     val state = MutableLiveData(listOf(State.NORMAL))
-    val mode = MutableLiveData(Mode.FILES)
+    val mode = MutableLiveData(FILES)
 
     fun zoomIn(size: Float) {
         val newValue = itemsSize.value?.plus(size) ?: size
@@ -228,6 +232,7 @@ class BaseViewModel @Inject constructor(
     }
 
     fun paste() {
+        if (mode.value != FILES) return
         state.value = listOf(State.NORMAL)
         val clipB = clipboard
         clipB.destiny = actualPath.value ?: return
@@ -262,5 +267,44 @@ class BaseViewModel @Inject constructor(
         state.value = listOf(State.NORMAL)
         return renameUseCase(file, newName)
     }
+
+    fun getSelectedFiles(): List<Archivo>? {
+        if (mode.value != FILES) return getSelectedMediaFiles()
+        val allFiles = update.value?.files ?: return null
+        val files = allFiles.filter { it.isChecked == true }
+        return if (files.none()) null else files
+    }
+
+    private fun getSelectedMediaFiles(): List<Archivo> {
+        val selectedFiles: MutableSet<File> = mutableSetOf()
+        mediaSelectedFiles.forEach {
+            val file = File(it)
+            if (file.isDirectory) {
+                val files = getFilesFromMediaFolder(file)
+                files.forEach { childFile ->
+                    selectedFiles.add(childFile)
+                }
+            } else selectedFiles.add(file)
+        }
+        return selectedFiles.map { Archivo(it) }
+    }
+
+    private fun getFilesFromMediaFolder(folder: File): List<File> {
+        val filter = FileFilter {
+            val mime = MimeTypeMap.getSingleton().getMimeTypeFromExtension(it.extension)
+            mime?.split(File.separator)?.firstOrNull() == "image"
+        }
+        return folder.listFiles(filter)?.toList() ?: emptyList()
+    }
+
+    private val mediaSelectedFiles: MutableSet<String> = mutableSetOf()
+    fun setSelectedMediaFile(file: MediaManipulation.MediaFile) {
+        if (!mediaSelectedFiles.add(file.absolutePath)) {
+            mediaSelectedFiles.remove(file.absolutePath)
+        }
+    }
+
+    fun clearMediaSelection() = mediaSelectedFiles.clear()
+
 }
 

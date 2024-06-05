@@ -196,12 +196,15 @@ class MainActivity : AppCompatActivity(), FileControl {
     }
 
     private fun setupStateViews(state: List<State>) {
+        val mode = baseViewModel.mode.value ?: return
+
         when {
             state.contains(State.SELECTION) -> {
                 val navBar = binding.selectBottomNavLayout.selectNavBar
                 navBar.menu.clear()
                 navBar.inflateMenu(R.menu.select_nav_items_menu)
                 showAnimation(navBar)
+                if (mode != Mode.FILES) return
                 showAnimation(binding.selectAllTopBarLayout.selectAllTopBar)
                 binding.appBarMain.appBarMain2.isVisible = false
             }
@@ -219,8 +222,8 @@ class MainActivity : AppCompatActivity(), FileControl {
                 val navBar = binding.selectBottomNavLayout.selectNavBar
                 val searchLayout = binding.appBarMain.searchL
                 val selectAllTopBar = binding.selectAllTopBarLayout.selectAllTopBar
-                binding.appBarMain.normalAppBarMain.visibility = View.VISIBLE
-
+                if (mode == Mode.FILES)
+                    binding.appBarMain.normalAppBarMain.visibility = View.VISIBLE
                 if (searchLayout.isVisible) hideAnimation(searchLayout)
                 if (navBar.isVisible) hideAnimation(navBar)
                 if (selectAllTopBar.isVisible) {
@@ -338,6 +341,7 @@ class MainActivity : AppCompatActivity(), FileControl {
 
             baseViewModel.listFiles(file)
             if (navController.currentDestination?.id != R.id.mainFragment) {
+                baseViewModel.mode.value = Mode.FILES
                 navController.navigate(R.id.mainFragment)
             }
             true
@@ -365,6 +369,7 @@ class MainActivity : AppCompatActivity(), FileControl {
                         DrawerData.APPS -> Mode.MEDIA_APPS
                         else -> throw IllegalStateException("Unhandled DrawerData type")
                     }
+                    baseViewModel.state.value = listOf(State.NORMAL)
                     navController.navigate(R.id.mediaFragment)
                 }
 
@@ -544,10 +549,15 @@ class MainActivity : AppCompatActivity(), FileControl {
             if (baseViewModel.state.value?.contains(State.SELECTION) != true) return@observe
             val files = it.files
             val checkeds = files.filter { file -> file.isChecked == true }
-            val text = String.format(string, checkeds.size, files.size)
+            val text = String.format(string, checkeds.size.toString(), files.size.toString())
             binding.selectAllTopBarLayout.numberItems.text = text
             binding.selectAllTopBarLayout.cbSelectAll.isChecked = files.size == checkeds.size
         }
+
+        baseViewModel.mode.observe(this) {
+            binding.appBarMain.normalAppBarMain.isVisible = it == Mode.FILES
+        }
+
     }
 
     private fun changeBackTxt(pair: Pair<String, String>) {
@@ -557,9 +567,6 @@ class MainActivity : AppCompatActivity(), FileControl {
 
     override fun onBackPressed() = backPressed()
     private fun backPressed() {
-        if (baseViewModel.mode.value != Mode.FILES) {
-
-        }
         if (navController.currentDestination?.id != R.id.mainFragment) {
             super.onBackPressed()
             return
@@ -576,11 +583,7 @@ class MainActivity : AppCompatActivity(), FileControl {
         baseViewModel.listFiles(parent)
     }
 
-    private fun getSelectedFiles(): List<Archivo>? {
-        val allFiles = baseViewModel.update.value?.files ?: return null
-        val files = allFiles.filter { it.isChecked == true }
-        return if (files.none()) null else files
-    }
+    private fun getSelectedFiles(): List<Archivo>? = baseViewModel.getSelectedFiles()
 
     override fun delete(item: MenuItem) {
         val files = getSelectedFiles() ?: return
@@ -636,10 +639,8 @@ class MainActivity : AppCompatActivity(), FileControl {
     }
 
     override fun more(item: MenuItem) {
-        val selectNavBar = binding.selectBottomNavLayout.selectNavBar
-        val files = baseViewModel.update.value?.files ?: return
-        val checkedFiles = files.filter { it.isChecked == true }
-        val selectedFile = checkedFiles.firstOrNull { it.isChecked == true } ?: return
+        val checkedFiles = getSelectedFiles() ?: return
+        val selectedFile = checkedFiles.firstOrNull() ?: return
         val extension = selectedFile.extension.lowercase(Locale.getDefault())
         val actions = entries.mapNotNull {
             return@mapNotNull when (it) {
@@ -660,7 +661,7 @@ class MainActivity : AppCompatActivity(), FileControl {
                 }
             }
         }
-
+        val selectNavBar = binding.selectBottomNavLayout.selectNavBar
         PopupDialog(this, selectNavBar)
             .setListener(moreDialogListener)
             .setActions(actions)

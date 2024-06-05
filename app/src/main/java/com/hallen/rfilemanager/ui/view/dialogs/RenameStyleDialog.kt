@@ -45,16 +45,17 @@ class RenameDialog(context: Context) : ConstraintLayout(context), DialogBuilder 
     private var style: StyleDialog? = null
     private var dialogListener: DialogListener? = null
     private var alertDialog: AlertDialog? = null
-    private val binding: RenameStyleDialogBinding
-
-    init {
-        binding = RenameStyleDialogBinding.inflate(LayoutInflater.from(context), this)
-    }
+    private val binding: RenameStyleDialogBinding =
+        RenameStyleDialogBinding.inflate(LayoutInflater.from(context), this)
 
     private fun getDialogBuilder(): StyleDialogBuilder {
         return when (style) {
             StyleDialog.NEW_FILE -> {
-                StyleDialogBuilder("Nuevo Archivo", "Archivo")
+                StyleDialogBuilder("Nuevo Archivo", "Archivo", editState = true)
+            }
+
+            StyleDialog.NEW_FOLDER -> {
+                StyleDialogBuilder("Nueva Carpeta", "Carpeta", editState = true)
             }
 
             StyleDialog.RENAME -> {

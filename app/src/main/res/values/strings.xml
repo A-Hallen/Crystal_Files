@@ -88,4 +88,9 @@
     <string name="equalizador">Ecualizador</string>
     <string name="icon_packs">Paquetes de iconos</string>
     <string name="new_icon_pack">Agregar nuevo paquete de icoos</string>
+    <string name="imagenes">Imágenes</string>
+    <string name="musica">Música</string>
+    <string name="videos">Videos</string>
+    <string name="libros">Libros</string>
+    <string name="apps">Apps</string>
 </resources>

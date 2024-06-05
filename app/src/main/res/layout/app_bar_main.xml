@@ -84,7 +84,6 @@
         <LinearLayout
             android:id="@+id/search_l"
             android:visibility="gone"
-            tools:visibility="visible"
             android:orientation="horizontal"
             android:layout_width="match_parent"
             android:layout_height="match_parent">

@@ -48,7 +48,8 @@ class ImageController @Inject constructor(context: Context) {
                 withContext(Dispatchers.IO) {
                     val fileInputStream = FileInputStream(file)
                     val svg = SVG.getFromInputStream(fileInputStream)
-                    val pictureDrawable = PictureDrawable(svg.renderToPicture())
+                    val picture = svg.renderToPicture()
+                    val pictureDrawable = PictureDrawable(picture)
                     val load = Glide.with(imageView.context).load(pictureDrawable)
                     loadGlide(load, imageView)
                     fileInputStream.close()
@@ -140,16 +141,14 @@ class ImageController @Inject constructor(context: Context) {
                 .apply(RequestOptions().override(24, 24))
         )
             .diskCacheStrategy(DiskCacheStrategy.RESOURCE)
-            .transition(DrawableTransitionOptions.withCrossFade())
             .listener(listener)
             .error(R.drawable.icon_video)
-
         loadGlide(builder, imageView)
     }
 
     private fun loadGlide(builder: RequestBuilder<Drawable>, imageView: ShapeableImageView) {
         CoroutineScope(Dispatchers.Main).launch {
-            builder.into(imageView)
+            builder.transition(DrawableTransitionOptions.withCrossFade()).into(imageView)
         }
     }
 

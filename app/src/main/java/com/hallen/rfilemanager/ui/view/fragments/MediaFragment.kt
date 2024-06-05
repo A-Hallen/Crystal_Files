@@ -1,21 +1,33 @@
 package com.hallen.rfilemanager.ui.view.fragments
 
+import android.annotation.SuppressLint
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.activity.addCallback
+import androidx.core.content.ContextCompat
+import androidx.core.view.isVisible
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.activityViewModels
 import androidx.fragment.app.viewModels
+import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.GridLayoutManager
+import com.hallen.rfilemanager.R
 import com.hallen.rfilemanager.databinding.FragmentMediaBinding
 import com.hallen.rfilemanager.infraestructure.FilePlayer
 import com.hallen.rfilemanager.ui.view.adapters.main.AdapterListener
 import com.hallen.rfilemanager.ui.view.adapters.media.MediaAdapter
 import com.hallen.rfilemanager.ui.viewmodels.BaseViewModel
 import com.hallen.rfilemanager.ui.viewmodels.MediaViewModel
+import com.hallen.rfilemanager.ui.viewmodels.Mode.FILES
+import com.hallen.rfilemanager.ui.viewmodels.Mode.MEDIA_APPS
+import com.hallen.rfilemanager.ui.viewmodels.Mode.MEDIA_BOOKS
+import com.hallen.rfilemanager.ui.viewmodels.Mode.MEDIA_IMAGE
+import com.hallen.rfilemanager.ui.viewmodels.Mode.MEDIA_MUSIC
+import com.hallen.rfilemanager.ui.viewmodels.Mode.MEDIA_VIDEO
 import com.hallen.rfilemanager.ui.viewmodels.State
+import com.orhanobut.logger.Logger
 import dagger.hilt.android.AndroidEntryPoint
 import javax.inject.Inject
 
@@ -55,14 +67,39 @@ class MediaFragment : Fragment(), AdapterListener {
 
 
     private fun configureObservers() {
-        baseViewModel.mode.observe(viewLifecycleOwner) { model ->
-            model ?: return@observe
-            mediaViewModel.loadFiles(model)
+        baseViewModel.mode.observe(viewLifecycleOwner) { mode ->
+            val resources = mapOf(
+                MEDIA_IMAGE to Pair(R.string.imagenes, R.drawable.icon_image),
+                MEDIA_MUSIC to Pair(R.string.musica, R.drawable.icon_music),
+                MEDIA_VIDEO to Pair(R.string.videos, R.drawable.icon_video),
+                MEDIA_BOOKS to Pair(R.string.libros, R.drawable.sidebar_books),
+                MEDIA_APPS to Pair(R.string.apps, R.drawable.sidebar_apps),
+                FILES to Pair(null, null)
+            )
+            val (stringRes, imageRes) = resources[mode] ?: return@observe
+            val text = stringRes?.let { getString(it) } ?: ""
+            val image = imageRes?.let { ContextCompat.getDrawable(requireContext(), it) }
+            binding.mediaTopBar.isVisible = mode != FILES
+            binding.title.text = text
+            binding.titleIcon.setImageDrawable(image)
+            mediaViewModel.loadFiles(mode)
         }
-        mediaViewModel.files.observe(viewLifecycleOwner) {
-            val files = mediaViewModel.files.value ?: return@observe
+        mediaViewModel.files.observe(viewLifecycleOwner) { files ->
             val mode = baseViewModel.mode.value ?: return@observe
-            adapter.update(files, mode)
+            adapter.update(files ?: emptyList(), mode)
+        }
+        baseViewModel.state.observe(viewLifecycleOwner) { state ->
+            if (state?.contains(State.SELECTION) == false) adapter.clearSelection()
+            binding.mediaSelectionBar.isVisible = state?.contains(State.SELECTION) == true
+            binding.mediaTopBar.isVisible =
+                state?.contains(State.NORMAL) == true || state?.contains(State.COPING) == true
+        }
+        binding.closeSelectAll.setOnClickListener {
+            baseViewModel.state.value = listOf(State.NORMAL)
+        }
+        binding.cbSelectAll.setOnClickListener {
+            adapter.selectAll(binding.cbSelectAll.isChecked)
+            onCheck(0)
         }
     }
 
@@ -76,20 +113,19 @@ class MediaFragment : Fragment(), AdapterListener {
     }
 
     override fun onLongClick(adapterPosition: Int): Boolean {
-        val newFiles = mediaViewModel.files.value ?: return false
-        newFiles.onEachIndexed { index, mediaFile ->
-            mediaFile.isChecked = index == adapterPosition
-        }
-        mediaViewModel.files.value = newFiles
+        baseViewModel.clearMediaSelection()
         setCheckableMode()
         return true
     }
 
+    @SuppressLint("SetTextI18n")
     override fun onCheck(adapterPosition: Int) {
-        val files = mediaViewModel.files.value ?: return
-        val arrayList = ArrayList(files)
-        arrayList[adapterPosition].isChecked = arrayList[adapterPosition].isChecked != true
-        mediaViewModel.files.value = arrayList
+        val selectionText = adapter.getSelectionText()
+        binding.cbSelectAll.isChecked = selectionText.first == selectionText.second
+        binding.numberItems.text = selectionText.first + "/" + selectionText.second
+        val file = mediaViewModel.files.value?.getOrNull(adapterPosition) ?: return
+        Logger.i("selectedFile: $file")
+        baseViewModel.setSelectedMediaFile(file)
     }
 
     private fun setCheckableMode() {
@@ -101,9 +137,16 @@ class MediaFragment : Fragment(), AdapterListener {
     }
 
     private fun onBackPressedHandler() {
+        binding.back.setOnClickListener {
+            if (!mediaViewModel.onBackPressed()) {
+                baseViewModel.mode.value = FILES
+                findNavController().navigateUp()
+            }
+        }
         requireActivity().onBackPressedDispatcher.addCallback(viewLifecycleOwner) {
             if (!mediaViewModel.onBackPressed()) {
                 isEnabled = false
+                baseViewModel.mode.value = FILES
                 requireActivity().onBackPressed()
             }
         }
