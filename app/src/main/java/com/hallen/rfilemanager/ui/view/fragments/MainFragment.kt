@@ -8,9 +8,6 @@ import android.view.ViewGroup
 import androidx.core.view.isVisible
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.activityViewModels
-import androidx.recyclerview.widget.GridLayoutManager
-import androidx.recyclerview.widget.LinearLayoutManager
-import androidx.recyclerview.widget.RecyclerView
 import com.hallen.rfilemanager.databinding.FragmentMainBinding
 import com.hallen.rfilemanager.infraestructure.DirectoryObserver
 import com.hallen.rfilemanager.infraestructure.FilePlayer
@@ -20,6 +17,7 @@ import com.hallen.rfilemanager.model.LayoutManagerType
 import com.hallen.rfilemanager.model.UpdateModel
 import com.hallen.rfilemanager.ui.view.adapters.main.AdapterListener
 import com.hallen.rfilemanager.ui.view.adapters.main.MainAdapter
+import com.hallen.rfilemanager.ui.view.custom.setLayoutManager
 import com.hallen.rfilemanager.ui.viewmodels.BaseViewModel
 import com.hallen.rfilemanager.ui.viewmodels.State
 import com.orhanobut.logger.Logger
@@ -104,14 +102,6 @@ class MainFragment : Fragment(), AdapterListener {
         baseViewModel.recyclerLayoutMode.observe(viewLifecycleOwner, this::setRecyclerLayoutMode)
         baseViewModel.update.observe(viewLifecycleOwner, ::updateFiles)
         baseViewModel.itemsSize.observe(viewLifecycleOwner, mainAdapter::setItemSize)
-    }
-
-    private fun RecyclerView.setLayoutManager(type: LayoutManagerType, scale: Int) {
-        val firstCompletelyVisibleItemPosition =
-            (layoutManager as LinearLayoutManager?)?.findFirstCompletelyVisibleItemPosition()
-        layoutManager = if (type == LayoutManagerType.GRID_LAYOUT_MANAGER)
-            GridLayoutManager(context, scale) else LinearLayoutManager(context)
-        firstCompletelyVisibleItemPosition?.let { scrollToPosition(it) }
     }
 
     private fun setRecyclerLayoutMode(layoutMode: Boolean) {

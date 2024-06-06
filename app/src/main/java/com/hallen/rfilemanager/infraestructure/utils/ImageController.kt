@@ -37,6 +37,47 @@ class ImageController @Inject constructor(context: Context) {
 
     private val failImages: ArrayList<String> = arrayListOf()
 
+
+    private fun loadSvg(scope: CoroutineScope, imageView: ShapeableImageView, file: File) {
+        scope.launch {
+            withContext(Dispatchers.IO) {
+                val fileInputStream = FileInputStream(file)
+                val svg = SVG.getFromInputStream(fileInputStream)
+                val picture = svg.renderToPicture()
+                val pictureDrawable = PictureDrawable(picture)
+                val load = Glide.with(imageView.context).load(pictureDrawable)
+                loadGlide(load, imageView)
+                fileInputStream.close()
+            }
+        }
+    }
+
+    private fun loadApkIcon(imageView: ShapeableImageView, file: File) {
+        val context = imageView.context
+        val packageManager = context.packageManager
+
+        val packageArchiveInfo = packageManager.getPackageArchiveInfo(file.absolutePath, 0)
+        val packageInfo = packageArchiveInfo?.applicationInfo
+
+        val icon = packageInfo?.loadIcon(packageManager)
+        if (icon != null) {
+            val load = Glide.with(context).load(icon)
+            loadGlide(load, imageView)
+            setGlideImageFromDrawable(imageView, icon)
+            return
+        }
+
+        val usedIconPack = iconsManager.getUsedIconPack().name
+        val mime = "application/vnd.android.package-archive"
+        if (usedIconPack.isNotBlank()) {
+            val imageIconResult = setImageIcon(imageView, mime)
+            if (imageIconResult) return
+        }
+
+        val drawable = ContextCompat.getDrawable(context, R.drawable.file)!!
+        setGlideImageFromDrawable(imageView, drawable)
+    }
+
     fun setImage(imageView: ShapeableImageView, file: File) {
         CoroutineScope(Dispatchers.IO).launch {
             val getMimeFile = GetMimeFile(imageView.context)
@@ -44,32 +85,27 @@ class ImageController @Inject constructor(context: Context) {
 
             val mime = getMimeFile.getmime(extension)
 
-            if (mime == "image/svg+xml") {
-                withContext(Dispatchers.IO) {
-                    val fileInputStream = FileInputStream(file)
-                    val svg = SVG.getFromInputStream(fileInputStream)
-                    val picture = svg.renderToPicture()
-                    val pictureDrawable = PictureDrawable(picture)
-                    val load = Glide.with(imageView.context).load(pictureDrawable)
-                    loadGlide(load, imageView)
-                    fileInputStream.close()
+            when {
+                file.extension.equals("apk", ignoreCase = true) -> loadApkIcon(imageView, file)
+
+                file.extension.equals("svg", ignoreCase = true) ->
+                    loadSvg(this, imageView, file)
+
+                mime.split("/").firstOrNull() == "image" -> {
+                    setGlideImageFromFile(imageView, file)
                 }
-                return@launch
-            }
 
+                mime.split("/").firstOrNull() == "video" -> {
+                    setGlideImageFromVideoFile(imageView, file)
+                }
 
-
-
-            when (mime.split("/")[0]) {
-                "video" -> setGlideImageFromVideoFile(imageView, file)
-                "image" -> setGlideImageFromFile(imageView, file)
                 else -> {
                     val usedIconPack = iconsManager.getUsedIconPack().name
                     if (usedIconPack.isNotBlank()) {
                         val imageIconResult = setImageIcon(imageView, mime)
                         if (imageIconResult) return@launch
                     }
-                    val drawable = getMimeFile.getImageFromExtension(extension)
+                    val drawable = getDrawableFromFile(file, imageView.context)
                     setGlideImageFromDrawable(imageView, drawable)
                 }
             }

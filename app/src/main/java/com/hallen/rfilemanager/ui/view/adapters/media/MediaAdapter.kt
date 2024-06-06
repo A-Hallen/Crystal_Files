@@ -1,11 +1,17 @@
 package com.hallen.rfilemanager.ui.view.adapters.media
 
 import android.view.LayoutInflater
+import android.view.View
 import android.view.ViewGroup
+import android.widget.CheckBox
+import android.widget.TextView
+import androidx.constraintlayout.widget.ConstraintLayout
 import androidx.core.view.isVisible
 import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.RecyclerView
+import com.google.android.material.imageview.ShapeableImageView
 import com.hallen.rfilemanager.databinding.ItemMediaBinding
+import com.hallen.rfilemanager.databinding.ItemMediaOtherBinding
 import com.hallen.rfilemanager.infraestructure.MediaManipulation
 import com.hallen.rfilemanager.infraestructure.utils.ImageController
 import com.hallen.rfilemanager.ui.view.adapters.main.AdapterListener
@@ -32,8 +38,13 @@ class MediaAdapter @Inject constructor(private var imageController: ImageControl
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): MediaViewHolder {
         val layoutInflater = LayoutInflater.from(parent.context)
-        val binding = ItemMediaBinding.inflate(layoutInflater, parent, false)
-        return MediaViewHolder(binding, listeners, imageController)
+        return if (type == Mode.MEDIA_VIDEO || type == Mode.MEDIA_IMAGE) {
+            val binding = ItemMediaBinding.inflate(layoutInflater, parent, false)
+            MultiMediaViewHolder(binding)
+        } else {
+            val binding = ItemMediaOtherBinding.inflate(layoutInflater, parent, false)
+            OtherMediaViewHolder(binding)
+        }
     }
 
     override fun onBindViewHolder(holder: MediaViewHolder, position: Int) =
@@ -68,22 +79,23 @@ class MediaAdapter @Inject constructor(private var imageController: ImageControl
         notifyDataSetChanged()
     }
 
-    inner class MediaViewHolder(
-        private val binding: ItemMediaBinding,
-        listeners: AdapterListener?,
-        private val imageController: ImageController,
-    ) :
-        RecyclerView.ViewHolder(binding.root) {
+    abstract inner class MediaViewHolder(view: View) :
+        RecyclerView.ViewHolder(view) {
+        abstract var galeryCheck: CheckBox
+        abstract var imageGalery: ShapeableImageView
+        abstract var galeryText: TextView
+        abstract var root: ConstraintLayout
 
-        init {
-            binding.root.setOnClickListener {
+        fun init() {
+
+            root.setOnClickListener {
                 if (adapterPosition == RecyclerView.NO_POSITION) return@setOnClickListener
                 if (!isEditMode) {
                     listeners?.onClick(adapterPosition)
                     return@setOnClickListener
                 }
-                binding.galeryCheck.toggle()
-                if (binding.galeryCheck.isChecked) {
+                galeryCheck.toggle()
+                if (galeryCheck.isChecked) {
                     checkedItems.add(adapterPosition)
                 } else {
                     checkedItems.remove(adapterPosition)
@@ -92,7 +104,7 @@ class MediaAdapter @Inject constructor(private var imageController: ImageControl
                 listeners?.onCheck(adapterPosition)
             }
 
-            binding.root.setOnLongClickListener {
+            root.setOnLongClickListener {
                 if (isEditMode) return@setOnLongClickListener false
                 if (adapterPosition == RecyclerView.NO_POSITION) return@setOnLongClickListener false
                 isEditMode = true
@@ -105,11 +117,38 @@ class MediaAdapter @Inject constructor(private var imageController: ImageControl
         }
 
         fun bind(file: MediaManipulation.MediaFile) {
-            binding.galeryText.text = file.displayName
-            binding.galeryCheck.isChecked = checkedItems.contains(adapterPosition)
-            binding.galeryCheck.isVisible = isEditMode
+            galeryText.text = file.displayName
+            galeryCheck.isChecked = checkedItems.contains(adapterPosition)
+            galeryCheck.isVisible = isEditMode
             val thumbnailFile = File(file.thumbnail)
-            imageController.setImage(binding.imageGalery, thumbnailFile)
+            imageController.setImage(imageGalery, thumbnailFile)
+        }
+
+    }
+
+    inner class MultiMediaViewHolder(
+        binding: ItemMediaBinding
+    ) : MediaViewHolder(binding.root) {
+        override var galeryCheck: CheckBox = binding.galeryCheck
+        override var imageGalery: ShapeableImageView = binding.imageGalery
+        override var galeryText: TextView = binding.galeryText
+        override var root: ConstraintLayout = binding.root
+
+        init {
+            super.init()
+        }
+    }
+
+    inner class OtherMediaViewHolder(
+        binding: ItemMediaOtherBinding
+    ) : MediaViewHolder(binding.root) {
+        override var galeryCheck: CheckBox = binding.galeryCheck
+        override var imageGalery: ShapeableImageView = binding.imageGalery
+        override var galeryText: TextView = binding.galeryText
+        override var root: ConstraintLayout = binding.root
+
+        init {
+            super.init()
         }
     }
 

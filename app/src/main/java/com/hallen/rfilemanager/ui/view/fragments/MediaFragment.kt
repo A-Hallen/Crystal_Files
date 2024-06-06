@@ -12,12 +12,13 @@ import androidx.fragment.app.Fragment
 import androidx.fragment.app.activityViewModels
 import androidx.fragment.app.viewModels
 import androidx.navigation.fragment.findNavController
-import androidx.recyclerview.widget.GridLayoutManager
 import com.hallen.rfilemanager.R
 import com.hallen.rfilemanager.databinding.FragmentMediaBinding
 import com.hallen.rfilemanager.infraestructure.FilePlayer
+import com.hallen.rfilemanager.model.LayoutManagerType
 import com.hallen.rfilemanager.ui.view.adapters.main.AdapterListener
 import com.hallen.rfilemanager.ui.view.adapters.media.MediaAdapter
+import com.hallen.rfilemanager.ui.view.custom.setLayoutManager
 import com.hallen.rfilemanager.ui.viewmodels.BaseViewModel
 import com.hallen.rfilemanager.ui.viewmodels.MediaViewModel
 import com.hallen.rfilemanager.ui.viewmodels.Mode.FILES
@@ -60,14 +61,20 @@ class MediaFragment : Fragment(), AdapterListener {
     private fun configureRecyclerView() {
         adapter.setListeners(this)
         binding.mediaRecyclerView.setHasFixedSize(true)
-        binding.mediaRecyclerView.layoutManager =
-            GridLayoutManager(requireContext(), 3, GridLayoutManager.VERTICAL, false)
         binding.mediaRecyclerView.adapter = adapter
+
     }
 
 
     private fun configureObservers() {
         baseViewModel.mode.observe(viewLifecycleOwner) { mode ->
+            val spanCount = if (mode != MEDIA_VIDEO && mode != MEDIA_IMAGE) {
+                baseViewModel.scale.value ?: 3
+            } else 3
+
+            val layout = LayoutManagerType.GRID_LAYOUT_MANAGER
+            binding.mediaRecyclerView.setLayoutManager(layout, spanCount)
+
             val resources = mapOf(
                 MEDIA_IMAGE to Pair(R.string.imagenes, R.drawable.icon_image),
                 MEDIA_MUSIC to Pair(R.string.musica, R.drawable.icon_music),

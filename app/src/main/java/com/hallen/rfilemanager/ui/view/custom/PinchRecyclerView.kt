@@ -7,7 +7,9 @@ import android.view.MotionEvent
 import android.view.ScaleGestureDetector
 import android.view.ScaleGestureDetector.SimpleOnScaleGestureListener
 import androidx.recyclerview.widget.GridLayoutManager
+import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
+import com.hallen.rfilemanager.model.LayoutManagerType
 import kotlin.math.max
 import kotlin.math.min
 
@@ -172,4 +174,12 @@ class PinchRecyclerView : RecyclerView {
         val LINEAR_MODE: String = "linear"
         private const val INVALID_POINTER_ID = -1
     }
+}
+
+fun RecyclerView.setLayoutManager(type: LayoutManagerType, scale: Int) {
+    val firstCompletelyVisibleItemPosition =
+        (layoutManager as LinearLayoutManager?)?.findFirstCompletelyVisibleItemPosition()
+    layoutManager = if (type == LayoutManagerType.GRID_LAYOUT_MANAGER)
+        GridLayoutManager(context, scale) else LinearLayoutManager(context)
+    firstCompletelyVisibleItemPosition?.let { scrollToPosition(it) }
 }

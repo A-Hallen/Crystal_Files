@@ -50,7 +50,7 @@ class BaseViewModel @Inject constructor(
     val colorScheme = MutableLiveData(prefs.getColorScheme())
     val extractFromBg = MutableLiveData(prefs.getExtractFromBg())
     val recyclerLayoutMode = MutableLiveData<Boolean>()
-    val scale = MutableLiveData<Int>()
+    val scale = MutableLiveData(prefs.getScala())
     val backgroundImage = MutableLiveData(File(prefs.getBgLocation()))
     val favLocations = MutableLiveData(prefs.getFavLocation())
     val backgroundBlurRatio = MutableLiveData(prefs.getBlurBgRatio())
