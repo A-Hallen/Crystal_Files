@@ -214,16 +214,12 @@ class MediaManipulation @Inject constructor(@ApplicationContext var context: Con
         val cursor: Cursor = contentResolver.query(uri, projection, whereClause, null, null)!!
         if (cursor.moveToFirst()) {
             do {
-                val titleColumn = cursor.getColumnIndex(MediaStore.Files.FileColumns.DISPLAY_NAME)
-                var title = ""
-                if (titleColumn >= 0) title = cursor.getString(titleColumn) ?: return files
-
                 val pathsColumn = cursor.getColumnIndex(MediaStore.Files.FileColumns.DATA)
                 var paths = ""
                 if (pathsColumn >= 0) paths = cursor.getString(pathsColumn)
 
                 val file = File(paths)
-                val mediaFile = MediaFile(file, title)
+                val mediaFile = MediaFile(file)
                 files.add(mediaFile)
             } while (cursor.moveToNext())
             return files

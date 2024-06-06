@@ -62,19 +62,22 @@ class MediaFragment : Fragment(), AdapterListener {
         adapter.setListeners(this)
         binding.mediaRecyclerView.setHasFixedSize(true)
         binding.mediaRecyclerView.adapter = adapter
-
+        binding.mediaRecyclerView.setOnScaleListener(baseViewModel::setScale)
     }
 
 
     private fun configureObservers() {
-        baseViewModel.mode.observe(viewLifecycleOwner) { mode ->
+        baseViewModel.scale.observe(viewLifecycleOwner) {
+            val mode = baseViewModel.mode.value
             val spanCount = if (mode != MEDIA_VIDEO && mode != MEDIA_IMAGE) {
                 baseViewModel.scale.value ?: 3
             } else 3
-
             val layout = LayoutManagerType.GRID_LAYOUT_MANAGER
             binding.mediaRecyclerView.setLayoutManager(layout, spanCount)
+        }
+        baseViewModel.itemsSize.observe(viewLifecycleOwner, adapter::setItemSize)
 
+        baseViewModel.mode.observe(viewLifecycleOwner) { mode ->
             val resources = mapOf(
                 MEDIA_IMAGE to Pair(R.string.imagenes, R.drawable.icon_image),
                 MEDIA_MUSIC to Pair(R.string.musica, R.drawable.icon_music),
@@ -146,12 +149,14 @@ class MediaFragment : Fragment(), AdapterListener {
     private fun onBackPressedHandler() {
         binding.back.setOnClickListener {
             if (!mediaViewModel.onBackPressed()) {
+                Logger.i("CALLED back click")
                 baseViewModel.mode.value = FILES
                 findNavController().navigateUp()
             }
         }
         requireActivity().onBackPressedDispatcher.addCallback(viewLifecycleOwner) {
             if (!mediaViewModel.onBackPressed()) {
+                Logger.i("CALLED back event")
                 isEnabled = false
                 baseViewModel.mode.value = FILES
                 requireActivity().onBackPressed()

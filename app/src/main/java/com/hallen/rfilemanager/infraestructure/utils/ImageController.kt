@@ -4,6 +4,7 @@ import android.content.Context
 import android.graphics.Color
 import android.graphics.drawable.Drawable
 import android.graphics.drawable.PictureDrawable
+import android.view.View
 import androidx.core.content.ContextCompat
 import com.bumptech.glide.Glide
 import com.bumptech.glide.RequestBuilder
@@ -61,7 +62,7 @@ class ImageController @Inject constructor(context: Context) {
 
         val icon = packageInfo?.loadIcon(packageManager)
         if (icon != null) {
-            val load = Glide.with(context).load(icon)
+            val load = Glide.with(imageView).load(icon)
             loadGlide(load, imageView)
             setGlideImageFromDrawable(imageView, icon)
             return
@@ -105,7 +106,7 @@ class ImageController @Inject constructor(context: Context) {
                         val imageIconResult = setImageIcon(imageView, mime)
                         if (imageIconResult) return@launch
                     }
-                    val drawable = getDrawableFromFile(file, imageView.context)
+                    val drawable = getDrawableFromFile(file, imageView)
                     setGlideImageFromDrawable(imageView, drawable)
                 }
             }
@@ -122,8 +123,8 @@ class ImageController @Inject constructor(context: Context) {
         val path = iconPacks.drawables[modifiedMime]
         if (path != null) {
             val file = File(path)
-            val drawable = getDrawableFromFile(file, imageView.context)
-            val load = Glide.with(imageView.context).load(drawable)
+            val drawable = getDrawableFromFile(file, imageView)
+            val load = Glide.with(imageView).load(drawable)
             loadGlide(load, imageView)
             return true
         }
@@ -131,7 +132,7 @@ class ImageController @Inject constructor(context: Context) {
     }
 
     private fun setGlideImageFromFile(imageView: ShapeableImageView, file: File) {
-        loadGlide(Glide.with(imageView.context).load(file).error(R.drawable.icon_image), imageView)
+        loadGlide(Glide.with(imageView).load(file).error(R.drawable.icon_image), imageView)
     }
 
     private fun setGlideImageFromDrawable(imageView: ShapeableImageView, drawable: Drawable) {
@@ -171,8 +172,8 @@ class ImageController @Inject constructor(context: Context) {
             return
         }
 
-        val builder = Glide.with(context).load(file).thumbnail(
-            Glide.with(context)
+        val builder = Glide.with(imageView).load(file).thumbnail(
+            Glide.with(imageView)
                 .load(R.drawable.animated_vector_loading)
                 .apply(RequestOptions().override(24, 24))
         )
@@ -207,7 +208,7 @@ class ImageController @Inject constructor(context: Context) {
     }
 
     companion object {
-        fun getDrawableFromFile(file: File, context: Context): Drawable {
+        fun getDrawableFromFile(file: File, imageView: View): Drawable {
             val drawable = try {
                 if (file.extension == "svg") {
                     val fileInputStream = FileInputStream(file)
@@ -215,10 +216,10 @@ class ImageController @Inject constructor(context: Context) {
                     val pictureDrawable = PictureDrawable(svg.renderToPicture())
                     fileInputStream.close()
                     pictureDrawable
-                } else Glide.with(context).asDrawable().load(file).submit().get()
+                } else Glide.with(imageView).asDrawable().load(file).submit().get()
             } catch (e: Exception) {
                 e.printStackTrace()
-                ContextCompat.getDrawable(context, R.drawable.file)!!
+                ContextCompat.getDrawable(imageView.context, R.drawable.file)!!
             }
             return drawable
         }

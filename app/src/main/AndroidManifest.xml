@@ -44,11 +44,23 @@
         android:theme="@style/Theme.CrystalFiles"
         tools:targetApi="31">
         <activity
+            android:label="@string/AE_Editor_de_texto"
+            android:icon="@drawable/edit_logo"
+            android:name=".ui.view.activities.EditActivity"
+            android:exported="true">
+            <intent-filter>
+                <action android:name="android.intent.action.EDIT" />
+                <category android:name="android.intent.category.DEFAULT" />
+                <data android:mimeType="text/plain" />
+            </intent-filter>
+        </activity>
+        <activity
             android:name=".ui.view.activities.SplashActivity"
             android:exported="true"
             android:theme="@style/SplashTheme">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
+
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>

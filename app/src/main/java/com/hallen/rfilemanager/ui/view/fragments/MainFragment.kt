@@ -97,6 +97,7 @@ class MainFragment : Fragment(), AdapterListener {
             mainAdapter.layoutMode = state
             setRecyclerLayoutMode(state)
             adapter = mainAdapter
+            setOnScaleListener(baseViewModel::setScale)
         }
 
         baseViewModel.recyclerLayoutMode.observe(viewLifecycleOwner, this::setRecyclerLayoutMode)

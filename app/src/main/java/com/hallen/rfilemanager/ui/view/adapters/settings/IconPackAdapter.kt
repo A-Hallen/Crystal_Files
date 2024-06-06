@@ -108,7 +108,7 @@ class IconPackAdapter @Inject constructor() :
         fun bind(path: String) {
             val file = File(path)
             val drawable =
-                ImageController.getDrawableFromFile(file, iconPackItemBinding.root.context)
+                ImageController.getDrawableFromFile(file, iconPackItemBinding.root)
             iconPackItemBinding.root.setImageDrawable(drawable)
         }
     }

@@ -58,6 +58,11 @@ class BaseViewModel @Inject constructor(
     val state = MutableLiveData(listOf(State.NORMAL))
     val mode = MutableLiveData(FILES)
 
+    fun setScale(scale: Int) {
+        prefs.saveScala(scale)
+        this.scale.value = scale
+    }
+
     fun zoomIn(size: Float) {
         val newValue = itemsSize.value?.plus(size) ?: size
         itemsSize.value = newValue

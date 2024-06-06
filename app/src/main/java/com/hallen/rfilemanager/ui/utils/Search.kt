@@ -1,48 +1,54 @@
 package com.hallen.rfilemanager.ui.utils
 
 import android.content.Context
-import android.database.Cursor
 import android.net.Uri
 import android.provider.MediaStore
 import dagger.hilt.android.qualifiers.ApplicationContext
+import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.Job
+import kotlinx.coroutines.launch
+import kotlinx.coroutines.withContext
 import javax.inject.Inject
 
-
 class Search @Inject constructor(@ApplicationContext val context: Context) {
-    private var thread: Thread? = null
-    private var stop: Boolean = false
+    private var searchJob: Job? = null
 
     fun showSearch(text: String, callback: (String) -> Unit) {
         if (text.isBlank()) return
-        stop = true
-        thread = object : Thread() {
-            override fun run() {
-                getNames(text, callback)
+
+        searchJob?.cancel() // Cancel any previous search
+
+        searchJob = CoroutineScope(Dispatchers.Main).launch {
+            val results = withContext(Dispatchers.IO) {
+                searchFiles(text)
             }
+            results.forEach { callback(it) }
         }
-        (thread as Thread).start()
     }
 
-
-    fun getNames(text: String, callback: (String) -> Unit) {
-        val whereClause = MediaStore.Files.FileColumns.DISPLAY_NAME + " LIKE ('%" + text + "%')"
+    private fun searchFiles(text: String): List<String> {
+        val results = mutableListOf<String>()
+        val whereClause = MediaStore.Files.FileColumns.DISPLAY_NAME + " LIKE ?"
+        val selectionArgs = arrayOf("%$text%")
         val uri: Uri = MediaStore.Files.getContentUri("external")
         val projection = arrayOf(
-            MediaStore.Files.FileColumns.DISPLAY_NAME,
             MediaStore.Files.FileColumns.DATA
         )
-        val cursor: Cursor =
-            context.contentResolver.query(uri, projection, whereClause, null, null)!!
-        stop = false
 
-        if (cursor.moveToFirst()) {
-            do {
-                val pathsColumn = cursor.getColumnIndex(MediaStore.Files.FileColumns.DATA)
-                var paths = ""
-                if (pathsColumn >= 0) paths = cursor.getString(pathsColumn)
-                callback(paths)
-            } while (cursor.moveToNext() && !stop)
+        context.contentResolver.query(
+            uri,
+            projection,
+            whereClause,
+            selectionArgs,
+            null
+        )?.use { cursor ->
+            val pathsColumn = cursor.getColumnIndexOrThrow(MediaStore.Files.FileColumns.DATA)
+            while (cursor.moveToNext()) {
+                results.add(cursor.getString(pathsColumn))
+            }
         }
-        cursor.close()
+
+        return results
     }
 }
