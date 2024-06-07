@@ -14,7 +14,7 @@ import com.hallen.rfilemanager.databinding.RenameStyleDialogBinding
 import java.io.File
 
 enum class StyleDialog {
-    NEW_FOLDER, NEW_FILE, DELETE_FILE, RENAME, COMPRESS, DECOMPRESS
+    NEW_FOLDER, NEW_FILE, DELETE_FILE, RENAME, COMPRESS, DECOMPRESS, SAVE_FILE_CHANGES
 }
 
 class StyleDialogBuilder(
@@ -68,6 +68,10 @@ class RenameDialog(context: Context) : ConstraintLayout(context), DialogBuilder 
 
             StyleDialog.DECOMPRESS -> {
                 StyleDialogBuilder("Descomprimir", "", editState = true, password = true)
+            }
+
+            StyleDialog.SAVE_FILE_CHANGES -> {
+                StyleDialogBuilder("Confirmar", "", editState = true)
             }
 
             else -> StyleDialogBuilder("Nueva Carpeta", "Carpeta")

@@ -44,14 +44,38 @@
         android:theme="@style/Theme.CrystalFiles"
         tools:targetApi="31">
         <activity
-            android:label="@string/AE_Editor_de_texto"
-            android:icon="@drawable/edit_logo"
-            android:name=".ui.view.activities.EditActivity"
-            android:exported="true">
+            android:name=".ui.view.activities.ImageViewerActivity"
+            android:exported="true"
+            android:icon="@drawable/icon_image"
+            android:label="@string/AE_Pictures"
+            android:launchMode="standard">
             <intent-filter>
-                <action android:name="android.intent.action.EDIT" />
+                <action android:name="android.intent.action.VIEW" />
+
                 <category android:name="android.intent.category.DEFAULT" />
-                <data android:mimeType="text/plain" />
+
+                <data android:scheme="content" />
+                <data android:mimeType="image/*" />
+                <data android:scheme="file" />
+                <data android:mimeType="image/*" />
+            </intent-filter>
+        </activity>
+        <activity
+            android:name=".ui.view.activities.EditActivity"
+            android:exported="true"
+            android:icon="@drawable/edit_logo"
+            android:label="@string/AE_Editor_de_texto"
+            android:launchMode="singleInstance">
+            <intent-filter>
+                <action android:name="android.intent.action.VIEW" />
+                <action android:name="android.intent.action.EDIT" />
+
+                <category android:name="android.intent.category.DEFAULT" />
+
+                <data android:scheme="content" />
+                <data android:mimeType="text/*" />
+                <data android:scheme="file" />
+                <data android:mimeType="text/*" />
             </intent-filter>
         </activity>
         <activity

@@ -26,4 +26,9 @@
         android:name="com.hallen.rfilemanager.ui.view.fragments.MediaFragment"
         android:label="fragment_media"
         tools:layout="@layout/fragment_media" />
+    
+    <fragment
+        android:id="@+id/imageViewerFragment"
+        android:name="com.hallen.rfilemanager.ui.view.fragments.ImageViewerFragment"
+        android:label="ImageViewerFragment" />
 </navigation>
