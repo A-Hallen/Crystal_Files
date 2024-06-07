@@ -10,6 +10,7 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.BaseExpandableListAdapter
 import androidx.core.content.ContextCompat
+import androidx.core.view.isVisible
 import com.hallen.rfilemanager.R
 import com.hallen.rfilemanager.databinding.ExpandableListChildsBinding
 import com.hallen.rfilemanager.databinding.ExpandableListChildsProgressBinding
@@ -180,6 +181,11 @@ class NavListAdapter(private val context: Context) : BaseExpandableListAdapter()
         return if (size >= Eb) floatForm(size.toDouble() / Eb).toString() + " Eb" else "???"
     }
 
+    private var showHiddenFiles: Boolean = false
+    fun setShowHiddenFiles(showHiddenFiles: Boolean) {
+        this.showHiddenFiles = showHiddenFiles
+    }
+
     override fun getChildView(
         listPos: Int,
         expandedPos: Int,
@@ -187,7 +193,6 @@ class NavListAdapter(private val context: Context) : BaseExpandableListAdapter()
         convertView: View?,
         parent: ViewGroup?,
     ): View {
-        //if (convertView != null) return convertView
         val expandedListText = getChild(listPos, expandedPos)
         val layoutInflater = LayoutInflater.from(context)
         val binding = ExpandableListChildsBinding.inflate(layoutInflater)
@@ -208,8 +213,13 @@ class NavListAdapter(private val context: Context) : BaseExpandableListAdapter()
         if (expandedListText == DrawerData.HIDDEN_FILES) {
             binding.switchChild.visibility = View.VISIBLE
         }
-        binding.switchChild.visibility =
-            if (expandedListText == DrawerData.HIDDEN_FILES) View.VISIBLE else View.INVISIBLE
+
+        if (expandedListText == DrawerData.HIDDEN_FILES) {
+            binding.switchChild.isChecked = showHiddenFiles
+        }
+
+        binding.switchChild.isVisible = expandedListText == DrawerData.HIDDEN_FILES
+        binding.switchChild.isChecked = showHiddenFiles
 
         return binding.root
     }

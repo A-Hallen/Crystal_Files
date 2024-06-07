@@ -1,18 +1,25 @@
 package com.hallen.rfilemanager.infraestructure
 
+import com.orhanobut.logger.Logger
 import java.io.File
 import javax.inject.Inject
 
 class FileLister @Inject constructor() {
+    private var showHiddenFiles: Boolean = false
 
-    suspend fun listFile(path: String) {
-        val file = File(path)
-        listFile(file)
+    fun setHiddenFiles(showHiddenFiles: Boolean) {
+        this.showHiddenFiles = showHiddenFiles
     }
 
     suspend fun listFile(file: File): List<File>? {
+        Logger.i("showHiddenFiles: $showHiddenFiles")
         if (!file.canRead() || !file.exists()) return null
-        val files = file.listFiles() ?: return null
+
+        val files = if (showHiddenFiles) {
+            file.listFiles() ?: return null
+        } else {
+            file.listFiles { file1, name -> !file1.isHidden && !name.startsWith(".") }
+        }
         files.sortWith(compareBy(String.CASE_INSENSITIVE_ORDER) { it.name })
 
         val directories = files.filter { it.isDirectory }

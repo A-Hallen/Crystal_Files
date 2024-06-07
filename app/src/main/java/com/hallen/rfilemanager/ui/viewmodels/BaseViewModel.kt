@@ -79,6 +79,8 @@ class BaseViewModel @Inject constructor(
     private fun showHiddenFiles(show: Boolean) {
         prefs.setHiddenFilesVisibility(show)
         showHiddenFiles.value = show
+        fileLister.setHiddenFiles(show)
+        updateFiles()
     }
 
     fun toggleHiddenFiles() = showHiddenFiles(!showHiddenFiles.value!!)
@@ -88,7 +90,8 @@ class BaseViewModel @Inject constructor(
 
     fun listFiles(file: File, reloadAll: Boolean = true) {
         CoroutineScope(Dispatchers.IO).launch {
-            val listFiles = fileLister.listFile(file) ?: return@launch
+            val listFiles =
+                fileLister.listFile(file) ?: return@launch
             val archivos = listFiles.map { Archivo(it) }
             val updateModel = UpdateModel(archivos, reloadAll)
             update.postValue(updateModel)

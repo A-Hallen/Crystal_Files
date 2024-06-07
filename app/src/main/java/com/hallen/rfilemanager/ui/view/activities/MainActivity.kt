@@ -131,6 +131,7 @@ class MainActivity : AppCompatActivity(), FileControl {
         setupStyle()
         setColorScheme()
         baseViewModel.state.observe(this, ::setupStateViews)
+        baseViewModel.showHiddenFiles.observe(this, expandableListAdapter::setShowHiddenFiles)
         registerReceivers()
     }
 
