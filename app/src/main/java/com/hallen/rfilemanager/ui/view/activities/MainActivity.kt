@@ -51,6 +51,7 @@ import com.hallen.rfilemanager.model.UpdateModel
 import com.hallen.rfilemanager.ui.utils.ColorManagement
 import com.hallen.rfilemanager.ui.utils.FileControl
 import com.hallen.rfilemanager.ui.utils.Settings
+import com.hallen.rfilemanager.ui.view.adapters.NavListAdapter
 import com.hallen.rfilemanager.ui.view.adapters.main.MainAdapter
 import com.hallen.rfilemanager.ui.view.custom.ConditionalDialog
 import com.hallen.rfilemanager.ui.view.dialogs.Action
@@ -64,11 +65,11 @@ import com.hallen.rfilemanager.ui.view.dialogs.DialogBuilder
 import com.hallen.rfilemanager.ui.view.dialogs.DialogListener
 import com.hallen.rfilemanager.ui.view.dialogs.PopupDialog
 import com.hallen.rfilemanager.ui.view.dialogs.RenameDialog
+import com.hallen.rfilemanager.ui.view.dialogs.StartAnalysisDialog
 import com.hallen.rfilemanager.ui.view.dialogs.StyleDialog
 import com.hallen.rfilemanager.ui.view.filechooser.FileChooserDialog1
 import com.hallen.rfilemanager.ui.view.leftpanel.DrawerData
 import com.hallen.rfilemanager.ui.view.leftpanel.ExpandableListData
-import com.hallen.rfilemanager.ui.view.leftpanel.NavListAdapter
 import com.hallen.rfilemanager.ui.viewmodels.BaseViewModel
 import com.hallen.rfilemanager.ui.viewmodels.Mode
 import com.hallen.rfilemanager.ui.viewmodels.State
@@ -361,7 +362,8 @@ class MainActivity : AppCompatActivity(), FileControl {
                 DrawerData.IMAGENES,
                 DrawerData.MUSIC,
                 DrawerData.BOOKS,
-                DrawerData.APPS -> {
+                DrawerData.APPS,
+                -> {
                     baseViewModel.mode.value = when (child) {
                         DrawerData.MOVIES -> Mode.MEDIA_VIDEO
                         DrawerData.IMAGENES -> Mode.MEDIA_IMAGE
@@ -372,6 +374,24 @@ class MainActivity : AppCompatActivity(), FileControl {
                     }
                     baseViewModel.state.value = listOf(State.NORMAL)
                     navController.navigate(R.id.mediaFragment)
+                }
+
+                DrawerData.SPACE_ANALISIS -> {
+                    val drives = storages.drives.value
+                    if (drives?.size == 1) {
+                        navigateToStorageAnalyzer(drives.single().absolutePath)
+                        return@setOnChildClickListener true
+                    }
+                    val listener = object : DialogListener {
+                        override fun onAccept(dialog: DialogBuilder) {
+                            navigateToStorageAnalyzer(dialog.getText())
+                            dialog.dismiss()
+                        }
+                    }
+                    StartAnalysisDialog(this)
+                        .setDialogListener(listener)
+                        .setDrives(drives ?: emptyList())
+                        .build().show()
                 }
 
                 else -> {
@@ -409,6 +429,13 @@ class MainActivity : AppCompatActivity(), FileControl {
         binding.linearViewIv.setOnClickListener { baseViewModel.setLayoutModeLinear(true) }
         binding.zoomViewIn.setOnClickListener { baseViewModel.zoomIn(0.1f); mainAdapter.notifyDataSetChanged() }
         binding.zoomViewOut.setOnClickListener { baseViewModel.zoomOut(0.1f); mainAdapter.notifyDataSetChanged() }
+    }
+
+    private fun navigateToStorageAnalyzer(storagePath: String) {
+        val bundle = Bundle()
+        bundle.putString("storagePath", storagePath)
+        baseViewModel.mode.value = Mode.SPACE
+        navController.navigate(R.id.storageAnalyzerFragment, bundle)
     }
 
     private fun setNewFavWindow() {

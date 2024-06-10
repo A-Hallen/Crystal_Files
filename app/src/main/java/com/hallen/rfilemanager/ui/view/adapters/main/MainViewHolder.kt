@@ -13,7 +13,7 @@ import com.google.android.material.imageview.ShapeableImageView
 import com.hallen.rfilemanager.R
 import com.hallen.rfilemanager.infraestructure.utils.ImageController
 import com.hallen.rfilemanager.model.Archivo
-import com.hallen.rfilemanager.ui.view.leftpanel.ThemeColor
+import com.hallen.rfilemanager.ui.view.adapters.ThemeColor
 
 class MainViewHolder(itemView: View) :
     RecyclerView.ViewHolder(itemView) {

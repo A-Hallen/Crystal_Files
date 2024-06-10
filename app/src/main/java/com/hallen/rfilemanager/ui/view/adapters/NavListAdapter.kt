@@ -1,4 +1,4 @@
-package com.hallen.rfilemanager.ui.view.leftpanel
+package com.hallen.rfilemanager.ui.view.adapters
 
 import android.app.Activity
 import android.content.Context
@@ -17,6 +17,7 @@ import com.hallen.rfilemanager.databinding.ExpandableListChildsProgressBinding
 import com.hallen.rfilemanager.databinding.ListItemBinding
 import com.hallen.rfilemanager.model.Storage
 import com.hallen.rfilemanager.ui.utils.ColorManagement
+import com.hallen.rfilemanager.ui.view.leftpanel.DrawerData
 import java.io.File
 import java.text.DecimalFormat
 

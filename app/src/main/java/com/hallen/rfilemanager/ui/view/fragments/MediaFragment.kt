@@ -149,14 +149,12 @@ class MediaFragment : Fragment(), AdapterListener {
     private fun onBackPressedHandler() {
         binding.back.setOnClickListener {
             if (!mediaViewModel.onBackPressed()) {
-                Logger.i("CALLED back click")
                 baseViewModel.mode.value = FILES
                 findNavController().navigateUp()
             }
         }
         requireActivity().onBackPressedDispatcher.addCallback(viewLifecycleOwner) {
             if (!mediaViewModel.onBackPressed()) {
-                Logger.i("CALLED back event")
                 isEnabled = false
                 baseViewModel.mode.value = FILES
                 requireActivity().onBackPressed()

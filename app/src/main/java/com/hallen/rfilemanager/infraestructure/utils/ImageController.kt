@@ -20,7 +20,7 @@ import com.devs.vectorchildfinder.VectorChildFinder
 import com.google.android.material.imageview.ShapeableImageView
 import com.hallen.rfilemanager.R
 import com.hallen.rfilemanager.infraestructure.persistance.Prefs
-import com.hallen.rfilemanager.ui.view.leftpanel.ThemeColor
+import com.hallen.rfilemanager.ui.view.adapters.ThemeColor
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
