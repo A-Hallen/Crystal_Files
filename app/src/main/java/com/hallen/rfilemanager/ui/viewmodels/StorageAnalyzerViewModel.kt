@@ -44,8 +44,8 @@ class StorageAnalyzerViewModel @Inject constructor() : ViewModel() {
         folder.listFiles()?.forEach { file ->
             val cachedData = sizeCache[file.absolutePath]
             if (cachedData != null && file.exists() && file.lastModified() == cachedData.second) {
-                val percent = (cachedData.first / folder.totalSpace) * 100
-                tempFiles.add(AnalysisFile(file, cachedData.first, 100f)) // Use cached data
+                val percent = (cachedData.first.toFloat() / folder.totalSpace) * 100
+                tempFiles.add(AnalysisFile(file, cachedData.first, percent))
             } else {
                 val size = getFileSize(file)
                 val percent = (size.toFloat() / folder.totalSpace) * 100
@@ -68,7 +68,6 @@ class StorageAnalyzerViewModel @Inject constructor() : ViewModel() {
     }
 
     fun back() {
-        Logger.i("back called, path: ${actualPath.value}")
         val path = actualPath.value ?: return
         val actualFile = File(path)
         val parent = actualFile.parentFile ?: return

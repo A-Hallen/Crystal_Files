@@ -1,6 +1,5 @@
 package com.hallen.rfilemanager.infraestructure
 
-import com.orhanobut.logger.Logger
 import java.io.File
 import javax.inject.Inject
 
@@ -12,7 +11,6 @@ class FileLister @Inject constructor() {
     }
 
     suspend fun listFile(file: File): List<File>? {
-        Logger.i("showHiddenFiles: $showHiddenFiles")
         if (!file.canRead() || !file.exists()) return null
 
         val files = if (showHiddenFiles) {

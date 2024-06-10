@@ -8,7 +8,6 @@
     android:focusable="true"
     android:layout_gravity="start"
     android:id="@+id/layout_recicler_grid"
-    style="@style/black_style"
     android:foreground="?attr/selectableItemBackgroundBorderless">
 
     <LinearLayout
@@ -66,22 +65,71 @@
         </RelativeLayout>
 
 
-        <TextView
-            android:id="@+id/tvHeading_grid"
-            android:layout_marginStart="2dp"
+        <FrameLayout
             android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:clickable="false"
-            android:duplicateParentState="true"
-            android:gravity="center_vertical"
-            android:layout_gravity="center"
-            android:lines="2"
-            android:maxLines="2"
-            android:textColor="@color/white"
-            tools:text="hola"
-            tools:textColor="@color/black"
-            android:textSize="14sp"
-            android:textStyle="normal" />
+            android:layout_height="match_parent">
+
+            <ProgressBar
+                android:id="@+id/analisis_progress_bar"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_marginBottom="20dp"
+                android:layout_marginTop="20dp"
+                tools:progress="70"
+                android:clickable="false"
+                android:gravity="center"
+                android:progressDrawable="@drawable/analisis_progress_bg"
+                android:progressTint="@color/green"
+                style="@android:style/Widget.ProgressBar.Horizontal" />
+
+            <LinearLayout
+                android:orientation="horizontal"
+                android:clickable="false"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent">
+
+                <TextView
+                    android:id="@+id/tvHeading_grid"
+                    android:layout_marginStart="4dp"
+                    android:layout_weight="2"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:clickable="false"
+                    android:duplicateParentState="true"
+                    android:gravity="center_vertical"
+                    android:layout_gravity="center"
+                    android:lines="2"
+                    android:maxLines="2"
+                    android:textColor="@color/white"
+                    tools:text="hola"
+                    tools:textColor="@color/black"
+                    android:textSize="14sp"
+                    android:textStyle="normal" />
+
+                <TextView
+                    android:id="@+id/analisisTextView"
+                    android:gravity="center"
+                    android:clickable="false"
+                    android:lines="1"
+                    android:maxLines="1"
+                    android:textColor="@color/white"
+                    android:layout_width="wrap_content"
+                    android:layout_height="match_parent"
+                    tools:text="700%" />
+
+                <TextView
+                    android:id="@+id/sizeAnalisisTextView"
+                    android:gravity="center"
+                    android:layout_weight="3"
+                    android:clickable="false"
+                    android:lines="1"
+                    android:maxLines="1"
+                    android:textColor="@color/white"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    tools:text="70%" />
+            </LinearLayout>
+        </FrameLayout>
     </LinearLayout>
 
 

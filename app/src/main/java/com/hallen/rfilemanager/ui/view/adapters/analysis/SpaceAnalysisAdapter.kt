@@ -1,20 +1,20 @@
-package com.hallen.rfilemanager.ui.view.adapters
+package com.hallen.rfilemanager.ui.view.adapters.analysis
 
 import android.annotation.SuppressLint
 import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.RecyclerView
-import com.hallen.rfilemanager.R
+import com.hallen.rfilemanager.databinding.ListItemAnalisisBinding
 import com.hallen.rfilemanager.infraestructure.utils.ImageController
+import com.hallen.rfilemanager.ui.view.adapters.ThemeColor
 import com.hallen.rfilemanager.ui.view.adapters.main.AdapterListener
-import com.hallen.rfilemanager.ui.view.adapters.main.MainViewHolder
 import com.hallen.rfilemanager.ui.viewmodels.AnalysisFile
 import com.orhanobut.logger.Logger
 import javax.inject.Inject
 
 class SpaceAnalysisAdapter @Inject constructor(private var imageController: ImageController) :
-    RecyclerView.Adapter<MainViewHolder>() {
+    RecyclerView.Adapter<AnalysisViewHolder>() {
 
     private var files: List<AnalysisFile> = emptyList()
     private var itemsSize: Float? = null
@@ -41,10 +41,10 @@ class SpaceAnalysisAdapter @Inject constructor(private var imageController: Imag
         this.listeners = listeners
     }
 
-    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): MainViewHolder {
-        val itemView =
-            LayoutInflater.from(parent.context).inflate(R.layout.list_item_linear, parent, false)
-        return MainViewHolder(itemView)
+    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): AnalysisViewHolder {
+        val binding =
+            ListItemAnalisisBinding.inflate(LayoutInflater.from(parent.context), parent, false)
+        return AnalysisViewHolder(binding)
             .setListener(listeners)
             .setItemsSize(itemsSize)
             .setColorScheme(colorTheme)
@@ -53,7 +53,7 @@ class SpaceAnalysisAdapter @Inject constructor(private var imageController: Imag
 
     override fun getItemCount(): Int = files.size
 
-    override fun onBindViewHolder(holder: MainViewHolder, position: Int) =
+    override fun onBindViewHolder(holder: AnalysisViewHolder, position: Int) =
         holder.bind(files[position])
 
     @SuppressLint("NotifyDataSetChanged")
@@ -66,6 +66,9 @@ class SpaceAnalysisAdapter @Inject constructor(private var imageController: Imag
     fun update(
         newFiles: List<AnalysisFile>,
     ) {
+        files = newFiles
+        notifyDataSetChanged()
+        return
         if (files.isEmpty() && newFiles.isNotEmpty()) {
             files = newFiles
             notifyDataSetChanged()
