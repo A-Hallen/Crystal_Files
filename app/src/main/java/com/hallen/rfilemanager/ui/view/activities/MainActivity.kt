@@ -123,7 +123,7 @@ class MainActivity : AppCompatActivity(), FileControl {
         val drive = storages.drives.value?.firstOrNull() ?: return
         val defaultPath = prefs.getRootLocation()
         val file = if (defaultPath.isBlank()) drive else File(defaultPath)
-        baseViewModel.listFiles(filesDir)
+        baseViewModel.listFiles(file)
 
         setContentView(binding.root)
         setupNavHost()
