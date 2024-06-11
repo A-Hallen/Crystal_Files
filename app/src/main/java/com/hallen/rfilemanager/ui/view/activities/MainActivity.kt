@@ -202,34 +202,34 @@ class MainActivity : AppCompatActivity(), FileControl {
 
         when {
             state.contains(State.SELECTION) -> {
-                val navBar = binding.selectBottomNavLayout.selectNavBar
+                val navBar = binding.fileActionsBarLayout.fileActionsBar
                 navBar.menu.clear()
                 navBar.inflateMenu(R.menu.select_nav_items_menu)
                 showAnimation(navBar)
                 if (mode != Mode.FILES) return
-                showAnimation(binding.selectAllTopBarLayout.selectAllTopBar)
+                showAnimation(binding.checkSummaryBarLayout.checkSummaryBar)
                 binding.appBarMain.appBarMain2.isVisible = false
             }
 
             state.contains(State.COPING) -> {
-                hideAnimation(binding.selectAllTopBarLayout.selectAllTopBar)
+                hideAnimation(binding.checkSummaryBarLayout.checkSummaryBar)
                 showAnimation(binding.appBarMain.appBarMain2)
-                val navBar = binding.selectBottomNavLayout.selectNavBar
+                val navBar = binding.fileActionsBarLayout.fileActionsBar
                 navBar.menu.clear()
                 navBar.inflateMenu(R.menu.my_nav_items)
                 showAnimation(navBar)
             }
 
             state.contains(State.NORMAL) -> {
-                val navBar = binding.selectBottomNavLayout.selectNavBar
+                val navBar = binding.fileActionsBarLayout.fileActionsBar
                 val searchLayout = binding.appBarMain.searchL
-                val selectAllTopBar = binding.selectAllTopBarLayout.selectAllTopBar
+                val selectAllTopBar = binding.checkSummaryBarLayout.checkSummaryBar
                 if (mode == Mode.FILES)
                     binding.appBarMain.normalAppBarMain.visibility = View.VISIBLE
                 if (searchLayout.isVisible) hideAnimation(searchLayout)
                 if (navBar.isVisible) hideAnimation(navBar)
                 if (selectAllTopBar.isVisible) {
-                    hideAnimation(binding.selectAllTopBarLayout.selectAllTopBar)
+                    hideAnimation(binding.checkSummaryBarLayout.checkSummaryBar)
                     showAnimation(binding.appBarMain.appBarMain2)
                 }
             }
@@ -484,7 +484,7 @@ class MainActivity : AppCompatActivity(), FileControl {
     }
 
     private fun toggleCheckAll() {
-        val check = binding.selectAllTopBarLayout.cbSelectAll.isChecked
+        val check = binding.checkSummaryBarLayout.cbSelectAll.isChecked
         if (!check) {
             setCheckableMode(false)
             return
@@ -556,11 +556,11 @@ class MainActivity : AppCompatActivity(), FileControl {
             binding.appBarMain.normalAppBarMain.visibility = View.VISIBLE
         }
         baseViewModel.topText.observe(this, ::changeBackTxt)
-        binding.selectAllTopBarLayout.cbSelectAll.setOnClickListener {
+        binding.checkSummaryBarLayout.cbSelectAll.setOnClickListener {
             toggleCheckAll()
         }
         binding.appBarMain.back1.setOnClickListener { backPressed() }
-        binding.selectAllTopBarLayout.closeSelectAll.setOnClickListener {
+        binding.checkSummaryBarLayout.closeSelectAll.setOnClickListener {
             val stateList = baseViewModel.state.value?.toMutableList() ?: return@setOnClickListener
             stateList.remove(State.SELECTION)
             stateList.add(State.NORMAL)
@@ -578,8 +578,8 @@ class MainActivity : AppCompatActivity(), FileControl {
             val files = it.files
             val checkeds = files.filter { file -> file.isChecked == true }
             val text = String.format(string, checkeds.size.toString(), files.size.toString())
-            binding.selectAllTopBarLayout.numberItems.text = text
-            binding.selectAllTopBarLayout.cbSelectAll.isChecked = files.size == checkeds.size
+            binding.checkSummaryBarLayout.numberItems.text = text
+            binding.checkSummaryBarLayout.cbSelectAll.isChecked = files.size == checkeds.size
         }
 
         baseViewModel.mode.observe(this) {
@@ -689,7 +689,7 @@ class MainActivity : AppCompatActivity(), FileControl {
                 }
             }
         }
-        val selectNavBar = binding.selectBottomNavLayout.selectNavBar
+        val selectNavBar = binding.fileActionsBarLayout.fileActionsBar
         PopupDialog(this, selectNavBar)
             .setListener(moreDialogListener)
             .setActions(actions)

@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="utf-8"?>
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    tools:context=".ui.view.fragments.SpaceAnalysisFragment">
+
+    <com.github.mmin18.widget.RealtimeBlurView
+        android:id="@+id/realtimeBlurView"
+        android:visibility="gone"
+        android:layout_marginTop="54dp"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        app:realtimeBlurRadius="10dp"
+        app:realtimeOverlayColor="@color/transparente" />
+
+    <include
+        layout="@layout/recicler_view"
+        android:id="@+id/recicler_view_layout"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content" />
+</FrameLayout>

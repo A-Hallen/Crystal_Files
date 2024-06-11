@@ -25,6 +25,8 @@ class StorageAnalyzerViewModel @Inject constructor() : ViewModel() {
     val isLoading: MutableStateFlow<Boolean> = MutableStateFlow(true)
     private val sizeCache = HashMap<String, Pair<Long, Long>>()
     val actualPath = MutableLiveData<String>()
+    val back1 = MutableLiveData<String>()
+    val back2 = MutableLiveData<String>()
 
     fun listFiles(folder: File) {
         viewModelScope.launch(Dispatchers.IO) {

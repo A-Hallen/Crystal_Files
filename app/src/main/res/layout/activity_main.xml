@@ -18,8 +18,8 @@
         android:contentDescription="@string/fondo" />
 
     <include
-        layout="@layout/select_all_top_bar"
-        android:id="@+id/selectAllTopBarLayout"
+        layout="@layout/check_summary_bar"
+        android:id="@+id/check_summary_bar_layout"
         android:layout_width="match_parent"
         android:layout_height="match_parent" />
 
@@ -45,15 +45,15 @@
 
 
         <include
-            layout="@layout/select_botom_nav"
-            android:id="@+id/select_bottom_nav_layout"
+            layout="@layout/file_actions_bar"
+            android:id="@+id/file_actions_bar_layout"
             android:layout_height="wrap_content"
             android:layout_width="match_parent" />
     </LinearLayout>
 
 
     <include
-        layout="@layout/paste_bar"
+        layout="@layout/transfer_action_bar"
         android:id="@+id/paste_bar_layout"
         android:layout_height="match_parent"
         android:layout_width="match_parent" />

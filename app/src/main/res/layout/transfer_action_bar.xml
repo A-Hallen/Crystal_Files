@@ -6,7 +6,7 @@
     xmlns:tools="http://schemas.android.com/tools">
 
     <com.google.android.material.bottomnavigation.BottomNavigationView
-        android:id="@+id/navigation_bar"
+        android:id="@+id/transfer_action_bar"
         android:visibility="invisible"
         tools:visibility="visible"
         android:layout_width="match_parent"

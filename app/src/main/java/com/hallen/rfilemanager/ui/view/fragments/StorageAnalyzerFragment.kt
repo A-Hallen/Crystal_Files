@@ -10,7 +10,7 @@ import androidx.fragment.app.activityViewModels
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.lifecycleScope
 import androidx.recyclerview.widget.LinearLayoutManager
-import com.hallen.rfilemanager.databinding.FragmentMainBinding
+import com.hallen.rfilemanager.databinding.StorageAnalyserFragmentBinding
 import com.hallen.rfilemanager.infraestructure.Storages
 import com.hallen.rfilemanager.infraestructure.persistance.Prefs
 import com.hallen.rfilemanager.model.LayoutManagerType
@@ -25,7 +25,7 @@ import javax.inject.Inject
 
 @AndroidEntryPoint
 class StorageAnalyzerFragment : Fragment(), AdapterListener {
-    private lateinit var binding: FragmentMainBinding
+    private lateinit var binding: StorageAnalyserFragmentBinding
     private val baseViewModel: BaseViewModel by activityViewModels()
 
     private val viewModel: StorageAnalyzerViewModel by viewModels()
@@ -44,7 +44,7 @@ class StorageAnalyzerFragment : Fragment(), AdapterListener {
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?,
     ): View {
-        binding = FragmentMainBinding.inflate(inflater, container, false)
+        binding = StorageAnalyserFragmentBinding.inflate(inflater, container, false)
         return binding.root
     }
 
