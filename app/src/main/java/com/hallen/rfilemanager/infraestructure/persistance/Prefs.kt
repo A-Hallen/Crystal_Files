@@ -72,10 +72,6 @@ class Prefs @Inject constructor(context: Context) {
         }
     }
 
-    fun darkMode(mode: Boolean) {
-
-    }
-
     fun saveScala(scala: Int): Int {
         storage.edit().putInt("scala", scala).apply()
         return scala
@@ -89,7 +85,7 @@ class Prefs @Inject constructor(context: Context) {
     fun setRecyclerState(state: Boolean) =
         storage.edit().putBoolean("recycler_state", state).apply()
 
-    fun getRecyclerState(): Boolean = storage.getBoolean("recycler_state", true)
+    fun getRecyclerState(): Boolean = storage.getBoolean("recycler_state", false)
     fun getItemsSize(): Float = storage.getFloat("items_size", 1.0F)
     fun setItemsSize(size: Float) {
         if (size > 0.1F) storage.edit().putFloat("items_size", size).apply()
