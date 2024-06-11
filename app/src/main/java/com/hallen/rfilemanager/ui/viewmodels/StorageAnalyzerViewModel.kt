@@ -4,7 +4,6 @@ import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.hallen.rfilemanager.model.Archivo
-import com.orhanobut.logger.Logger
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.MutableStateFlow
@@ -35,8 +34,9 @@ class StorageAnalyzerViewModel @Inject constructor() : ViewModel() {
             val tempFiles = buildFileList(folder)
             tempFiles.sortByDescending { it.size }
             files.emit(tempFiles)
-            Logger.i("FILES: ${tempFiles.size}")
             actualPath.postValue(folder.absolutePath)
+            back1.postValue(folder.parentFile?.name)
+            back2.postValue(folder.name)
             isLoading.emit(false)
         }
     }

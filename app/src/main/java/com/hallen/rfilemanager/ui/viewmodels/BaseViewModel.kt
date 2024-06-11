@@ -4,7 +4,6 @@ import android.webkit.MimeTypeMap
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import com.hallen.rfilemanager.infraestructure.FileLister
-import com.hallen.rfilemanager.infraestructure.MediaManipulation
 import com.hallen.rfilemanager.infraestructure.fileactions.RenameUseCase
 import com.hallen.rfilemanager.infraestructure.fileactions.copy.Copy
 import com.hallen.rfilemanager.infraestructure.persistance.Prefs
@@ -15,6 +14,7 @@ import com.hallen.rfilemanager.model.UpdateModel
 import com.hallen.rfilemanager.ui.utils.ColorManagement
 import com.hallen.rfilemanager.ui.utils.Search
 import com.hallen.rfilemanager.ui.viewmodels.Mode.FILES
+import com.hallen.rfilemanager.ui.viewmodels.Mode.SPACE
 import com.orhanobut.logger.Logger
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.CoroutineScope
@@ -277,11 +277,14 @@ class BaseViewModel @Inject constructor(
     }
 
     fun getSelectedFiles(): List<Archivo>? {
+        if (mode.value == SPACE) return getSelectedAnalysisFiles()
         if (mode.value != FILES) return getSelectedMediaFiles()
         val allFiles = update.value?.files ?: return null
         val files = allFiles.filter { it.isChecked == true }
         return if (files.none()) null else files
     }
+
+    private fun getSelectedAnalysisFiles(): List<Archivo> = mediaSelectedFiles.map { Archivo(it) }
 
     private fun getSelectedMediaFiles(): List<Archivo> {
         val selectedFiles: MutableSet<File> = mutableSetOf()
@@ -306,7 +309,7 @@ class BaseViewModel @Inject constructor(
     }
 
     private val mediaSelectedFiles: MutableSet<String> = mutableSetOf()
-    fun setSelectedMediaFile(file: MediaManipulation.MediaFile) {
+    fun setSelectedMediaFile(file: Archivo) {
         if (!mediaSelectedFiles.add(file.absolutePath)) {
             mediaSelectedFiles.remove(file.absolutePath)
         }

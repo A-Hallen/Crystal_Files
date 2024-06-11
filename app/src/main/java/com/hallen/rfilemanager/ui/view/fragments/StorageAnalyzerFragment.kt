@@ -1,5 +1,6 @@
 package com.hallen.rfilemanager.ui.view.fragments
 
+import android.graphics.Color
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
@@ -9,6 +10,7 @@ import androidx.fragment.app.Fragment
 import androidx.fragment.app.activityViewModels
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.lifecycleScope
+import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.hallen.rfilemanager.databinding.StorageAnalyserFragmentBinding
 import com.hallen.rfilemanager.infraestructure.Storages
@@ -18,6 +20,7 @@ import com.hallen.rfilemanager.ui.view.adapters.analysis.SpaceAnalysisAdapter
 import com.hallen.rfilemanager.ui.view.adapters.main.AdapterListener
 import com.hallen.rfilemanager.ui.view.custom.setLayoutManager
 import com.hallen.rfilemanager.ui.viewmodels.BaseViewModel
+import com.hallen.rfilemanager.ui.viewmodels.State
 import com.hallen.rfilemanager.ui.viewmodels.StorageAnalyzerViewModel
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.launch
@@ -54,10 +57,16 @@ class StorageAnalyzerFragment : Fragment(), AdapterListener {
         setupRecyclerView()
         viewModel.listFiles(storage.drives.value!!.first())
         onBackPressedHandler()
+        binding.backBtn.setOnClickListener { findNavController().navigateUp() }
     }
 
     private fun setupObservers() {
-        baseViewModel.colorScheme.observe(viewLifecycleOwner, spaceAnalysisAdapter::setColorTheme)
+        viewModel.back1.observe(viewLifecycleOwner) { binding.back1.text = it }
+        viewModel.back2.observe(viewLifecycleOwner) { binding.back2.text = it }
+        baseViewModel.colorScheme.observe(viewLifecycleOwner) {
+            spaceAnalysisAdapter.setColorTheme(it)
+            binding.back2.setTextColor(Color.parseColor(it.lightColor))
+        }
         baseViewModel.itemsSize.observe(viewLifecycleOwner, spaceAnalysisAdapter::setItemSize)
     }
 
@@ -91,10 +100,23 @@ class StorageAnalyzerFragment : Fragment(), AdapterListener {
     }
 
     override fun onLongClick(adapterPosition: Int): Boolean {
-        return false
+        baseViewModel.clearMediaSelection()
+        setCheckableMode()
+        return true
+    }
+
+    private fun setCheckableMode() {
+        val stateList = baseViewModel.state.value?.toMutableList() ?: return
+        stateList.remove(State.NORMAL)
+        stateList.remove(State.COPING)
+        stateList.add(State.SELECTION)
+        baseViewModel.state.value = stateList
     }
 
     override fun onCheck(adapterPosition: Int) {
+        val files = viewModel.files.value
+        val file = files[adapterPosition]
+        baseViewModel.setSelectedMediaFile(file)
     }
 
     private fun onBackPressedHandler() {
