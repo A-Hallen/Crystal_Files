@@ -4,7 +4,6 @@ import android.content.Context
 import android.net.Uri
 import androidx.core.content.FileProvider
 import com.hallen.rfilemanager.infraestructure.persistance.Prefs
-import com.orhanobut.logger.Logger
 import dagger.hilt.android.qualifiers.ApplicationContext
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
@@ -17,7 +16,7 @@ import java.io.File
 import javax.inject.Inject
 import javax.inject.Singleton
 
-private const val iconFolderName = "iconPacks"
+const val iconFolderName = "iconPacks"
 
 
 data class IconPack(
@@ -134,7 +133,6 @@ class IconsManager @Inject constructor(
     }
 
     fun setUsedIconPack(iconPack: IconPack) {
-        Logger.i("SET USED ICON PACK: ${iconPack.name}")
         this.iconPack = iconPack
         usedIconPackName = iconPack.name
         prefs.setUsedIconPack(iconPack.name)

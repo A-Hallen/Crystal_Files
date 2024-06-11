@@ -4,6 +4,7 @@ import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.hallen.rfilemanager.model.Archivo
+import com.orhanobut.logger.Logger
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.MutableStateFlow
@@ -20,7 +21,7 @@ data class AnalysisFile(
 
 @HiltViewModel
 class StorageAnalyzerViewModel @Inject constructor() : ViewModel() {
-    val files: MutableStateFlow<List<AnalysisFile>> = MutableStateFlow(emptyList())
+    val files: MutableLiveData<List<AnalysisFile>> = MutableLiveData()
     val isLoading: MutableStateFlow<Boolean> = MutableStateFlow(true)
     private val sizeCache = HashMap<String, Pair<Long, Long>>()
     val actualPath = MutableLiveData<String>()
@@ -33,7 +34,7 @@ class StorageAnalyzerViewModel @Inject constructor() : ViewModel() {
             isLoading.emit(true)
             val tempFiles = buildFileList(folder)
             tempFiles.sortByDescending { it.size }
-            files.emit(tempFiles)
+            files.postValue(tempFiles)
             actualPath.postValue(folder.absolutePath)
             back1.postValue(folder.parentFile?.name)
             back2.postValue(folder.name)
@@ -59,9 +60,8 @@ class StorageAnalyzerViewModel @Inject constructor() : ViewModel() {
         return tempFiles
     }
 
-    private fun File.isValidDirectory(): Boolean {
-        return this.exists() && this.isDirectory && this.canRead()
-    }
+    private fun File.isValidDirectory(): Boolean =
+        this.exists() && this.isDirectory && this.canRead()
 
     private fun getFileSize(file: File): Long {
         return if (file.isDirectory) {
@@ -74,6 +74,35 @@ class StorageAnalyzerViewModel @Inject constructor() : ViewModel() {
         val actualFile = File(path)
         val parent = actualFile.parentFile ?: return
         listFiles(parent)
+    }
+
+    fun setCheckableMode() {
+        viewModelScope.launch {
+            val newFiles = files.value?.toMutableList() ?: return@launch
+            files.postValue(newFiles.onEach { it.isChecked = false })
+        }
+
+    }
+
+    fun updateFile(position: Int, value: Boolean?) {
+        Logger.i("updateFile position: $position, value: $value")
+        val newFiles = files.value?.toMutableList() ?: return
+        newFiles[position].isChecked = value
+        files.value = newFiles
+    }
+
+    fun cancelSelection() {
+        viewModelScope.launch {
+            val newFiles = files.value?.toMutableList() ?: return@launch
+            files.postValue(newFiles.onEach { it.isChecked = null })
+        }
+    }
+
+    fun selectAll() {
+        viewModelScope.launch {
+            val newFiles = files.value?.toMutableList() ?: return@launch
+            files.postValue(newFiles.onEach { it.isChecked = true })
+        }
     }
 
 

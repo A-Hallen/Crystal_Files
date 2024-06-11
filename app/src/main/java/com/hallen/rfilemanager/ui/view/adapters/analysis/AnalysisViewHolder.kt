@@ -18,6 +18,7 @@ import java.text.DecimalFormat
 class AnalysisViewHolder(private val binding: ListItemAnalisisBinding) :
     RecyclerView.ViewHolder(binding.root) {
     private val context = itemView.context
+    private var isInEditMode = false
 
     private var listeners: AdapterListener? = null
     private var itemsSize: Float? = null
@@ -47,14 +48,17 @@ class AnalysisViewHolder(private val binding: ListItemAnalisisBinding) :
 
     init {
         itemView.setOnClickListener {
-            if (adapterPosition != RecyclerView.NO_POSITION)
+            if (adapterPosition != RecyclerView.NO_POSITION) {
                 listeners?.onClick(adapterPosition)
+            }
         }
 
+
         itemView.setOnLongClickListener {
-            if (adapterPosition != RecyclerView.NO_POSITION)
+            if (adapterPosition != RecyclerView.NO_POSITION) {
                 return@setOnLongClickListener listeners?.onLongClick(adapterPosition) ?: false
-            true
+            }
+            false
         }
 
         binding.llContainerGrid.setOnClickListener {
@@ -72,10 +76,9 @@ class AnalysisViewHolder(private val binding: ListItemAnalisisBinding) :
         setLayoutBackground(file)
         setParams()
 
+        binding.llContainerGrid.isVisible = file.isChecked != null
         binding.tvHeadingGrid.text = file.name
-
         binding.titleImageGrid2.isVisible = file.isDirectory
-
         binding.analisisProgressBar.progress = file.percent.toInt()
         val percentText = if (file.percent > 0) "${String.format("%.2f", file.percent)} %" else ""
         binding.analisisTextView.text = percentText
@@ -131,8 +134,6 @@ class AnalysisViewHolder(private val binding: ListItemAnalisisBinding) :
         return if (size >= Eb) floatForm(size.toDouble() / Eb).toString() + " Eb" else "???"
     }
 
-    private fun floatForm(d: Double): String? {
-        return DecimalFormat("#.##").format(d)
-    }
+    private fun floatForm(d: Double): String? = DecimalFormat("#.##").format(d)
 
 }

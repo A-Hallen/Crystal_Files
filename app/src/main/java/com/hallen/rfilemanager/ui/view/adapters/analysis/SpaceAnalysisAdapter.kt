@@ -10,7 +10,6 @@ import com.hallen.rfilemanager.infraestructure.utils.ImageController
 import com.hallen.rfilemanager.ui.view.adapters.ThemeColor
 import com.hallen.rfilemanager.ui.view.adapters.main.AdapterListener
 import com.hallen.rfilemanager.ui.viewmodels.AnalysisFile
-import com.orhanobut.logger.Logger
 import javax.inject.Inject
 
 class SpaceAnalysisAdapter @Inject constructor(private var imageController: ImageController) :
@@ -68,17 +67,17 @@ class SpaceAnalysisAdapter @Inject constructor(private var imageController: Imag
     ) {
         files = newFiles
         notifyDataSetChanged()
-        return
-        if (files.isEmpty() && newFiles.isNotEmpty()) {
-            files = newFiles
-            notifyDataSetChanged()
-            return
-        }
-        val diffCallback = AnalysisDiff(files, newFiles)
-        val diffResult = DiffUtil.calculateDiff(diffCallback)
-        Logger.i("FILES: ${newFiles.size}, ${files.size}")
-        files = newFiles
-        diffResult.dispatchUpdatesTo(this)
+        /*       return
+               if (files.isEmpty() && newFiles.isNotEmpty()) {
+                   files = newFiles
+                   notifyDataSetChanged()
+                   return
+               }
+               val diffCallback = AnalysisDiff(files, newFiles)
+               val diffResult = DiffUtil.calculateDiff(diffCallback)
+               Logger.i("FILES: ${newFiles.size}, ${files.size}")
+               files = newFiles
+               diffResult.dispatchUpdatesTo(this)*/
     }
 
     inner class AnalysisDiff(

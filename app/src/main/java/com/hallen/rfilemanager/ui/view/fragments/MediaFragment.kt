@@ -28,7 +28,6 @@ import com.hallen.rfilemanager.ui.viewmodels.Mode.MEDIA_IMAGE
 import com.hallen.rfilemanager.ui.viewmodels.Mode.MEDIA_MUSIC
 import com.hallen.rfilemanager.ui.viewmodels.Mode.MEDIA_VIDEO
 import com.hallen.rfilemanager.ui.viewmodels.State
-import com.orhanobut.logger.Logger
 import dagger.hilt.android.AndroidEntryPoint
 import javax.inject.Inject
 
@@ -134,7 +133,6 @@ class MediaFragment : Fragment(), AdapterListener {
         binding.cbSelectAll.isChecked = selectionText.first == selectionText.second
         binding.numberItems.text = selectionText.first + "/" + selectionText.second
         val file = mediaViewModel.files.value?.getOrNull(adapterPosition) ?: return
-        Logger.i("selectedFile: $file")
         baseViewModel.setSelectedMediaFile(file)
     }
 

@@ -1,11 +1,13 @@
 package com.hallen.rfilemanager.ui.view.fragments
 
+import android.content.res.ColorStateList
 import android.graphics.Color
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.activity.addCallback
+import androidx.core.view.isVisible
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.activityViewModels
 import androidx.fragment.app.viewModels
@@ -20,6 +22,7 @@ import com.hallen.rfilemanager.ui.view.adapters.analysis.SpaceAnalysisAdapter
 import com.hallen.rfilemanager.ui.view.adapters.main.AdapterListener
 import com.hallen.rfilemanager.ui.view.custom.setLayoutManager
 import com.hallen.rfilemanager.ui.viewmodels.BaseViewModel
+import com.hallen.rfilemanager.ui.viewmodels.Mode
 import com.hallen.rfilemanager.ui.viewmodels.State
 import com.hallen.rfilemanager.ui.viewmodels.StorageAnalyzerViewModel
 import dagger.hilt.android.AndroidEntryPoint
@@ -57,7 +60,15 @@ class StorageAnalyzerFragment : Fragment(), AdapterListener {
         setupRecyclerView()
         viewModel.listFiles(storage.drives.value!!.first())
         onBackPressedHandler()
-        binding.backBtn.setOnClickListener { findNavController().navigateUp() }
+        binding.backBtn.setOnClickListener {
+            binding.topBar.isVisible = false
+            baseViewModel.mode.value = Mode.FILES
+            baseViewModel.state.value = listOf(State.NORMAL)
+            baseViewModel.clearMediaSelection()
+            findNavController().navigateUp()
+        }
+        binding.checkSummaryBarLayout.closeSelectAll.setOnClickListener { cancelSelection() }
+        binding.checkSummaryBarLayout.cbSelectAll.setOnClickListener { selectAll() }
     }
 
     private fun setupObservers() {
@@ -66,8 +77,33 @@ class StorageAnalyzerFragment : Fragment(), AdapterListener {
         baseViewModel.colorScheme.observe(viewLifecycleOwner) {
             spaceAnalysisAdapter.setColorTheme(it)
             binding.back2.setTextColor(Color.parseColor(it.lightColor))
+            binding.back1.setTextColor(Color.parseColor(it.normalColor))
+            binding.progressCircular.indeterminateTintList =
+                ColorStateList.valueOf(Color.parseColor(it.lightColor))
         }
         baseViewModel.itemsSize.observe(viewLifecycleOwner, spaceAnalysisAdapter::setItemSize)
+        lifecycleScope.launch {
+            viewModel.isLoading.collect { isLoading ->
+                binding.progressCircular.isVisible = isLoading
+                binding.reciclerViewLayout.recyclerView.isVisible = !isLoading
+            }
+        }
+        baseViewModel.mode.observe(viewLifecycleOwner) {
+            binding.topBar.isVisible = it == Mode.SPACE
+        }
+        baseViewModel.state.observe(viewLifecycleOwner) {
+            binding.checkSummaryBarLayout.checkSummaryBar.isVisible = it.contains(State.SELECTION)
+            binding.topBar.isVisible = it.contains(State.NORMAL)
+        }
+
+        viewModel.files.observe(viewLifecycleOwner) { files ->
+            spaceAnalysisAdapter.update(files)
+            if (baseViewModel.state.value?.contains(State.SELECTION) != true) return@observe
+            val ceckeds = files.count { it.isChecked == true }
+            val total = files.size
+            binding.checkSummaryBarLayout.numberItems.text = "$ceckeds/$total"
+            binding.checkSummaryBarLayout.cbSelectAll.isChecked = total == ceckeds
+        }
     }
 
     private fun setupRecyclerView() {
@@ -80,12 +116,6 @@ class StorageAnalyzerFragment : Fragment(), AdapterListener {
             adapter = spaceAnalysisAdapter
             setOnScaleListener(baseViewModel::setScale)
         }
-
-        lifecycleScope.launch {
-            viewModel.files.collect { files ->
-                spaceAnalysisAdapter.update(files)
-            }
-        }
     }
 
     private fun setRecyclerLayoutMode() {
@@ -95,13 +125,14 @@ class StorageAnalyzerFragment : Fragment(), AdapterListener {
     }
 
     override fun onClick(adapterPosition: Int) {
-        val file = viewModel.files.value.getOrNull(adapterPosition) ?: return
+        val file = viewModel.files.value?.getOrNull(adapterPosition) ?: return
         if (file.isDirectory) viewModel.listFiles(file)
     }
 
     override fun onLongClick(adapterPosition: Int): Boolean {
         baseViewModel.clearMediaSelection()
         setCheckableMode()
+        onCheck(adapterPosition)
         return true
     }
 
@@ -110,17 +141,37 @@ class StorageAnalyzerFragment : Fragment(), AdapterListener {
         stateList.remove(State.NORMAL)
         stateList.remove(State.COPING)
         stateList.add(State.SELECTION)
+        viewModel.setCheckableMode()
         baseViewModel.state.value = stateList
     }
 
     override fun onCheck(adapterPosition: Int) {
-        val files = viewModel.files.value
+        val files = viewModel.files.value?.toMutableList() ?: return
         val file = files[adapterPosition]
+        file.isChecked = file.isChecked?.not()
+        viewModel.updateFile(adapterPosition, file.isChecked)
         baseViewModel.setSelectedMediaFile(file)
+    }
+
+    private fun cancelSelection() {
+        viewModel.cancelSelection()
+        baseViewModel.clearMediaSelection()
+        baseViewModel.state.value = listOf(State.NORMAL)
+    }
+
+    private fun selectAll() {
+        viewModel.selectAll()
+        baseViewModel.clearMediaSelection()
+        viewModel.files.value?.forEach {
+            baseViewModel.setSelectedMediaFile(it)
+        }
     }
 
     private fun onBackPressedHandler() {
         requireActivity().onBackPressedDispatcher.addCallback(viewLifecycleOwner) {
+            if (baseViewModel.state.value?.contains(State.SELECTION) == true) {
+                cancelSelection()
+            }
             viewModel.back()
         }
     }
