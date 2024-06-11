@@ -34,7 +34,7 @@
             <ImageView
                 android:id="@+id/delete"
                 android:src="@drawable/ic_menu_delete"
-                android:background="@drawable/custom_ripple_2"
+                android:background="@drawable/inverse_ripple"
                 android:layout_width="40dp"
                 android:padding="10dp"
                 android:layout_height="40dp" />

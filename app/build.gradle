@@ -16,7 +16,7 @@ android {
         applicationId "com.hallen.filemanager"
         minSdk 21
         targetSdk 32
-        versionCode 6
+        versionCode 7
         versionName "1.0"
         vectorDrawables.useSupportLibrary = true
 
@@ -105,7 +105,7 @@ dependencies {
     // Legacy libraries
     implementation 'androidx.legacy:legacy-support-v4:1.0.0'
 
-    // Adding audio effects
+    /*// Adding audio effects
     implementation 'com.github.xeinebiu:android_audioeffects:1.0.0'
 
     // Other audio effects
@@ -115,7 +115,7 @@ dependencies {
     implementation 'com.diogobernardino:williamchart:2.2'
 
     // Mini equalizer library
-    implementation 'com.github.claucookie.miniequalizer:library:1.0.0'
+    implementation 'com.github.claucookie.miniequalizer:library:1.0.0'*/
 
     // Color palette
     implementation 'androidx.palette:palette-ktx:1.0.0'
